@@ -43,6 +43,9 @@ namespace My_Transfermarkt_Infastructure
         {
             public const int MinName = 2;
             public const int MaxName = 45;
+
+            public const int MinUserName = 6;
+            public const int MaxUserName = 60;
         }
     }
 }

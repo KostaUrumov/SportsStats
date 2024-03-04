@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt.Data;
+using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Infastructure.DataModels;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.AddDefaultIdentity<User>
     })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IUserService, IUserService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
