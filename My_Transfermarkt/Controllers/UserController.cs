@@ -43,6 +43,7 @@ namespace My_Transfermarkt.Controllers
             }
 
             await userService.RegisterNewUserAsync(model);
+            await userService.AddToRole(model);
 
             return RedirectToAction("Index", "Home");
         }

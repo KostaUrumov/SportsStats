@@ -9,5 +9,6 @@ namespace My_Transfermarkt_Core.Contracts
         Task<bool> LoginAsync(LogInUserViewModel model);
         Task<bool> CheckEmailExist(string email);
         Task<bool> CheckUserNameExist(string username);
+        Task AddToRole(RegisterUserViewModel model);
     }
 }
