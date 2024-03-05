@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt_Infastructure.DataModels;
 
@@ -31,6 +32,11 @@ namespace My_Transfermarkt.Data
             builder.Entity<Footballer>()
                 .Property(p => p.HighestValue)
                 .HasPrecision(18, 2);
+
+            builder.Entity<IdentityRole>()
+               .HasData(
+               new IdentityRole { Id = "2c5e174e-3b0e-446f-86af-483d56fd7210", Name = "Admin", NormalizedName = "ADMIN".ToUpper() },
+               new IdentityRole { Id = "2c93174e-3b0e-446f-86af-883d56fr7210", Name = "User", NormalizedName = "USER".ToUpper() });
 
 
             base.OnModelCreating(builder);

@@ -7,23 +7,27 @@ namespace My_Transfermarkt_Core.Models.UserModels
     {
         [Required]
         [StringLength(maximumLength: DataConstraints.User.MaxName,
-           ErrorMessage = "The {0} must be between {1} and {2}",
+           ErrorMessage = "The {0} must be between {2} and {1}",
            MinimumLength = DataConstraints.User.MinName)]
+        [RegularExpression(DataConstraints.User.ExampleName, ErrorMessage = "{0} example: Kostadin")]
         public string FirstName { get; set; } = null!;
 
         [Required]
         [StringLength(maximumLength: DataConstraints.User.MaxName,
-           ErrorMessage = "The {0} must be between {1} and {2}",
+           ErrorMessage = "The {0} must be between {2} and {1}",
            MinimumLength = DataConstraints.User.MinName)]
+        [RegularExpression(DataConstraints.User.ExampleName, ErrorMessage = "{0} example: Urumov")]
+        [Display(Name = "Username")]
+
         public string LastName { get; set; } = null!;
 
         [Required]
-        [RegularExpression("[0]{1}[0-9]{9}")]
+        [RegularExpression(DataConstraints.User.ExamplePhone, ErrorMessage = "{0} example: 0888888888")]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
         [StringLength(maximumLength: DataConstraints.User.MaxUserName,
-            ErrorMessage = "The {0} must be between {1} and {2}",
+            ErrorMessage = "The {0} must be between {2} and {1}",
            MinimumLength = DataConstraints.User.MinUserName)]
         public string Username { get; set; } = null!;
 

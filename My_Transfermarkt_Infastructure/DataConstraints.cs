@@ -46,6 +46,9 @@ namespace My_Transfermarkt_Infastructure
 
             public const int MinUserName = 6;
             public const int MaxUserName = 60;
+
+            public const string ExampleName = @"^([A-Z]|[А-Я]){1}([a-z]|[а-я])*";
+            public const string ExamplePhone = @"[0]{1}[0-9]{9}";
         }
     }
 }
