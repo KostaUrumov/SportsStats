@@ -26,6 +26,7 @@ builder.Services.AddDefaultIdentity<User>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICountryService, CountryService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

@@ -10,10 +10,11 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [StringLength(maximumLength: DataConstraints.Country.MaxName,
             ErrorMessage = "The {0} must be between {1} and {2}",
             MinimumLength = DataConstraints.Country.MinName)]
+        [RegularExpression(DataConstraints.Country.Name)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [RegularExpression("[A - Z]{3}")]
+        [RegularExpression(DataConstraints.Country.ShortName)]
         public string ShortName { get; set; } = null!;
     }
 }

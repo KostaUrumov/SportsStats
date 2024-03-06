@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace My_Transfermarkt_Infastructure
+﻿namespace My_Transfermarkt_Infastructure
 {
     public class DataConstraints
     {
@@ -36,6 +34,9 @@ namespace My_Transfermarkt_Infastructure
         {
             public const int MinName = 2;
             public const int MaxName = 75;
+
+            public const string Name = @"^([A-Z]){1}([a-z])*";
+            public const string ShortName = @"[A-Z]{3}";
 
         }
 

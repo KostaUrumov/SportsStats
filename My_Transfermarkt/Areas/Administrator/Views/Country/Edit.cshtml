@@ -1,0 +1,33 @@
+﻿@using My_Transfermarkt_Core.Models.CountryModels
+@model EditCountryModel
+@{
+    ViewData["Title"] = "Edit country";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="" method="post">
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="@Model.Name" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="@Model.Name"></label>
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.ShortName" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="@Model.ShortName"></label>
+                <span asp-validation-for="@Model.ShortName" class="text-danger"></span>
+            </div>
+            <p></p>
+            <p></p>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Edit</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
