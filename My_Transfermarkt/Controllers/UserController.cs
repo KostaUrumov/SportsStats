@@ -78,6 +78,37 @@ namespace My_Transfermarkt.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-        
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            ChangePassWordModel model = new ChangePassWordModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePassWordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ChangePassword", model);
+            }
+            if (model.NewPassword != model.RepeatNewPassword)
+            {
+                return RedirectToAction("ChangePassword", model);
+            }
+            model.UserId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var isOldPassTheSame = await userService.CheckIfPasswordMatch(model);
+            if (isOldPassTheSame == false)
+            {
+                return RedirectToAction(nameof(ChangePassword));
+            }
+
+            await userService.ChangePassAsync(model);
+            return RedirectToAction("Index", "Home");
+
+        }
+
+
     }
 }
