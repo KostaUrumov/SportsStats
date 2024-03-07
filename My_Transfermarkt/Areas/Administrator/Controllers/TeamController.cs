@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.TeamModels;
+using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -70,6 +71,24 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             await teamService.AddLogoToTeam(data, Id);
             return RedirectToAction(nameof(AllTeams));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int Id)
+        {
+            var result = await teamService.FindTeamToBeEdited(Id);
+            result.Stadiums = await stadiumService.GetAllStadiums();
+            result.Countries = await countryService.GetAllCuntries();
+            result.Id = Id;
+            return View (result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AddNewTeamModel team)
+        {
+            await teamService.SaveChangesAsync(team);
+            return RedirectToAction(nameof(AllTeams));
+        }
+
 
     }
 

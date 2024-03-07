@@ -1,7 +1,7 @@
 ﻿@using My_Transfermarkt_Core.Models.TeamModels
 @model AddNewTeamModel
 @{
-    ViewData["Title"] = "Add new team";
+    ViewData["Title"] = "Edit team";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -20,10 +20,10 @@
             <div class="mb-3">
                 <label asp-for="@Model.CountryId" class="form-label">Country</label>
                 <select asp-for="@Model.CountryId" class="form-control">
-                <option value=>--Select country--</option>
+                    <option value=>--Select country--</option>
                     @foreach (var country in Model.Countries)
                     {
-                        
+
                         <option value="@country.Id">@country.Name</option>
                     }
                 </select>
@@ -35,10 +35,10 @@
             <div class="mb-3">
                 <label asp-for="@Model.StadiumId" class="form-label">Stadium</label>
                 <select asp-for="@Model.StadiumId" class="form-control">
-                <option value=>--Select stadium--</option>
+                    <option value=>--Select stadium--</option>
                     @foreach (var stadium in Model.Stadiums)
                     {
-                        
+
                         <option value="@stadium.Id">@stadium.Name</option>
                     }
                 </select>

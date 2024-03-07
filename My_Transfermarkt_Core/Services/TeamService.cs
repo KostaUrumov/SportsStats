@@ -35,6 +35,20 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
+        public async Task<AddNewTeamModel> FindTeamToBeEdited(int id)
+        {
+            var find = await data.Teams.FirstAsync(t => t.Id == id);
+            AddNewTeamModel model = new AddNewTeamModel()
+            {
+                Name = find.Name,
+                CountryId = find.CountryId,
+                StadiumId = find.StadiumId,
+                
+            };
+
+            return model;
+        }
+
         public async Task<List<ShowTeamModelView>> GetAllTeamsAvailable()
         {
             List<ShowTeamModelView> teams = await data
@@ -50,6 +64,16 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
             return teams;
             
+        }
+
+        public async Task SaveChangesAsync(AddNewTeamModel model)
+        {
+            var team = await data.Teams.FirstAsync(t => t.Id == model.Id);
+            team.Name = model.Name;
+            team.CountryId = model.CountryId;
+            team.StadiumId = model.StadiumId;
+            team.Logo = null;
+            await data.SaveChangesAsync();
         }
     }
 }
