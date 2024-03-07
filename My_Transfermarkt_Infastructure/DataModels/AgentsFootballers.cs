@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using static My_Transfermarkt_Infastructure.DataConstraints;
 
 namespace My_Transfermarkt_Infastructure.DataModels
 {
     public class AgentsFootballers
     {
         [Required]
-        public int AgentId { get; set; }
+        public string AgentId { get; set; } = null!;
 
         [ForeignKey(nameof(AgentId))]
         public Agent Agent { get; set; } = null!;

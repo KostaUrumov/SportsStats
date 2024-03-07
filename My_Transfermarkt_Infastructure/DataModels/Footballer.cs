@@ -30,7 +30,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [ForeignKey(nameof(CountryId))]
         public Country Country { get; set; } = null!;
 
-        public int? AgentId { get; set; }
+        public string? AgentId { get; set; }
 
         [ForeignKey(nameof(AgentId))]
         public Agent? Agent { get; set; }

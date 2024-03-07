@@ -56,6 +56,13 @@ namespace My_Transfermarkt_Core.Services
             return result[0];
         }
 
+        public async Task<IEnumerable<Country>> GetAllCuntries()
+        {
+            return await data.Countries
+                .OrderBy(x=> x.Name)
+                .ToListAsync();
+        }
+
         public async Task SaveChangesAsync(EditCountryModel model)
         {
             var countryToChange = await data.Countries.
