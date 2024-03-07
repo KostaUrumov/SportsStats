@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.StadiumModels;
+using NPoco.Expressions;
+using System.Globalization;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -9,9 +11,13 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
     public class StadiumController : BaseController
     {
         private readonly ICountryService countryService;
-        public StadiumController(ICountryService _countryService)
+        private readonly IStadiumService stadiumService;
+        public StadiumController(
+            ICountryService _countryService,
+            IStadiumService stadiumService)
         {
             countryService = _countryService;
+            this.stadiumService = stadiumService;
         }
 
         [HttpGet]
@@ -19,8 +25,25 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         {
             AddNewStadiumModel stadium = new AddNewStadiumModel();
             stadium.Countries = await countryService.GetAllCuntries();
-
+            stadium.Build = DateTime.Parse("1980-01-01 12:00", CultureInfo.InvariantCulture);
             return View(stadium);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewStadium (AddNewStadiumModel stadium)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(stadium);
+            }
+            await stadiumService.CreateStadiumAsync(stadium);
+            return View(nameof(AllStadiums));
+        }
+
+        public async Task<IActionResult> AllStadiums()
+        {
+            var result = await stadiumService.GetAllStadiums();
+            return View(result);
         }
     }
 }

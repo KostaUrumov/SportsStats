@@ -17,6 +17,7 @@ namespace My_Transfermarkt_Core.Models.StadiumModels
         public int Capacity { get; set; }
 
         [Required]
+
         public DateTime Build { get; set; }
 
         [Required]

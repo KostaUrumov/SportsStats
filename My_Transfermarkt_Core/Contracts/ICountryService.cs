@@ -10,5 +10,6 @@ namespace My_Transfermarkt_Core.Contracts
         Task<EditCountryModel> FindCountry(int Id);
         Task SaveChangesAsync(EditCountryModel model);
         Task<IEnumerable<Country>> GetAllCuntries();
+        
     }
 }
