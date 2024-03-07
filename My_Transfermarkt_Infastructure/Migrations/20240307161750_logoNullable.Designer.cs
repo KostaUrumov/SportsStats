@@ -9,11 +9,11 @@ using My_Transfermarkt.Data;
 
 #nullable disable
 
-namespace My_Transfermarkt.Data.Migrations
+namespace My_Transfermarkt_Infastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240306123829_CountryNameRestrictionsUpdate")]
-    partial class CountryNameRestrictionsUpdate
+    [Migration("20240307161750_logoNullable")]
+    partial class logoNullable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,14 +54,14 @@ namespace My_Transfermarkt.Data.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "f5cb1f5f-1319-4f58-90f6-c557cb240d13",
+                            ConcurrencyStamp = "1e7a866e-2204-41d6-87f8-7a9340756819",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c93174e-3b0e-446f-86af-883d56fr7210",
-                            ConcurrencyStamp = "67c27977-a144-4f74-b488-e73289c18f2c",
+                            ConcurrencyStamp = "2f744711-d72b-4c8f-9539-5bb681932c24",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -179,21 +179,8 @@ namespace My_Transfermarkt.Data.Migrations
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Agent", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -202,8 +189,8 @@ namespace My_Transfermarkt.Data.Migrations
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.AgentsFootballers", b =>
                 {
-                    b.Property<int>("AgentId")
-                        .HasColumnType("int");
+                    b.Property<string>("AgentId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("FootballerId")
                         .HasColumnType("int");
@@ -245,8 +232,8 @@ namespace My_Transfermarkt.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AgentId")
-                        .HasColumnType("int");
+                    b.Property<string>("AgentId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");
@@ -294,7 +281,8 @@ namespace My_Transfermarkt.Data.Migrations
                     b.Property<DateTime?>("StartDateContract")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TeamId")
+                    b.Property<int?>("TeamId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -367,7 +355,6 @@ namespace My_Transfermarkt.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Logo")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
@@ -528,6 +515,17 @@ namespace My_Transfermarkt.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Agent", b =>
+                {
+                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.AgentsFootballers", b =>

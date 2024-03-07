@@ -45,15 +45,15 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [Range(DataConstraints.Footballer.MinCaps, int.MaxValue)]
         public int InternationalCaps { get; set; }
 
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
 
         [ForeignKey(nameof(TeamId))]
-        public Team Team { get; set; } = null!;
+        public Team? Team { get; set; }
 
         public IEnumerable<Team> TeamsPlayed { get; set; } = new List<Team>();
 
-        [Required]
-        public byte[] Picture { get; set; } = null!;
+        
+        public byte[]? Picture { get; set; }
 
         [Required]
         [Range(DataConstraints.Footballer.MinValue, double.MaxValue)]
@@ -67,7 +67,6 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [Required]
         public DateTime HishestValueDate { get; set; }
 
-        
         public DateTime? StartDateContract { get; set; }
 
         public DateTime? EndDateContract { get; set; }

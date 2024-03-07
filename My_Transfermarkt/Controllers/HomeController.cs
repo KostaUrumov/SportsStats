@@ -17,7 +17,7 @@ namespace My_Transfermarkt.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-                return RedirectToAction("Index", "Home", new {area = "Administrator"});
+                return RedirectToAction("Index", "Home", new { area = "Administrator" });
             }
             return View();
         }

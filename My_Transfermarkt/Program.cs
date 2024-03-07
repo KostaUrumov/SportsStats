@@ -28,6 +28,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IStadiumService, StadiumService>();
+builder.Services.AddScoped<ITeamService, TeamService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

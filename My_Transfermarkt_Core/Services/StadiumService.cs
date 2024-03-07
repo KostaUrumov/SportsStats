@@ -29,7 +29,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        public async Task<List<StadiumViewModel>> GetAllStadiums()
+        public async Task<List<StadiumViewModel>> AllAvailableStadiums()
         {
             List<StadiumViewModel> allStadiums = await data
                 .Stadiums
@@ -45,6 +45,13 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
 
             return allStadiums;
+        }
+
+        public async Task<List<Stadium>> GetAllStadiums()
+        {
+            return await data.Stadiums
+                .OrderBy(x => x.Name)
+                .ToListAsync();
         }
     }
 }

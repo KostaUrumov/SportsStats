@@ -37,12 +37,12 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(stadium);
             }
             await stadiumService.CreateStadiumAsync(stadium);
-            return View(nameof(AllStadiums));
+            return RedirectToAction(nameof(AllStadiums));
         }
 
         public async Task<IActionResult> AllStadiums()
         {
-            var result = await stadiumService.GetAllStadiums();
+            var result = await stadiumService.AllAvailableStadiums();
             return View(result);
         }
     }
