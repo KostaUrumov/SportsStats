@@ -63,6 +63,28 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
         }
 
+        public async Task<bool> IsAlreadyCreated(AddNewCountryModel model)
+        {
+            var found = await data.Countries.FirstOrDefaultAsync(x => x.Name == model.Name);
+            if (found == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> IsAlreadyCreated(EditCountryModel model)
+        {
+            var found = await data.Countries.FirstOrDefaultAsync(x => x.Name == model.Name);
+            if (found == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public async Task SaveChangesAsync(EditCountryModel model)
         {
             var countryToChange = await data.Countries.

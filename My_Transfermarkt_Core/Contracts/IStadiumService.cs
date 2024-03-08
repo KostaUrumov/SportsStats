@@ -11,6 +11,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task<AddNewStadiumModel> FindToEdit(int id);
         Task SaveChangesAsync(AddNewStadiumModel model);
         Task RemoveStadium(int stadiumId);
+        Task<bool> IsStadiumAlreadyIn(AddNewStadiumModel model);
 
 
     }

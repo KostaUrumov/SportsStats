@@ -98,5 +98,16 @@ namespace My_Transfermarkt_Core.Services
 
             await data.SaveChangesAsync();
         }
+
+        public async Task<bool> IsStadiumAlreadyIn(AddNewStadiumModel model)
+        {
+            var isItIn = await data.Stadiums.FirstOrDefaultAsync(s => s.Name == model.Name && s.CountryId == model.CountryId);
+            if (isItIn == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

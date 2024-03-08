@@ -39,6 +39,12 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 return View(stadium);
             }
+            var isStadiumAlreadyIn = await stadiumService.IsStadiumAlreadyIn(stadium);
+            if (isStadiumAlreadyIn == true)
+            {
+                return View(stadium);
+            }
+
             await stadiumService.CreateStadiumAsync(stadium);
             return RedirectToAction(nameof(AllStadiums));
         }
@@ -60,6 +66,11 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> Edit(AddNewStadiumModel model)
         {
             if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var isStadiumAlreadyIn = await stadiumService.IsStadiumAlreadyIn(model);
+            if (isStadiumAlreadyIn == true)
             {
                 return View(model);
             }

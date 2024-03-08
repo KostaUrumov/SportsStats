@@ -29,7 +29,11 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 return View(model);
             }
-
+            var isThereAlready = await countryService.IsAlreadyCreated(model);
+            if (isThereAlready == true)
+            {
+                return View(model);
+            }
             await countryService.AddCountryAsync(model);
 
             return RedirectToAction(nameof(AllCountries));
@@ -52,6 +56,11 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> Edit(EditCountryModel model)
         {
             if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var isThereAlready = await countryService.IsAlreadyCreated(model);
+            if (isThereAlready == true)
             {
                 return View(model);
             }
