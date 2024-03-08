@@ -52,14 +52,14 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "5b2916ef-ad37-4a94-a753-a3ee8ed17095",
+                            ConcurrencyStamp = "7424786e-7bef-44f2-b464-3764c260112a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c93174e-3b0e-446f-86af-883d56fr7210",
-                            ConcurrencyStamp = "fa7dbf01-ce0c-4069-9d3b-209019eff6a5",
+                            ConcurrencyStamp = "bb194391-ef32-48f8-b6ba-86cac1729e00",
                             Name = "User",
                             NormalizedName = "USER"
                         });

@@ -12,12 +12,15 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
     {
         private readonly ICountryService countryService;
         private readonly IStadiumService stadiumService;
+        private readonly ITeamService teamService;
         public StadiumController(
             ICountryService _countryService,
-            IStadiumService stadiumService)
+            IStadiumService _stadiumService,
+            ITeamService _teamService)
         {
             countryService = _countryService;
-            this.stadiumService = stadiumService;
+            stadiumService = _stadiumService;
+            teamService = _teamService;
         }
 
         [HttpGet]
@@ -61,6 +64,13 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(model);
             }
             await stadiumService.SaveChangesAsync(model);
+            return RedirectToAction(nameof(AllStadiums));
+        }
+
+        public async Task<IActionResult> Delete(int Id)
+        {
+            await stadiumService.RemoveStadium(Id);
+
             return RedirectToAction(nameof(AllStadiums));
         }
 

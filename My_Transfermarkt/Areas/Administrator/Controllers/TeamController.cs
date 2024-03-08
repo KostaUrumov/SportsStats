@@ -39,7 +39,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 return View(team);
             }
-            
+
             await teamService.AddNewTeamAsync(team);
             return RedirectToAction(nameof(AllTeams));
         }
@@ -79,7 +79,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             result.Stadiums = await stadiumService.GetAllStadiums();
             result.Countries = await countryService.GetAllCuntries();
             result.Id = Id;
-            return View (result);
+            return View(result);
         }
 
         [HttpPost]
@@ -89,6 +89,20 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             return RedirectToAction(nameof(AllTeams));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AddStadium(int Id)
+        {
+            var team = await teamService.FindTeam(Id);
+            team.Stadiums = await stadiumService.GetAllStadiums();
+            return View(team);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddStadium(TeamToAddStadium model)
+        {
+            await teamService.AddToStadiumAsync(model);
+            return RedirectToAction(nameof(AllTeams));
+        }
 
     }
 

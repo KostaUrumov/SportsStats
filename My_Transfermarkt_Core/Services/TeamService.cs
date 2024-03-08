@@ -35,16 +35,57 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
+        public async Task AddToStadiumAsync(TeamToAddStadium model)
+        {
+            var findTeamToAddStadium = await data.Teams
+                .FirstAsync(t => t.Id == model.Id);
+            findTeamToAddStadium.StadiumId = model.StadiumId;
+
+            await data.SaveChangesAsync();  
+        }
+
+        public async Task<TeamToAddStadium> FindTeam(int teamId)
+        {
+            List<TeamToAddStadium> retutnModel = await data.
+                Teams
+                .Where(t=> t.Id == teamId)
+                .Select(x=> new TeamToAddStadium()
+                {
+                    Id = teamId,
+                    
+                })
+                .ToListAsync();
+            return retutnModel[0];
+        }
+
         public async Task<AddNewTeamModel> FindTeamToBeEdited(int id)
         {
             var find = await data.Teams.FirstAsync(t => t.Id == id);
-            AddNewTeamModel model = new AddNewTeamModel()
+            AddNewTeamModel model;
+            if (find.StadiumId == null)
             {
-                Name = find.Name,
-                CountryId = find.CountryId,
-                StadiumId = (int)find.StadiumId,
-                
-            };
+                model = new AddNewTeamModel()
+                {
+                    Name = find.Name,
+                    CountryId = find.CountryId,
+                    Id = find.Id
+
+                };
+            }
+
+            else
+            {
+                model = new AddNewTeamModel()
+                {
+                    Name = find.Name,
+                    CountryId = find.CountryId,
+                    StadiumId = (int)find.StadiumId,
+                    Id = find.Id
+
+                };
+
+            }
+            
 
             return model;
         }
@@ -66,6 +107,7 @@ namespace My_Transfermarkt_Core.Services
             
         }
 
+        
         public async Task SaveChangesAsync(AddNewTeamModel model)
         {
             var team = await data.Teams.FirstAsync(t => t.Id == model.Id);

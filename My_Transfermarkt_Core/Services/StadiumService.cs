@@ -81,5 +81,22 @@ namespace My_Transfermarkt_Core.Services
 
             await data.SaveChangesAsync();
         }
+
+        public async Task RemoveStadium(int stadiumId)
+        {
+            var findStadium = await data.Stadiums.FirstAsync(s => s.Id == stadiumId);
+            foreach (var item in data.Teams)
+            {
+                if (item.StadiumId == stadiumId)
+                {
+                    var stadiumToBeRemoved = await data.Teams.FirstAsync(r => r.Id == item.Id);
+                    stadiumToBeRemoved.StadiumId = null;
+                }
+            }
+
+            data.RemoveRange(findStadium);
+
+            await data.SaveChangesAsync();
+        }
     }
 }

@@ -9,5 +9,8 @@ namespace My_Transfermarkt_Core.Contracts
         Task<List<ShowTeamModelView>> GetAllTeamsAvailable();
         Task AddLogoToTeam(byte[] data, int id);
         Task<AddNewTeamModel> FindTeamToBeEdited(int id);
+        Task<TeamToAddStadium> FindTeam(int teamId);
+        Task AddToStadiumAsync(TeamToAddStadium model);
+
     }
 }

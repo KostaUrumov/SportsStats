@@ -10,5 +10,8 @@ namespace My_Transfermarkt_Core.Contracts
         Task<List<Stadium>> GetAllStadiums();
         Task<AddNewStadiumModel> FindToEdit(int id);
         Task SaveChangesAsync(AddNewStadiumModel model);
+        Task RemoveStadium(int stadiumId);
+
+
     }
 }

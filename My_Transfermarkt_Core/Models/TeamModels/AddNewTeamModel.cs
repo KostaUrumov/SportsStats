@@ -22,7 +22,7 @@ namespace My_Transfermarkt_Core.Models.TeamModels
         
         public byte[]? Logo { get; set; }
 
-        [Required]
+        
         public int StadiumId { get; set; }
 
         public IEnumerable<Stadium> Stadiums { get; set; } = new List<Stadium>();
