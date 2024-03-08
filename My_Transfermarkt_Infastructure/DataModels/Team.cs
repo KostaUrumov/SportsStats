@@ -22,10 +22,12 @@ namespace My_Transfermarkt_Infastructure.DataModels
         
         public byte[]? Logo { get; set; }
 
-        [Required]
-        public int StadiumId { get; set; }
+        
+        public int? StadiumId { get; set; }
 
         [ForeignKey(nameof(StadiumId))]
-        public Stadium Stadium { get; set; } = null!;
+        public Stadium? Stadium { get; set; }
+        public ICollection<TeamsFootballers> TeamFootballers { get; set; } = new List<TeamsFootballers>();
+
     }
 }

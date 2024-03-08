@@ -45,5 +45,24 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             var result = await stadiumService.AllAvailableStadiums();
             return View(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit (int id)
+        {
+            var model = await stadiumService.FindToEdit(id);
+            model.Countries = await countryService.GetAllCuntries();
+            return View(model);
+        }
+
+        public async Task<IActionResult> Edit(AddNewStadiumModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await stadiumService.SaveChangesAsync(model);
+            return RedirectToAction(nameof(AllStadiums));
+        }
+
     }
 }

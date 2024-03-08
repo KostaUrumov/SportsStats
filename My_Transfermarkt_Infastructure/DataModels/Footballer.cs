@@ -70,5 +70,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public DateTime? StartDateContract { get; set; }
 
         public DateTime? EndDateContract { get; set; }
+
+        public ICollection<TeamsFootballers> TeamFootballers { get; set; } = new List<TeamsFootballers>();
     }
 }

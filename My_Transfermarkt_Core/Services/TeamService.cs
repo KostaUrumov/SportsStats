@@ -30,7 +30,7 @@ namespace My_Transfermarkt_Core.Services
             team.Name = model.Name;
             team.CountryId = model.CountryId;
             team.StadiumId = model.StadiumId;
-           
+            
             data.AddRange(team);
             await data.SaveChangesAsync();
         }
@@ -42,7 +42,7 @@ namespace My_Transfermarkt_Core.Services
             {
                 Name = find.Name,
                 CountryId = find.CountryId,
-                StadiumId = find.StadiumId,
+                StadiumId = (int)find.StadiumId,
                 
             };
 

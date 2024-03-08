@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace My_Transfermarkt_Infastructure.Migrations
 {
-    public partial class logoNullable : Migration
+    public partial class one : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -99,7 +99,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         column: x => x.Id,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -274,7 +274,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false),
                     Logo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    StadiumId = table.Column<int>(type: "int", nullable: false),
+                    StadiumId = table.Column<int>(type: "int", nullable: true),
                     FootballerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -295,32 +295,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         name: "FK_Teams_Stadiums_StadiumId",
                         column: x => x.StadiumId,
                         principalTable: "Stadiums",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StadiumsTeams",
-                columns: table => new
-                {
-                    StadiumId = table.Column<int>(type: "int", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StadiumsTeams", x => new { x.StadiumId, x.TeamId });
-                    table.ForeignKey(
-                        name: "FK_StadiumsTeams_Stadiums_StadiumId",
-                        column: x => x.StadiumId,
-                        principalTable: "Stadiums",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_StadiumsTeams_Teams_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Teams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -350,12 +325,12 @@ namespace My_Transfermarkt_Infastructure.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7210", "1e7a866e-2204-41d6-87f8-7a9340756819", "Admin", "ADMIN" });
+                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7210", "5b2916ef-ad37-4a94-a753-a3ee8ed17095", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2c93174e-3b0e-446f-86af-883d56fr7210", "2f744711-d72b-4c8f-9539-5bb681932c24", "User", "USER" });
+                values: new object[] { "2c93174e-3b0e-446f-86af-883d56fr7210", "fa7dbf01-ce0c-4069-9d3b-209019eff6a5", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AgentsFootballers_FootballerId",
@@ -422,11 +397,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StadiumsTeams_TeamId",
-                table: "StadiumsTeams",
-                column: "TeamId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Teams_CountryId",
                 table: "Teams",
                 column: "CountryId");
@@ -459,8 +429,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 table: "Footballers",
                 column: "TeamId",
                 principalTable: "Teams",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -494,9 +463,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "StadiumsTeams");
 
             migrationBuilder.DropTable(
                 name: "TeamsFootballers");

@@ -53,5 +53,33 @@ namespace My_Transfermarkt_Core.Services
                 .OrderBy(x => x.Name)
                 .ToListAsync();
         }
+
+        public async Task<AddNewStadiumModel> FindToEdit(int id)
+        {
+            var result = await data.Stadiums
+                .FirstAsync(x => x.Id == id);
+            AddNewStadiumModel model = new AddNewStadiumModel()
+            {
+                Build = result.Build,
+                Capacity = result.Capacity,
+                CountryId = result.CountryId,
+                Id = result.Id,
+                Name = result.Name
+            };
+
+            return model;
+        }
+
+        public async Task SaveChangesAsync(AddNewStadiumModel model)
+        {
+            var editStadium = await data.Stadiums
+                .FirstAsync(s => s.Id == model.Id);
+            editStadium.Name = model.Name;
+            editStadium.Build = model.Build;
+            editStadium.Capacity = model.Capacity;
+            editStadium.CountryId = model.CountryId;
+
+            await data.SaveChangesAsync();
+        }
     }
 }

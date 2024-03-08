@@ -8,5 +8,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task CreateStadiumAsync(AddNewStadiumModel stadium);
         Task<List<StadiumViewModel>> AllAvailableStadiums();
         Task<List<Stadium>> GetAllStadiums();
+        Task<AddNewStadiumModel> FindToEdit(int id);
+        Task SaveChangesAsync(AddNewStadiumModel model);
     }
 }

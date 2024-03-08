@@ -19,9 +19,6 @@ namespace My_Transfermarkt.Data
             builder.Entity<AgentsFootballers>()
                 .HasKey(k => new { k.AgentId, k.FootballerId });
 
-            builder.Entity<StadiumsTeams>()
-                .HasKey(k => new { k.StadiumId, k.TeamId });
-
             builder.Entity<TeamsFootballers>()
                 .HasKey(k => new { k.TeamId, k.FootballerId });
 
@@ -47,7 +44,6 @@ namespace My_Transfermarkt.Data
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Footballer> Footballers { get; set; } = null!;
         public DbSet<Stadium> Stadiums { get; set; } = null!;
-        public DbSet<StadiumsTeams> StadiumsTeams { get; set; } = null!;
         public DbSet<Team> Teams { get; set; } = null!;
         public DbSet<TeamsFootballers> TeamsFootballers { get; set; } = null!;
     }

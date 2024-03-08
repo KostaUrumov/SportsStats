@@ -52,14 +52,14 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "1e7a866e-2204-41d6-87f8-7a9340756819",
+                            ConcurrencyStamp = "5b2916ef-ad37-4a94-a753-a3ee8ed17095",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c93174e-3b0e-446f-86af-883d56fr7210",
-                            ConcurrencyStamp = "2f744711-d72b-4c8f-9539-5bb681932c24",
+                            ConcurrencyStamp = "fa7dbf01-ce0c-4069-9d3b-209019eff6a5",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -267,7 +267,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .HasColumnType("nvarchar(45)");
 
                     b.Property<byte[]>("Picture")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Position")
@@ -280,7 +279,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("TeamId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -323,21 +321,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.ToTable("Stadiums");
                 });
 
-            modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.StadiumsTeams", b =>
-                {
-                    b.Property<int>("StadiumId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.HasKey("StadiumId", "TeamId");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("StadiumsTeams");
-                });
-
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Team", b =>
                 {
                     b.Property<int>("Id")
@@ -360,7 +343,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("StadiumId")
+                    b.Property<int?>("StadiumId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -529,7 +512,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.AgentsFootballers", b =>
                 {
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Agent", "Agent")
-                        .WithMany()
+                        .WithMany("AgentFootballers")
                         .HasForeignKey("AgentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -559,9 +542,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
 
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Team", "Team")
                         .WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeamId");
 
                     b.Navigation("Agent");
 
@@ -581,25 +562,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.StadiumsTeams", b =>
-                {
-                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.Stadium", "Stadium")
-                        .WithMany()
-                        .HasForeignKey("StadiumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Stadium");
-
-                    b.Navigation("Team");
-                });
-
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Team", b =>
                 {
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Country", "Country")
@@ -614,9 +576,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
 
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Stadium", "Stadium")
                         .WithMany()
-                        .HasForeignKey("StadiumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StadiumId");
 
                     b.Navigation("Country");
 
@@ -626,13 +586,13 @@ namespace My_Transfermarkt_Infastructure.Migrations
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.TeamsFootballers", b =>
                 {
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Footballer", "Footballer")
-                        .WithMany()
+                        .WithMany("TeamFootballers")
                         .HasForeignKey("FootballerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Team", "Agent")
-                        .WithMany()
+                        .WithMany("TeamFootballers")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -642,9 +602,21 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.Navigation("Footballer");
                 });
 
+            modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Agent", b =>
+                {
+                    b.Navigation("AgentFootballers");
+                });
+
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Footballer", b =>
                 {
+                    b.Navigation("TeamFootballers");
+
                     b.Navigation("TeamsPlayed");
+                });
+
+            modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Team", b =>
+                {
+                    b.Navigation("TeamFootballers");
                 });
 #pragma warning restore 612, 618
         }

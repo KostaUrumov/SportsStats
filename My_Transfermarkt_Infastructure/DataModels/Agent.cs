@@ -11,5 +11,6 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [ForeignKey(nameof(Id))]
         public User User { get; set; } = null!;
 
+        public ICollection<AgentsFootballers> AgentFootballers { get; set; } = new List<AgentsFootballers>();
     }
 }
