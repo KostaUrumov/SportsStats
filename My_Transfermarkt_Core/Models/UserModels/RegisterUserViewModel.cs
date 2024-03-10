@@ -1,4 +1,5 @@
 ﻿using My_Transfermarkt_Infastructure;
+using My_Transfermarkt_Infastructure.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.UserModels
@@ -42,5 +43,10 @@ namespace My_Transfermarkt_Core.Models.UserModels
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; } = null!;
+
+        [Required]
+        public Role Role { get; set; }
+        
+        public ICollection<Role> Roles { get; set; } = new List<Role>();
     }
 }

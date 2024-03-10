@@ -23,6 +23,9 @@ namespace My_Transfermarkt.Controllers
 
         {
             RegisterUserViewModel model = new RegisterUserViewModel();
+            model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Agent);
+            model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.User);
+
             return View(model);
         }
 
@@ -54,41 +57,6 @@ namespace My_Transfermarkt.Controllers
             await userService.AddToRole(model);
 
             return RedirectToAction("Index", "Home");
-        }
-
-        [HttpGet]
-        public IActionResult RegisterAgent()
-        {
-            RegisterAgentViewModel model = new RegisterAgentViewModel();
-            model.Agent = "agent";
-            return View(model);
-        }
-
-        public async Task<IActionResult> RegisterAgent(RegisterAgentViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var checkedEmail = await userService.CheckEmailExist(model.Email);
-
-            if (checkedEmail == true)
-            {
-                return RedirectToAction("Register");
-            }
-
-            var checkUsernameUsed = await userService.CheckUserNameExist(model.Username);
-
-            if (checkUsernameUsed == true)
-            {
-                return RedirectToAction("Register");
-            }
-
-            await userService.RegisterNewAgentAsync(model);
-            await userService.AddToRole(model);
-            return RedirectToAction("Index", "Home");
-
         }
 
 
