@@ -12,5 +12,6 @@ namespace My_Transfermarkt_Core.Contracts
         Task AddToRole(RegisterUserViewModel model);
         Task<bool> CheckIfPasswordMatch(ChangePassWordModel model);
         Task ChangePassAsync(ChangePassWordModel model);
+        Task RegisterNewAgentAsync(RegisterAgentViewModel model);
     }
 }

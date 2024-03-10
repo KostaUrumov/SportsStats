@@ -13,12 +13,20 @@ namespace My_Transfermarkt.Controllers
             userService = _userServ;
         }
 
+        public IActionResult RegisterNewUser()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Register()
+
         {
             RegisterUserViewModel model = new RegisterUserViewModel();
             return View(model);
         }
+
+        
 
         [HttpPost]
         public async Task<IActionResult> Register (RegisterUserViewModel model)
@@ -47,6 +55,42 @@ namespace My_Transfermarkt.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult RegisterAgent()
+        {
+            RegisterAgentViewModel model = new RegisterAgentViewModel();
+            model.Agent = "agent";
+            return View(model);
+        }
+
+        public async Task<IActionResult> RegisterAgent(RegisterAgentViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var checkedEmail = await userService.CheckEmailExist(model.Email);
+
+            if (checkedEmail == true)
+            {
+                return RedirectToAction("Register");
+            }
+
+            var checkUsernameUsed = await userService.CheckUserNameExist(model.Username);
+
+            if (checkUsernameUsed == true)
+            {
+                return RedirectToAction("Register");
+            }
+
+            await userService.RegisterNewAgentAsync(model);
+            await userService.AddToRole(model);
+            return RedirectToAction("Index", "Home");
+
+        }
+
 
         public async Task<IActionResult> Logout()
         {

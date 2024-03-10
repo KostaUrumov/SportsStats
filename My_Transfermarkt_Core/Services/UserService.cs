@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.UserModels;
+using My_Transfermarkt_Infastructure.DataModels;
 using System.Security.Cryptography;
 using User = My_Transfermarkt_Infastructure.DataModels.User;
 
@@ -35,19 +36,21 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task AddToRole(RegisterUserViewModel model)
         {
-            
-                var findUser = data.Users.First(x => x.UserName == model.Username);
-                if (findUser.UserName == "kostadin")
-                {
-                    await userManager.AddToRoleAsync((User)findUser, "Admin");
-                }
 
-                else
-                {
-                    await userManager.AddToRoleAsync((User)findUser, "User");
-                }
+            var result = model.GetType();
+            var findUser = data.Users.First(x => x.UserName == model.Username);
+            if (findUser.UserName == "kostadin")
+            {
+                await userManager.AddToRoleAsync((User)findUser, "Admin");
+            }
 
-                await data.SaveChangesAsync();
+            else
+            {
+                await userManager.AddToRoleAsync((User)findUser, "User");
+            }
+
+
+            await data.SaveChangesAsync();
         }
 
         public async Task ChangePassAsync(ChangePassWordModel model)
@@ -175,6 +178,41 @@ namespace My_Transfermarkt_Core.Services
 
             await signInManager.SignOutAsync();
         }
+
+        public async Task RegisterNewAgentAsync(RegisterAgentViewModel model)
+        {
+            byte[] salt;
+            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+            var pbkdf2 = new Rfc2898DeriveBytes(model.Password, salt, 100000);
+            byte[] hash = pbkdf2.GetBytes(20);
+
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+            string savedPasswordHash = Convert.ToBase64String(hashBytes);
+
+            User user = new User()
+            {
+                UserName = model.Username,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                PasswordHash = savedPasswordHash
+            };
+
+            await userManager.CreateAsync(user);
+            Agent agent = new Agent()
+            {
+                Id = user.Id
+            };
+
+            data.AddRange(agent);
+            await data.SaveChangesAsync();
+            await signInManager.SignInAsync(user, isPersistent: false);
+
+        }
+
         /// <summary>
         /// Resistering a new user
         /// </summary>
