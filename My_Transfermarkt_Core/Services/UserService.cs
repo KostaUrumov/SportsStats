@@ -44,6 +44,11 @@ namespace My_Transfermarkt_Core.Services
                 await userManager.AddToRoleAsync((User)findUser, "Admin");
             }
 
+            if (model.Role.ToString() == "Agent")
+            {
+                await userManager.AddToRoleAsync((User)findUser, "Agent");
+            }
+
             else
             {
                 await userManager.AddToRoleAsync((User)findUser, "User");
@@ -206,10 +211,27 @@ namespace My_Transfermarkt_Core.Services
                 PhoneNumber = model.PhoneNumber,
                 PasswordHash = savedPasswordHash
             };
+            await userManager.CreateAsync(user);
 
-            data.Add(user);
-            await data.SaveChangesAsync();
-            await signInManager.SignInAsync(user, isPersistent: false);
+            if (model.Role.ToString() == "Agent")
+            {
+                Agent newAgent = new Agent()
+                {
+                    Id = user.Id
+                };
+
+                data.Add(newAgent);
+                await data.SaveChangesAsync();
+                await signInManager.SignInAsync(user, isPersistent: false);
+            }
+            else
+            {
+                data.Add(user);
+                await data.SaveChangesAsync();
+                await signInManager.SignInAsync(user, isPersistent: false);
+            }
+
+            
         }
     }
 }

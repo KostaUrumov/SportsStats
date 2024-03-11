@@ -1,0 +1,121 @@
+﻿@model AddNewFootallerModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="" method="post">
+            <h2>Create a new account.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.FirstName" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="@Model.FirstName"></label>
+                <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.LastName" class="form-control" autocomplete="" aria-required="true" />
+                <label asp-for="@Model.LastName"></label>
+                <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.BirthDay" class="form-control" autocomplete="" aria-required="true" />
+                <label asp-for="@Model.BirthDay"></label>
+                <span asp-validation-for="@Model.BirthDay" class="text-danger"></span>
+            </div>
+            <div>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="mb-3">
+                <select asp-for="@Model.CountryId" class="form-control">
+                    <option value=>--Select country--</option>
+                    @foreach (var country in Model.Countries)
+                    {
+                        <option value="@country.Id">@country.Name</option>
+                    }
+                </select>
+            </div>
+            <div>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="mb-3">
+                <select asp-for="@Model.AgentId" class="form-control">
+                    <option value=>--Select agent--</option>
+                    @foreach (var agent in Model.Agents)
+                    {
+                        <option value="@agent.Id">@agent.User.FirstName+ @agent.User.LastName</option>
+                    }
+                </select>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="mb-3">
+                <select asp-for="@Model.Position" class="form-control">
+                    <option value=>--Select position--</option>
+                    @foreach (var position in Model.Positions)
+                    {
+                        <option value="@position">@position.ToString()</option>
+                    }
+                </select>
+            </div>
+            <div>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="mb-3">
+                <select asp-for="@Model.PreferedFoot" class="form-control">
+                    <option value=>--Select foot--</option>
+                    @foreach (var foot in Model.Feet)
+                    {
+                        <option value="@foot">@foot.ToString()</option>
+                    }
+                </select>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.InternationalCaps" class="form-control" autocomplete="" aria-required="true" />
+                <label asp-for="@Model.InternationalCaps"></label>
+                <span asp-validation-for="@Model.InternationalCaps" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <select asp-for="@Model.AgentId" class="form-control">
+                    <option value=>--Select team--</option>
+                    @foreach (var team in Model.Teams)
+                    {
+                        <option value="@team.Id">@team.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-floating">
+                <input asp-for="@Model.CurrentMarketValue" class="form-control" autocomplete="" aria-required="true" />
+                <label asp-for="@Model.CurrentMarketValue"></label>
+                <span asp-validation-for="@Model.CurrentMarketValue" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="@Model.CurrentMarketValue" class="form-control" autocomplete="" aria-required="true" />
+                <label asp-for="@Model.CurrentMarketValue"></label>
+                <span asp-validation-for="@Model.CurrentMarketValue" class="text-danger"></span>
+            </div>
+
+            <div>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

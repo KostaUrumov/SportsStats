@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.TeamModels;
-using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -36,6 +35,12 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> AddNewTeam(AddNewTeamModel team)
         {
             if (!ModelState.IsValid)
+            {
+                return View(team);
+            }
+
+            var isThereAlready = await teamService.IsAlreadyCreated(team);
+            if (isThereAlready == true)
             {
                 return View(team);
             }

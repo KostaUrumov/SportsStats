@@ -38,6 +38,7 @@ namespace My_Transfermarkt.Controllers
             {
                 return RedirectToAction("Register", model);
             }
+            
 
             var checkedEmail = await userService.CheckEmailExist(model.Email);
 
@@ -52,6 +53,7 @@ namespace My_Transfermarkt.Controllers
             {
                 return RedirectToAction("Register");
             }
+
 
             await userService.RegisterNewUserAsync(model);
             await userService.AddToRole(model);

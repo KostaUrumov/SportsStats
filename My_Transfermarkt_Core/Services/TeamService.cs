@@ -3,6 +3,7 @@ using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Infastructure.DataModels;
+using System.Text.RegularExpressions;
 
 namespace My_Transfermarkt_Core.Services
 {
@@ -107,7 +108,17 @@ namespace My_Transfermarkt_Core.Services
             
         }
 
-        
+        public async Task<bool> IsAlreadyCreated(AddNewTeamModel team)
+        {
+            var result = await data.Teams.FirstOrDefaultAsync(t => t.Name == team.Name);
+            if (result == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public async Task SaveChangesAsync(AddNewTeamModel model)
         {
             var team = await data.Teams.FirstAsync(t => t.Id == model.Id);
