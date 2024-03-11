@@ -69,7 +69,6 @@
             <p></p>
             <div class="mb-3">
                 <select asp-for="@Model.Role" class="form-control">
-                    <option value=>--You are--</option>
                     @foreach (var role in Model.Roles)
                     {
                         <option value="@role">@role.ToString()</option>

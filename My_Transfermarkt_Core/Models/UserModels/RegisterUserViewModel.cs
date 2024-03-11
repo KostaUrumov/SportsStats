@@ -45,6 +45,7 @@ namespace My_Transfermarkt_Core.Models.UserModels
         public string Email { get; set; } = null!;
 
         [Required]
+        [Display(Name ="Role")]
         public Role Role { get; set; }
         
         public ICollection<Role> Roles { get; set; } = new List<Role>();

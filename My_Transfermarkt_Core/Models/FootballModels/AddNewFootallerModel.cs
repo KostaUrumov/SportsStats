@@ -2,6 +2,7 @@
 using My_Transfermarkt_Infastructure.Enums;
 using My_Transfermarkt_Infastructure;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace My_Transfermarkt_Core.Models.FootballModels
 {
@@ -27,8 +28,8 @@ namespace My_Transfermarkt_Core.Models.FootballModels
 
         public IEnumerable<Country> Countries { get; set; } = new List<Country>();
 
-        [Required]
-        public string AgentId { get; set; } = null!;
+       
+        public string? AgentId { get; set; }
 
         [Required]
         public Position Position { get; set; }
@@ -36,6 +37,7 @@ namespace My_Transfermarkt_Core.Models.FootballModels
         public ICollection<Position> Positions { get; set; } = new List<Position>();
 
         [Required]
+        [Display(Name ="Preffered foot")]
         public Foot PreferedFoot { get; set; }
 
         public ICollection<Foot> Feet { get; set; } = new List<Foot>();
@@ -57,12 +59,12 @@ namespace My_Transfermarkt_Core.Models.FootballModels
 
         public decimal CurrentMarketValue { get; set; }
 
-        [Required]
+       
         [Range(DataConstraints.Footballer.MinValue, double.MaxValue)]
-        public decimal HighestValue { get; set; }
+        public decimal? HighestValue { get; set; }
 
-        [Required]
-        public DateTime HishestValueDate { get; set; }
+        
+        public DateTime? HishestValueDate { get; set; }
 
         public DateTime? StartDateContract { get; set; }
 

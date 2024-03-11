@@ -9,7 +9,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public int TeamId { get; set; }
 
         [ForeignKey(nameof(TeamId))]
-        public Team Agent { get; set; } = null!;
+        public Team Team { get; set; } = null!;
 
 
         [Required]
