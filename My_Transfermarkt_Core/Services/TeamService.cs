@@ -3,7 +3,6 @@ using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Infastructure.DataModels;
-using System.Text.RegularExpressions;
 
 namespace My_Transfermarkt_Core.Services
 {
@@ -89,6 +88,11 @@ namespace My_Transfermarkt_Core.Services
             
 
             return model;
+        }
+
+        public async Task<List<Team>> GetAllTeams()
+        {
+            return await data.Teams.OrderBy(x => x.Name).ToListAsync();
         }
 
         public async Task<List<ShowTeamModelView>> GetAllTeamsAvailable()

@@ -49,17 +49,6 @@
             <p></p>
             <p></p>
             <div class="mb-3">
-                <select asp-for="@Model.AgentId" class="form-control">
-                    <option value=>--Select agent--</option>
-                    @foreach (var agent in Model.Agents)
-                    {
-                        <option value="@agent.Id">@agent.User.FirstName+ @agent.User.LastName</option>
-                    }
-                </select>
-            </div>
-            <p></p>
-            <p></p>
-            <div class="mb-3">
                 <select asp-for="@Model.Position" class="form-control">
                     <option value=>--Select position--</option>
                     @foreach (var position in Model.Positions)
@@ -98,21 +87,19 @@
                     }
                 </select>
             </div>
+            <p></p>
+            <p></p>
             <div class="form-floating">
                 <input asp-for="@Model.CurrentMarketValue" class="form-control" autocomplete="" aria-required="true" />
                 <label asp-for="@Model.CurrentMarketValue"></label>
                 <span asp-validation-for="@Model.CurrentMarketValue" class="text-danger"></span>
             </div>
-
-            <div class="form-floating">
-                <input asp-for="@Model.CurrentMarketValue" class="form-control" autocomplete="" aria-required="true" />
-                <label asp-for="@Model.CurrentMarketValue"></label>
-                <span asp-validation-for="@Model.CurrentMarketValue" class="text-danger"></span>
-            </div>
-
+           
             <div>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <p></p>
+            <p></p>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Create</button>
         </form>
     </div>
 </div>

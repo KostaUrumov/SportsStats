@@ -50,7 +50,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [ForeignKey(nameof(TeamId))]
         public Team? Team { get; set; }
 
-        public IEnumerable<Team> TeamsPlayed { get; set; } = new List<Team>();
+        public ICollection<Team> TeamsPlayed { get; set; } = new List<Team>();
 
         
         public byte[]? Picture { get; set; }

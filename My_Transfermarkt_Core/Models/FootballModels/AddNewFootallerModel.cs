@@ -28,10 +28,7 @@ namespace My_Transfermarkt_Core.Models.FootballModels
         public IEnumerable<Country> Countries { get; set; } = new List<Country>();
 
         [Required]
-        public int AgentId { get; set; }
-
-        public IEnumerable<Agent> Agents { get; set; } = new List<Agent>();
-
+        public string AgentId { get; set; } = null!;
 
         [Required]
         public Position Position { get; set; }
@@ -52,9 +49,7 @@ namespace My_Transfermarkt_Core.Models.FootballModels
 
         public ICollection<Team> Teams { get; set; } = new List<Team>();
 
-        public IEnumerable<Team> TeamsPlayed { get; set; } = new List<Team>();
-
-
+        
         public byte[]? Picture { get; set; }
 
         [Required]
