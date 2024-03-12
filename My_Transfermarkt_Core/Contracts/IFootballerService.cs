@@ -7,6 +7,6 @@ namespace My_Transfermarkt_Core.Contracts
         Task CreateFootballerAsync(AddNewFootallerModel footballer);
         Task<bool> IsAlreadyIn(AddNewFootallerModel model);
         bool AreDtaesCorrect(AddNewFootallerModel model);
-
+        Task<List<ShowFootballerModel>> MyFootballers(string userId);
     }
 }

@@ -87,5 +87,29 @@ namespace My_Transfermarkt_Core.Services
 
             return true;
         }
+
+        public async Task<List<ShowFootballerModel>> MyFootballers(string userId)
+        {
+            List<ShowFootballerModel> models = await data
+                .AgentsFootballers
+                .Where(a => a.AgentId == userId)
+                .Select(n => new ShowFootballerModel()
+                {
+                    BirthDay = n.Footballer.BirthDay.ToString("MM/dd/yyyy"),
+                    Country = n.Footballer.Country.Name,
+                    HighestValue = n.Footballer.HighestValue.ToString(),
+                    Name = n.Footballer.FirstName + " " + n.Footballer.LastName,
+                    InternationalCaps = n.Footballer.InternationalCaps,
+                    CurrentValue = n.Footballer.CurrentMarketValue.ToString(),
+                    CurrentTeam = n.Footballer.Team.Name,
+                    Id = n.Footballer.Id,
+                    Foot = n.Footballer.PreferedFoot.ToString(),
+                    Position = n.Footballer.Position.ToString()
+
+                })
+                .ToListAsync();
+
+            return models;
+        }
     }
 }

@@ -93,7 +93,9 @@ namespace My_Transfermarkt.Controllers
 
         public async Task<IActionResult> MyFootballers()
         {
-            return View();
+            var agentId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var result = await footballerService.MyFootballers(agentId);
+            return View(result);
         }
     }
 }
