@@ -107,6 +107,7 @@ namespace My_Transfermarkt_Core.Services
                     Position = n.Footballer.Position.ToString()
 
                 })
+                .OrderBy(x=>x.Name)
                 .ToListAsync();
 
             return models;

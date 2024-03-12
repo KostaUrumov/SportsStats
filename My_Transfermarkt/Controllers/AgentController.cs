@@ -36,8 +36,8 @@ namespace My_Transfermarkt.Controllers
             footballer.Positions.Add(Position.Forward);
             footballer.Feet.Add(Foot.Left);
             footballer.Feet.Add(Foot.Right);
-
             footballer.Teams = await teamService.GetAllTeams();
+
             return View(footballer);
         }
 
@@ -54,6 +54,7 @@ namespace My_Transfermarkt.Controllers
                 model.Positions.Add(Position.Forward);
                 model.Feet.Add(Foot.Left);
                 model.Feet.Add(Foot.Right);
+                model.Teams = await teamService.GetAllTeams();
 
                 return View(model);
             }
@@ -71,6 +72,8 @@ namespace My_Transfermarkt.Controllers
                 model.Positions.Add(Position.Forward);
                 model.Feet.Add(Foot.Left);
                 model.Feet.Add(Foot.Right);
+                model.Teams = await teamService.GetAllTeams();
+
                 return View(model);
             }
 
@@ -85,10 +88,12 @@ namespace My_Transfermarkt.Controllers
                 model.Positions.Add(Position.Forward);
                 model.Feet.Add(Foot.Left);
                 model.Feet.Add(Foot.Right);
+                model.Teams = await teamService.GetAllTeams();
+
                 return View(model);
             }
             await footballerService.CreateFootballerAsync(model);
-            return View(nameof(MyFootballers));
+            return RedirectToAction(nameof(MyFootballers));
         }
 
         public async Task<IActionResult> MyFootballers()
