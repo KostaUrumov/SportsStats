@@ -46,10 +46,53 @@ namespace My_Transfermarkt.Controllers
         {
             if (!ModelState.IsValid)
             {
+                model.BirthDay = DateTime.Parse("2000-01-01 12:00", CultureInfo.InvariantCulture);
+                model.Countries = await countryService.GetAllCuntries();
+                model.Positions.Add(Position.Goalkeeper);
+                model.Positions.Add(Position.Defender);
+                model.Positions.Add(Position.Midfielder);
+                model.Positions.Add(Position.Forward);
+                model.Feet.Add(Foot.Left);
+                model.Feet.Add(Foot.Right);
+
                 return View(model);
             }
+
+            
             model.AgentId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var isAlredadIn = await footballerService.IsAlreadyIn(model);
+            if (isAlredadIn == true)
+            {
+                model.BirthDay = DateTime.Parse("2000-01-01 12:00", CultureInfo.InvariantCulture);
+                model.Countries = await countryService.GetAllCuntries();
+                model.Positions.Add(Position.Goalkeeper);
+                model.Positions.Add(Position.Defender);
+                model.Positions.Add(Position.Midfielder);
+                model.Positions.Add(Position.Forward);
+                model.Feet.Add(Foot.Left);
+                model.Feet.Add(Foot.Right);
+                return View(model);
+            }
+
+            var areDateCorrect = footballerService.AreDtaesCorrect(model);
+            if (areDateCorrect == false)
+            {
+                model.BirthDay = DateTime.Parse("2000-01-01 12:00", CultureInfo.InvariantCulture);
+                model.Countries = await countryService.GetAllCuntries();
+                model.Positions.Add(Position.Goalkeeper);
+                model.Positions.Add(Position.Defender);
+                model.Positions.Add(Position.Midfielder);
+                model.Positions.Add(Position.Forward);
+                model.Feet.Add(Foot.Left);
+                model.Feet.Add(Foot.Right);
+                return View(model);
+            }
             await footballerService.CreateFootballerAsync(model);
+            return View(nameof(MyFootballers));
+        }
+
+        public async Task<IActionResult> MyFootballers()
+        {
             return View();
         }
     }

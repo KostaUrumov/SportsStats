@@ -1,4 +1,5 @@
-﻿using My_Transfermarkt.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballModels;
 using My_Transfermarkt_Infastructure.DataModels;
@@ -12,6 +13,18 @@ namespace My_Transfermarkt_Core.Services
         public FootballerService(ApplicationDbContext _data)
         {
             data = _data;
+        }
+
+        public bool AreDtaesCorrect(AddNewFootallerModel model)
+        {
+
+            int old = DateTime.UtcNow.Date.Year - model.BirthDay.Year;
+            if (old> 40)
+            {
+                return false;
+            }
+            return true;
+
         }
 
         public async Task CreateFootballerAsync(AddNewFootallerModel fooballer)
@@ -59,6 +72,20 @@ namespace My_Transfermarkt_Core.Services
 
             data.AddRange(newFootballer);
             await data.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsAlreadyIn(AddNewFootallerModel model)
+        {
+            string name = model.FirstName + model.LastName;
+            var find = await data.Footballers
+                .FirstOrDefaultAsync(x=> x.FirstName + x.LastName == name && x.BirthDay == x.BirthDay);
+
+            if (find == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
