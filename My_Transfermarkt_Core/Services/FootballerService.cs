@@ -74,6 +74,28 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
+        
+
+        public async Task<AddNewFootallerModel> FindFootballer(int id)
+        {
+            List<AddNewFootallerModel> result = await data.Footballers
+                .Where(x => x.Id == id)
+                .Select(m => new AddNewFootallerModel()
+                {
+                    AgentId = m.AgentId,
+                    BirthDay = m.BirthDay,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    PreferedFoot = m.PreferedFoot,
+                    CountryId = m.CountryId,
+                    InternationalCaps = m.InternationalCaps,
+                    CurrentMarketValue = m.CurrentMarketValue
+                })
+                .ToListAsync();
+            return result[0];
+                
+        }
+
         public async Task<bool> IsAlreadyIn(AddNewFootallerModel model)
         {
             string name = model.FirstName + model.LastName;
