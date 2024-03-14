@@ -8,7 +8,10 @@ namespace My_Transfermarkt_Core.Contracts
         Task<bool> IsAlreadyIn(AddNewFootallerModel model);
         bool AreDtaesCorrect(AddNewFootallerModel model);
         Task<List<ShowFootballerModel>> MyFootballers(string userId);
-        //Task EditFootballer(int id, string agentId);
+        Task SaveChangesAsync(AddNewFootallerModel footballer);
         Task<AddNewFootallerModel> FindFootballer(int id);
+        Task SignToClub(SignFootballerToATeam model);
+        Task Release(int Id);
+        Task AddPictureToFootballer(byte[]pictureData, int Id);
     }
 }

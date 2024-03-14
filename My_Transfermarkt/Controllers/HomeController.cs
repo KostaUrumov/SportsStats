@@ -19,6 +19,10 @@ namespace My_Transfermarkt.Controllers
             {
                 return RedirectToAction("Index", "Home", new { area = "Administrator" });
             }
+            if (User.IsInRole("Agent"))
+            {
+                return RedirectToAction("MyFootballers", "Footballer");
+            }
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

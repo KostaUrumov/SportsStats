@@ -12,5 +12,6 @@
         public string? CurrentTeam { get; set; }
         public string CurrentValue { get; set; } = null!;
         public string HighestValue { get; set; } = null!;
+        public byte[]? Photo { get; set; }
     }
 }

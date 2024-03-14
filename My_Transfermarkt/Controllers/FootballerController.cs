@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
+using My_Transfermarkt_Core.Models.FootballModels;
 using My_Transfermarkt_Infastructure.Enums;
 using System.Security.Claims;
 
@@ -35,6 +36,81 @@ namespace My_Transfermarkt.Controllers
             findFootballer.Feet.Add(Foot.Left);
             findFootballer.Feet.Add(Foot.Right);
             return View(findFootballer);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AddNewFootallerModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            
+
+            await footballerService.SaveChangesAsync(model);
+
+            return RedirectToAction(nameof(MyFootballers));
+        }
+
+        public async Task<IActionResult> MyFootballers()
+        {
+            var agentId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var result = await footballerService.MyFootballers(agentId);
+            return View(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SignToClub(int Id)
+        {
+            SignFootballerToATeam model = new SignFootballerToATeam
+            {
+                Id = Id,
+                Teams = await teamService.GetAllTeams()
+            };
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignToClub(SignFootballerToATeam model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            //await footballerService.RemoveCurrentClub(model.FootballerId);
+            await footballerService.SignToClub(model);
+
+            return RedirectToAction(nameof(MyFootballers));
+        }
+
+        public async Task<IActionResult> Release (int Id)
+        {
+            await footballerService.Release(Id);
+            return RedirectToAction(nameof(MyFootballers));
+        }
+
+        [HttpGet]
+        public IActionResult UploadPicture(int Id)
+        {
+            return View(Id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadPicture(IFormFileCollection files, int Id)
+        {
+            byte[] data = new byte[files.Count];
+            foreach (var file in files)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    await file.CopyToAsync(ms);
+                    data = ms.ToArray();
+                }
+            }
+            await footballerService.AddPictureToFootballer(data, Id);
+            return RedirectToAction(nameof(MyFootballers));
         }
     }
 }

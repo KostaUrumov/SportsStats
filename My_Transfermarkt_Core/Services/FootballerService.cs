@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballModels;
 using My_Transfermarkt_Infastructure.DataModels;
+using static My_Transfermarkt_Infastructure.DataConstraints;
+using Footballer = My_Transfermarkt_Infastructure.DataModels.Footballer;
+
 
 namespace My_Transfermarkt_Core.Services
 {
@@ -13,6 +17,14 @@ namespace My_Transfermarkt_Core.Services
         public FootballerService(ApplicationDbContext _data)
         {
             data = _data;
+        }
+
+        public async Task AddPictureToFootballer(byte[] pictureData, int Id)
+        {
+            var findFootballer = await data.Footballers
+                .FirstAsync(f => f.Id == Id);
+            findFootballer.Picture = pictureData;
+            await data.SaveChangesAsync();
         }
 
         public bool AreDtaesCorrect(AddNewFootallerModel model)
@@ -36,8 +48,6 @@ namespace My_Transfermarkt_Core.Services
                 FirstName = fooballer.FirstName,
                 Position = fooballer.Position,
                 PreferedFoot = fooballer.PreferedFoot,
-                StartDateContract = fooballer.StartDateContract,
-                EndDateContract = fooballer.EndDateContract,
                 InternationalCaps = fooballer.InternationalCaps,
                 CurrentMarketValue = fooballer.CurrentMarketValue,
                 BirthDay = fooballer.BirthDay,
@@ -46,24 +56,7 @@ namespace My_Transfermarkt_Core.Services
                 HighestValue = fooballer.CurrentMarketValue,
                 HishestValueDate = DateTime.UtcNow,
                 
-
             };
-
-            if (fooballer.TeamId != null)
-            {
-                newFootballer.TeamId = fooballer.TeamId;
-                newFootballer.TeamFootballers.Add(new TeamsFootballers()
-                {
-                    TeamId = (int)fooballer.TeamId
-                });
-
-            }
-
-            if(fooballer.StartDateContract != null)
-            {
-                newFootballer.StartDateContract = fooballer.StartDateContract;
-                newFootballer.EndDateContract = fooballer.EndDateContract;
-            }
 
             newFootballer.AgentsFootballers.Add(new AgentsFootballers()
             {
@@ -73,8 +66,6 @@ namespace My_Transfermarkt_Core.Services
             data.AddRange(newFootballer);
             await data.SaveChangesAsync();
         }
-
-        
 
         public async Task<AddNewFootallerModel> FindFootballer(int id)
         {
@@ -89,7 +80,8 @@ namespace My_Transfermarkt_Core.Services
                     PreferedFoot = m.PreferedFoot,
                     CountryId = m.CountryId,
                     InternationalCaps = m.InternationalCaps,
-                    CurrentMarketValue = m.CurrentMarketValue
+                    CurrentMarketValue = m.CurrentMarketValue,
+                    Id = m.Id
                 })
                 .ToListAsync();
             return result[0];
@@ -126,13 +118,80 @@ namespace My_Transfermarkt_Core.Services
                     CurrentTeam = n.Footballer.Team.Name,
                     Id = n.Footballer.Id,
                     Foot = n.Footballer.PreferedFoot.ToString(),
-                    Position = n.Footballer.Position.ToString()
-
+                    Position = n.Footballer.Position.ToString(),
+                    Photo = n.Footballer.Picture
                 })
                 .OrderBy(x=>x.Name)
                 .ToListAsync();
 
             return models;
         }
+
+        public async Task Release(int Id)
+        {
+            List<TeamsFootballers> result = await data
+                .TeamsFootballers
+                .Where(x => x.FootballerId == Id)
+                .ToListAsync();
+            var findFootballer = await data
+                .Footballers.FirstAsync(f => f.Id == Id);
+            findFootballer.TeamId = null;
+
+            data.RemoveRange(result);
+            await data.SaveChangesAsync();
+        }
+
+        public async Task SaveChangesAsync(AddNewFootallerModel footballer)
+        {
+            var findFootballer = await data.Footballers.FirstAsync(f => f.Id == footballer.Id);
+            if (footballer.CurrentMarketValue > findFootballer.HighestValue)
+            {
+                findFootballer.HighestValue = footballer.CurrentMarketValue;
+                findFootballer.HishestValueDate = DateTime.UtcNow;
+            }
+            findFootballer.LastName = footballer.LastName;
+            findFootballer.FirstName = footballer.FirstName;
+            findFootballer.Position = footballer.Position;
+            findFootballer.PreferedFoot = footballer.PreferedFoot;
+            findFootballer.CurrentMarketValue = footballer.CurrentMarketValue;
+            findFootballer.InternationalCaps = footballer.InternationalCaps;
+            findFootballer.CountryId = footballer.CountryId;
+            findFootballer.BirthDay = footballer.BirthDay;
+            if (footballer.TeamId != null)
+            {
+                findFootballer.TeamId = footballer.TeamId;
+                findFootballer.TeamFootballers.Add(new TeamsFootballers()
+                {
+                    TeamId = (int)footballer.TeamId
+                });
+            }
+
+            await data.SaveChangesAsync();
+        }
+
+        public async Task SignToClub(SignFootballerToATeam model)
+        {
+            var updateTeam = await data.Footballers
+                 .FirstAsync(f => f.Id == model.Id);
+            updateTeam.TeamId = model.TeamId;
+            updateTeam.TeamFootballers.Add(new TeamsFootballers
+            {
+                TeamId = model.TeamId
+            });
+            var findTeam = await data.Teams
+                .FirstAsync(t => t.Id == model.TeamId);
+            updateTeam.TeamsPlayed.Add(findTeam);
+
+            await data.SaveChangesAsync();
+        }
     }
 }
+
+
+
+
+
+
+
+
+

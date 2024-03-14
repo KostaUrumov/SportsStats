@@ -4,7 +4,7 @@
 }
 
 <div class="text-center">
-    <h3>Countries</h3>
+    <h3>My footballers</h3>
 </div>
 @if (Model.Count == 0)
 {
@@ -35,6 +35,7 @@ else
                 <th scope="col">HighestValuee</th>
                 <th scope="col">Position</th>
                 <th scope="col">Preffered foot</th>
+                <th scope="col">Picture</th>
             </tr>
         </thead>
 
@@ -47,17 +48,45 @@ else
                     <td>@Model[i].Name</td>
                     <td>@Model[i].Country</td>
                     <td>@Model[i].InternationalCaps</td>
-                    <td>@Model[i].CurrentTeam</td>
+                    <td>
+                        @if (@Model[i].CurrentTeam == null)
+                        {
+                            <a asp-controller="Footballer" asp-action="SignToClub" asp-route-id="@Model[i].Id" class="btn btn-danger">Sign to club</a>
+                        }
+                        else
+                        {
+                            @Model[i].CurrentTeam
+                        }
+                    </td>
                     <td>@Model[i].CurrentValue</td>
+                    
                     <td>@Model[i].HighestValue</td>
                     <td>@Model[i].Position</td>
                     <td>@Model[i].Foot</td>
+                    <td>
+                        @if (@Model[i].Photo == null)
+                        {
+                            <a asp-controller="Footballer" asp-action="UploadPicture" asp-route-id="@Model[i].Id" class="btn btn-info">Upload picture</a>
+                        }
+                        else
+                        {
+                            <img src="data:image;base64,@System.Convert.ToBase64String(@Model[i].Photo)" width="40" height="40" />
+
+                        }
+
+                    </td>
                     
                     <td>
                         <a asp-controller="Footballer" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-warning">Edit</a>
                     </td>
+                    <td>
+                        <a asp-controller="Footballer" asp-action="Release" asp-route-id="@Model[i].Id" class="btn btn-success">Release</a>
+                    </td>
+                    
+                    
                 </tr>
             </tbody>
         }
     </table>
 }
+

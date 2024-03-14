@@ -27,7 +27,6 @@ namespace My_Transfermarkt.Controllers
         public async Task<IActionResult> AddFootballer()
         {
             AddNewFootallerModel footballer = new AddNewFootallerModel();
-            footballer.StartDateContract = DateTime.Now;
             footballer.BirthDay = DateTime.Parse("2000-01-01 12:00", CultureInfo.InvariantCulture);
             footballer.Countries = await countryService.GetAllCuntries();
             footballer.Positions.Add(Position.Goalkeeper);
@@ -93,14 +92,8 @@ namespace My_Transfermarkt.Controllers
                 return View(model);
             }
             await footballerService.CreateFootballerAsync(model);
-            return RedirectToAction(nameof(MyFootballers));
+            return RedirectToAction("MyFootballers", "Footballer");
         }
-
-        public async Task<IActionResult> MyFootballers()
-        {
-            var agentId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            var result = await footballerService.MyFootballers(agentId);
-            return View(result);
-        }
+       
     }
 }

@@ -7,6 +7,7 @@ namespace My_Transfermarkt_Core.Models.FootballModels
 {
     public class AddNewFootallerModel
     {
+        public int Id { get; set; }
         [Required]
         [StringLength(maximumLength: DataConstraints.Footballer.MaxName,
             ErrorMessage = "The {0} must be between {1} and {2}",
@@ -50,24 +51,12 @@ namespace My_Transfermarkt_Core.Models.FootballModels
 
         public ICollection<Team> Teams { get; set; } = new List<Team>();
 
-        
-        public byte[]? Picture { get; set; }
 
         [Required]
         [Range(DataConstraints.Footballer.MinValue, double.MaxValue)]
 
         public decimal CurrentMarketValue { get; set; }
 
-       
-        [Range(DataConstraints.Footballer.MinValue, double.MaxValue)]
-        public decimal? HighestValue { get; set; }
-
-        
-        public DateTime? HishestValueDate { get; set; }
-
-        public DateTime? StartDateContract { get; set; }
-
-        public DateTime? EndDateContract { get; set; }
 
         public ICollection<TeamsFootballers> TeamFootballers { get; set; } = new List<TeamsFootballers>();
 
