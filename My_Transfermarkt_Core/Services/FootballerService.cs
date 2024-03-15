@@ -66,9 +66,31 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        public Task<ShowFootballerDetailsViewModel> Details(int playerId)
+        public async Task<ShowFootballerDetailsViewModel> Details(int playerId)
         {
-            throw new NotImplementedException();
+            var findPLayer = await data.Footballers.FirstAsync(f => f.Id == playerId);
+            List<ShowFootballerDetailsViewModel> listed = await 
+                data
+                .Footballers
+                .Where(f => f.Id == playerId)
+                .Select(x=> new ShowFootballerDetailsViewModel()
+                {
+                    HighestValueDate = DateOnly.FromDateTime(x.HishestValueDate),
+                    Name = x.FirstName + " " + x.LastName,
+                    Country = x.Country.Name,
+                    PrefferedFoot = x.PreferedFoot.ToString(),
+                    Position = x.Position.ToString(),
+                    TeamsPlayed = x.TeamsPlayed,
+                    HighestValue = x.HighestValue.ToString(),
+                    CurrentValue = x.CurrentMarketValue.ToString(),
+                    Caps = x.InternationalCaps,
+                    CurrentTeam = x.Team.Name,
+                    Photo = x.Picture
+                })
+                .ToListAsync();
+            
+
+            return listed[0];
         }
 
         public async Task<AddNewFootallerModel> FindFootballer(int id)
