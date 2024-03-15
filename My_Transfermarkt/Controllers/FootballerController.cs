@@ -117,6 +117,8 @@ namespace My_Transfermarkt.Controllers
         public async Task<IActionResult> GetAllPlayersForClub(int Id)
         {
             var listedPlayers = await footballerService.GetAllPLayersForClub(Id);
+            var team = await teamService.FindTeam(Id);
+            ViewBag.TeamName = team.TeamName;
             return View(listedPlayers);
         }
 

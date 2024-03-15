@@ -52,6 +52,7 @@ namespace My_Transfermarkt_Core.Services
                 .Select(x=> new TeamToAddStadium()
                 {
                     Id = teamId,
+                    TeamName = x.Name
                     
                 })
                 .ToListAsync();

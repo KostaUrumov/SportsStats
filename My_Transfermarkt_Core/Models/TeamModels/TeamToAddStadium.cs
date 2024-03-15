@@ -8,6 +8,8 @@ namespace My_Transfermarkt_Core.Models.TeamModels
     {
         public int Id { get; set; }
 
+        public string? TeamName { get; set; }
+
         [Required]
         public int StadiumId { get; set; }
 
