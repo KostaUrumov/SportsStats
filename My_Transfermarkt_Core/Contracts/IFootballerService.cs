@@ -1,4 +1,4 @@
-﻿using My_Transfermarkt_Core.Models.FootballModels;
+﻿using My_Transfermarkt_Core.Models.FootballerModels;
 
 namespace My_Transfermarkt_Core.Contracts
 {
@@ -13,5 +13,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task SignToClub(SignFootballerToATeam model);
         Task Release(int Id);
         Task AddPictureToFootballer(byte[]pictureData, int Id);
+        Task <List<ShowFootballerToClubModel>> GetAllPLayersForClub(int clubId);
+        Task<ShowFootballerDetailsViewModel> Details(int playerId);
     }
 }

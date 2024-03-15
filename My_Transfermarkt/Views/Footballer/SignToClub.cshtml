@@ -24,6 +24,20 @@
             </div>
             <p></p>
             <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.StartContractDate" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="@Model.StartContractDate"></label>
+                <span asp-validation-for="@Model.StartContractDate" class="text-danger"></span>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.EndContractDate" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="@Model.EndContractDate"></label>
+                <span asp-validation-for="@Model.EndContractDate" class="text-danger"></span>
+            </div>
+            <p></p>
+            <p></p>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Sign</button>
         </form>
     </div>

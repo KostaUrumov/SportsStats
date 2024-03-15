@@ -3,7 +3,7 @@ using My_Transfermarkt_Infastructure.Enums;
 using My_Transfermarkt_Infastructure;
 using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Core.Models.FootballModels
+namespace My_Transfermarkt_Core.Models.FootballerModels
 {
     public class AddNewFootallerModel
     {
@@ -21,6 +21,7 @@ namespace My_Transfermarkt_Core.Models.FootballModels
         public string LastName { get; set; } = null!;
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime BirthDay { get; set; }
 
         [Required]

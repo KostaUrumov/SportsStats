@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.FootballModels;
+using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Infastructure.Enums;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 
 namespace My_Transfermarkt.Controllers
@@ -67,7 +68,9 @@ namespace My_Transfermarkt.Controllers
                 Id = Id,
                 Teams = await teamService.GetAllTeams()
             };
-            
+            model.StartContractDate = DateTime.Now;
+            model.EndContractDate = DateTime.Now.AddMonths(6);
+
             return View(model);
         }
 
@@ -78,10 +81,8 @@ namespace My_Transfermarkt.Controllers
             {
                 return View(model);
             }
-
-            //await footballerService.RemoveCurrentClub(model.FootballerId);
+            
             await footballerService.SignToClub(model);
-
             return RedirectToAction(nameof(MyFootballers));
         }
 
@@ -111,6 +112,18 @@ namespace My_Transfermarkt.Controllers
             }
             await footballerService.AddPictureToFootballer(data, Id);
             return RedirectToAction(nameof(MyFootballers));
+        }
+
+        public async Task<IActionResult> GetAllPlayersForClub(int Id)
+        {
+            var listedPlayers = await footballerService.GetAllPLayersForClub(Id);
+            return View(listedPlayers);
+        }
+
+        public async Task<IActionResult> Details (int Id)
+        {
+            var result = await footballerService.Details(Id);
+            return View(result);
         }
     }
 }

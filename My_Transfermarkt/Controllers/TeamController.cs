@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using My_Transfermarkt_Core.Contracts;
 
 namespace My_Transfermarkt.Controllers
 {
     public class TeamController : Controller
     {
-        public IActionResult Index()
+        private readonly ITeamService teamService;
+
+        public TeamController(ITeamService _team)
         {
-            return View();
+            teamService = _team;
+        }
+
+        public async Task<IActionResult> AllTeams()
+        {
+            var listedTeams = await teamService.GetAllTeamsAvailable();
+            return View(listedTeams);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.FootballModels;
+using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Infastructure.Enums;
 using System.Globalization;
 using System.Security.Claims;

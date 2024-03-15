@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Core.Models.FootballModels
+﻿namespace My_Transfermarkt_Core.Models.FootballerModels
 {
     public class ShowFootballerModel
     {
@@ -13,5 +13,7 @@
         public string CurrentValue { get; set; } = null!;
         public string HighestValue { get; set; } = null!;
         public byte[]? Photo { get; set; }
+        public string? StartContract { get; set; }
+        public string? EndContract { get; set; }
     }
 }

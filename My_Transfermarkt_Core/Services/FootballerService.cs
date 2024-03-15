@@ -1,10 +1,9 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.FootballModels;
+using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Infastructure.DataModels;
-using static My_Transfermarkt_Infastructure.DataConstraints;
+using System.Globalization;
 using Footballer = My_Transfermarkt_Infastructure.DataModels.Footballer;
 
 
@@ -67,6 +66,11 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
+        public Task<ShowFootballerDetailsViewModel> Details(int playerId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<AddNewFootallerModel> FindFootballer(int id)
         {
             List<AddNewFootallerModel> result = await data.Footballers
@@ -86,6 +90,29 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
             return result[0];
                 
+        }
+
+        public async Task<List<ShowFootballerToClubModel>> GetAllPLayersForClub(int clubId)
+        {
+            List<ShowFootballerToClubModel> playersToClub = await data
+                .TeamsFootballers
+                .Where(t => t.TeamId == clubId)
+                .Select(x => new ShowFootballerToClubModel()
+                {
+                    BirthDay = x.Footballer.BirthDay.ToString("MM/dd/yyyy"),
+                    Country = x.Footballer.Country.Name,
+                    Name = x.Footballer.FirstName + " " + x.Footballer.LastName,
+                    Id = x.Footballer.Id,
+                    Position = x.Footballer.Position.ToString(),
+                    Picture = x.Footballer.Picture,
+                    StartContract = DateOnly.FromDateTime((DateTime)x.Footballer.StartDateContract),
+                    EndContract = DateOnly.FromDateTime((DateTime)x.Footballer.EndDateContract),
+                    Team = x.Footballer.Team.Name
+
+                })
+                .ToListAsync();
+
+            return playersToClub;
         }
 
         public async Task<bool> IsAlreadyIn(AddNewFootallerModel model)
@@ -171,16 +198,20 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task SignToClub(SignFootballerToATeam model)
         {
-            var updateTeam = await data.Footballers
+            var updateFootballer = await data.Footballers
                  .FirstAsync(f => f.Id == model.Id);
-            updateTeam.TeamId = model.TeamId;
-            updateTeam.TeamFootballers.Add(new TeamsFootballers
+            updateFootballer.TeamId = model.TeamId;
+
+            updateFootballer.TeamFootballers.Add(new TeamsFootballers
             {
                 TeamId = model.TeamId
             });
+
             var findTeam = await data.Teams
                 .FirstAsync(t => t.Id == model.TeamId);
-            updateTeam.TeamsPlayed.Add(findTeam);
+            updateFootballer.TeamsPlayed.Add(findTeam);
+            updateFootballer.StartDateContract = model.StartContractDate;
+            updateFootballer.EndDateContract = model.EndContractDate;
 
             await data.SaveChangesAsync();
         }

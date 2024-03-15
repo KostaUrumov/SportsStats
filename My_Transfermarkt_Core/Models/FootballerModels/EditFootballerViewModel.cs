@@ -3,7 +3,7 @@ using My_Transfermarkt_Infastructure.Enums;
 using My_Transfermarkt_Infastructure;
 using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Core.Models.FootballModels
+namespace My_Transfermarkt_Core.Models.FootballerModels
 {
     public class EditFootballerViewModel
     {

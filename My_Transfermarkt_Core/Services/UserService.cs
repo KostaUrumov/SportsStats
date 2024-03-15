@@ -36,8 +36,6 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task AddToRole(RegisterUserViewModel model)
         {
-
-            var result = model.GetType();
             var findUser = data.Users.First(x => x.UserName == model.Username);
             if (findUser.UserName == "kostadin")
             {
@@ -184,7 +182,6 @@ namespace My_Transfermarkt_Core.Services
             await signInManager.SignOutAsync();
         }
 
-       
         /// <summary>
         /// Resistering a new user
         /// </summary>
@@ -226,7 +223,7 @@ namespace My_Transfermarkt_Core.Services
             }
             else
             {
-                data.Add(user);
+                
                 await data.SaveChangesAsync();
                 await signInManager.SignInAsync(user, isPersistent: false);
             }

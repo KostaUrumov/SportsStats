@@ -23,7 +23,10 @@ namespace My_Transfermarkt.Controllers
             {
                 return RedirectToAction("MyFootballers", "Footballer");
             }
-            return View();
+            else
+            {
+                return RedirectToAction("AllTeams", "Team");
+            }
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
