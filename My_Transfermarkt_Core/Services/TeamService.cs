@@ -14,7 +14,12 @@ namespace My_Transfermarkt_Core.Services
         {
             data = _data;
         }
-
+        /// <summary>
+        /// Add logo to a team
+        /// </summary>
+        /// <param name="pictureData"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task AddLogoToTeam(byte[] pictureData, int id)
         {
             var findTeam = await data.Teams.FirstAsync(t => t.Id == id);
@@ -22,7 +27,11 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
 
         }
-
+        /// <summary>
+        /// Add new team entity
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddNewTeamAsync(AddNewTeamModel model)
         {
 
@@ -34,7 +43,11 @@ namespace My_Transfermarkt_Core.Services
             data.AddRange(team);
             await data.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Add a stadium to a team and save
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddToStadiumAsync(TeamToAddStadium model)
         {
             var findTeamToAddStadium = await data.Teams
@@ -43,7 +56,11 @@ namespace My_Transfermarkt_Core.Services
 
             await data.SaveChangesAsync();  
         }
-
+        /// <summary>
+        /// Search a team to which stadium will be added
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <returns></returns>
         public async Task<TeamToAddStadium> FindTeam(int teamId)
         {
             List<TeamToAddStadium> retutnModel = await data.
@@ -58,7 +75,11 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
             return retutnModel[0];
         }
-
+        /// <summary>
+        /// Return searched team to be edited
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<AddNewTeamModel> FindTeamToBeEdited(int id)
         {
             var find = await data.Teams.FirstAsync(t => t.Id == id);
@@ -90,12 +111,18 @@ namespace My_Transfermarkt_Core.Services
 
             return model;
         }
-
+        /// <summary>
+        /// Return all teams into a collection using it when sign a player to a team
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Team>> GetAllTeams()
         {
             return await data.Teams.OrderBy(x => x.Name).ToListAsync();
         }
-
+        /// <summary>
+        /// Return all teams in database to proceed to a view
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<ShowTeamModelView>> GetAllTeamsAvailable()
         {
             List<ShowTeamModelView> teams = await data
@@ -112,7 +139,11 @@ namespace My_Transfermarkt_Core.Services
             return teams;
             
         }
-
+        /// <summary>
+        /// Checking if stadium exists in our database
+        /// </summary>
+        /// <param name="team"></param>
+        /// <returns></returns>
         public async Task<bool> IsAlreadyCreated(AddNewTeamModel team)
         {
             var result = await data.Teams.FirstOrDefaultAsync(t => t.Name == team.Name);
@@ -123,7 +154,11 @@ namespace My_Transfermarkt_Core.Services
 
             return true;
         }
-
+        /// <summary>
+        /// Update Stadium entity
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task SaveChangesAsync(AddNewTeamModel model)
         {
             var team = await data.Teams.FirstAsync(t => t.Id == model.Id);

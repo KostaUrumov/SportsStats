@@ -14,7 +14,11 @@ namespace My_Transfermarkt_Core.Services
         {
             data = _data;
         }
-
+        /// <summary>
+        /// Add new country entity
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddCountryAsync(AddNewCountryModel model)
         {
             Country country = new Country();
@@ -24,7 +28,10 @@ namespace My_Transfermarkt_Core.Services
             data.AddRange(country);
             await data.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Return all countries and proceed to view
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<DisplayCountryModel>> AllCountriesAsync()
         {
             List<DisplayCountryModel> result = await data
@@ -40,13 +47,17 @@ namespace My_Transfermarkt_Core.Services
 
             return result;
         }
-
-        public async Task<EditCountryModel> FindCountry(int Id)
+        /// <summary>
+        /// Find specific country
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<AddNewCountryModel> FindCountry(int Id)
         {
             var result =  await data
                 .Countries
                 .Where(c=> c.Id == Id)
-                .Select(x=> new EditCountryModel
+                .Select(x=> new AddNewCountryModel
                 {
                     Name = x.Name,
                     ShortName = x.ShortName,
@@ -55,14 +66,21 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
             return result[0];
         }
-
+        /// <summary>
+        /// R%eturn all countries to fil List of countries where we need them to create new entity as Footballer or Stadium
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Country>> GetAllCuntries()
         {
             return await data.Countries
                 .OrderBy(x=> x.Name)
                 .ToListAsync();
         }
-
+        /// <summary>
+        /// Check if country is already in the database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task<bool> IsAlreadyCreated(AddNewCountryModel model)
         {
             var found = await data.Countries.FirstOrDefaultAsync(x => x.Name == model.Name);
@@ -74,18 +92,7 @@ namespace My_Transfermarkt_Core.Services
             return true;
         }
 
-        public async Task<bool> IsAlreadyCreated(EditCountryModel model)
-        {
-            var found = await data.Countries.FirstOrDefaultAsync(x => x.Name == model.Name);
-            if (found == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public async Task SaveChangesAsync(EditCountryModel model)
+        public async Task SaveChangesAsync(AddNewCountryModel model)
         {
             var countryToChange = await data.Countries.
                 FirstAsync(c => c.Id == model.Id);

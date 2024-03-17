@@ -55,7 +55,11 @@ namespace My_Transfermarkt_Core.Services
 
             await data.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Change password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task ChangePassAsync(ChangePassWordModel model)
         {
             var findUser = await data.Users.FirstAsync(x => x.Id == model.UserId);

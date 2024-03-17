@@ -48,12 +48,12 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            EditCountryModel model = await countryService.FindCountry(id);
+            AddNewCountryModel model = await countryService.FindCountry(id);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditCountryModel model)
+        public async Task<IActionResult> Edit(AddNewCountryModel model)
         {
             if (!ModelState.IsValid)
             {
