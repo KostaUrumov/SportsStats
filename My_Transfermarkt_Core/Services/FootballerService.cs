@@ -221,6 +221,10 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
             var findFootballer = await data
                 .Footballers.FirstAsync(f => f.Id == Id);
+            var findTeam = await data
+                .Teams
+                .FirstAsync(t => t.Id == findFootballer.TeamId);
+            findFootballer.TeamsPlayed.Add(findTeam);
             findFootballer.TeamId = null;
 
             data.RemoveRange(result);
@@ -276,7 +280,6 @@ namespace My_Transfermarkt_Core.Services
 
             var findTeam = await data.Teams
                 .FirstAsync(t => t.Id == model.TeamId);
-            updateFootballer.TeamsPlayed.Add(findTeam);
             updateFootballer.StartDateContract = model.StartContractDate;
             updateFootballer.EndDateContract = model.EndContractDate;
 

@@ -34,7 +34,7 @@
             <td>
                 @if (@Model.CurrentTeam == null)
                 {
-                    <h4>No club</h4>
+                    <p>No club</p>
                 }
                 else
                 {
@@ -44,14 +44,14 @@
             <td>
                 @if (@Model.TeamsPlayed.Count() == 0)
                 {
-                    <h4>No prevous teams played</h4>
+                    <p>No prevous teams played</p>
                 }
 
                 else
                 {
                     @foreach (var team in @Model.TeamsPlayed)
                     {
-                        <h4>@team.Name.ToString()</h4>
+                        <p>@team.Name.ToString()</p>
                     }
                 }
 
