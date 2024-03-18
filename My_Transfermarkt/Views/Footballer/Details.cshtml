@@ -32,13 +32,17 @@
             <td>@Model.Country</td>
             <td>@Model.Caps</td>
             <td>
-                @if (@Model.CurrentTeam == null)
+                @if (@Model.CurrentTeam == null && Model.IsRetired == false)
                 {
                     <p>No club</p>
                 }
-                else
+                else if (Model.IsRetired == false)
                 {
                     @Model.CurrentTeam
+                }
+                else
+                {
+                    <p>Retired</p>
                 }
             </td>
             <td>
@@ -56,7 +60,18 @@
                 }
 
             </td>
-            <td>@Model.CurrentValue</td>
+            <td>
+                @if(Model.IsRetired == false)
+                {
+                    @Model.CurrentValue
+                    ;
+                }
+                else
+                {
+                    <p>Retired</p>
+                }
+
+            </td>
             <td>@Model.HighestValue</td>
             <td>@Model.HighestValueDate</td>
             <td>@Model.Position</td>
@@ -76,4 +91,5 @@
 
         </tr>
     </tbody>
+
 

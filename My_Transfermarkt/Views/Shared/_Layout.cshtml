@@ -21,9 +21,7 @@
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="Administrator" asp-controller="Home" asp-action="Index">Admin</a>
-                        </li>
+                        
                         @if (User.IsInRole("Agent"))
                         {
                             <li>
@@ -31,6 +29,15 @@
                             </li>
                             <li>
                                 <a class="nav-link text-light" asp-area="" asp-controller="footballer" asp-action="MyFootballers">My footballers</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("User"))
+                        {
+                            <li>
+                                <a class="nav-link text-light" asp-area="" asp-controller="team" asp-action="Allteams">All teams</a>
+                            </li>
+                            <li>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="footballer" asp-action="RetiredPlayers">Retired</a>
                             </li>
                         }
                     </ul>

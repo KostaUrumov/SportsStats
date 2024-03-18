@@ -14,15 +14,10 @@
         <p></p>
         <p></p>
         <h5>Nothing found</h5>
-        <a class="" asp-area="Administrator" asp-controller="Team" asp-action="AddNewTeam">Add new team</a>
-
     </div>
 }
 else
 {
-    <div class="text-center">
-        <a class="" asp-area="Administrator" asp-controller="Team" asp-action="AddNewTeam">Add new team</a>
-    </div>
 
 
     <table class="table table-striped">
@@ -47,7 +42,7 @@ else
                     <td>
                         @if (@Model[i].Stadium == null)
                         {
-                            <p>No home stadium available</p>
+                            <p>No home stadium</p>
                         }
                         else
                         {
@@ -59,7 +54,7 @@ else
                     <td>
                         @if (@Model[i].Picture == null)
                         {
-                            <p>No Logo available</p>
+                            <p>No Logo</p>
                         }
                         else
                         {

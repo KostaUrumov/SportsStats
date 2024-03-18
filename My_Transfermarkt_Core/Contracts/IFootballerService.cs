@@ -15,5 +15,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task AddPictureToFootballer(byte[]pictureData, int Id);
         Task <List<ShowFootballerToClubModel>> GetAllPLayersForClub(int clubId);
         Task<ShowFootballerDetailsViewModel> Details(int playerId);
+        Task RetireFromFootball(int footballerId);
+        Task<List<ShowFootballerDetailsViewModel>> GetRetiredPlayers();
     }
 }

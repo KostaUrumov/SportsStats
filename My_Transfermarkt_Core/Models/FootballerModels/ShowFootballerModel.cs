@@ -15,5 +15,6 @@
         public byte[]? Photo { get; set; }
         public string? StartContract { get; set; }
         public string? EndContract { get; set; }
+        public bool IsRetired { get; set; }
     }
 }

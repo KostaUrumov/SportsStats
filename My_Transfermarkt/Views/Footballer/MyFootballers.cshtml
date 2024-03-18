@@ -36,6 +36,9 @@ else
                 <th scope="col">Position</th>
                 <th scope="col">Preffered foot</th>
                 <th scope="col">Picture</th>
+                <th scope="col">Edit footballer</th>
+                <th scope="col">Leave current club</th>
+                <th scope="col">Is active Player?</th>
             </tr>
         </thead>
 
@@ -49,16 +52,31 @@ else
                     <td>@Model[i].Country</td>
                     <td>@Model[i].InternationalCaps</td>
                     <td>
-                        @if (@Model[i].CurrentTeam == null)
+                        @if (@Model[i].IsRetired == true)
                         {
-                            <a asp-controller="Footballer" asp-action="SignToClub" asp-route-id="@Model[i].Id" class="btn btn-danger">Sign to club</a>
+                            <p>Retired</p>
+                            
                         }
-                        else
+                        @if (@Model[i].CurrentTeam == null && @Model[i].IsRetired == false)
+                        {
+                            <a asp-controller="Footballer" asp-action="SignToClub" asp-route-id="@Model[i].Id" class="btn btn-danger">Sign</a>
+                        }
+                        else @if (@Model[i].IsRetired == false)
                         {
                             @Model[i].CurrentTeam
                         }
                     </td>
-                    <td>@Model[i].CurrentValue</td>
+                    <td>
+                        @if (@Model[i].IsRetired == true)
+                        {
+                            <p>Retired</p>
+
+                        }
+                        else
+                        {
+                         @Model[i].CurrentValue
+                        }
+                    </td>
                     
                     <td>@Model[i].HighestValue</td>
                     <td>@Model[i].Position</td>
@@ -66,7 +84,7 @@ else
                     <td>
                         @if (@Model[i].Photo == null)
                         {
-                            <a asp-controller="Footballer" asp-action="UploadPicture" asp-route-id="@Model[i].Id" class="btn btn-info">Upload picture</a>
+                            <a asp-controller="Footballer" asp-action="UploadPicture" asp-route-id="@Model[i].Id" class="btn btn-info">Add</a>
                         }
                         else
                         {
@@ -80,7 +98,31 @@ else
                         <a asp-controller="Footballer" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-warning">Edit</a>
                     </td>
                     <td>
-                        <a asp-controller="Footballer" asp-action="Release" asp-route-id="@Model[i].Id" class="btn btn-success">Release</a>
+                        @if (@Model[i].IsRetired == false && @Model[i].CurrentTeam != null!)
+                        {
+                            <a asp-controller="Footballer" asp-action="Release" asp-route-id="@Model[i].Id" class="btn btn-success">Release</a>
+                        }
+                        else if (Model[i].IsRetired == true)
+                        {
+                            <p>Already retired</p>
+                        }
+                        else
+                        {
+                         <p>No Current club</p>   
+                        }
+
+                        
+                    </td>
+                    <td>
+                        @if (@Model[i].IsRetired == false)
+                        {
+                            <a asp-controller="Footballer" asp-action="Retire" asp-route-id="@Model[i].Id" class="btn btn-danger">Retire</a>
+                        }
+                        else
+                        {
+                            <p>Already retired</p>   
+                        }
+
                     </td>
                     
                     

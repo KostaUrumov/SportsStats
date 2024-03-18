@@ -71,6 +71,8 @@ namespace My_Transfermarkt_Infastructure.DataModels
 
         public DateTime? EndDateContract { get; set; }
 
+        public bool  IsRetired { get; set; }
+
         public ICollection<TeamsFootballers> TeamFootballers { get; set; } = new List<TeamsFootballers>();
         public ICollection<AgentsFootballers> AgentsFootballers { get; set; } = new List<AgentsFootballers>();
     }

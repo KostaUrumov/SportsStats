@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using My_Transfermarkt_Infastructure.Config;
 using My_Transfermarkt_Infastructure.DataModels;
+using My_Transfermarkt_Infastructure.Migrations;
 
 namespace My_Transfermarkt.Data
 {
@@ -36,6 +38,8 @@ namespace My_Transfermarkt.Data
                new IdentityRole { Id = "2c93174e-3b0e-446f-86af-883d56fr7210", Name = "User", NormalizedName = "USER".ToUpper() },
                new IdentityRole { Id = "4t67567e-5f7e-446f-88fa-441f56fr8700", Name = "Agent", NormalizedName = "AGENT".ToUpper() });
 
+            builder.ApplyConfiguration(new CountryEntityConfiguration());
+            builder.ApplyConfiguration(new TeamEntityConfiguration());
 
             base.OnModelCreating(builder);
         }

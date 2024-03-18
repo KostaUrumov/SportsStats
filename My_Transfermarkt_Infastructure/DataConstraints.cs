@@ -35,8 +35,8 @@
             public const int MinName = 2;
             public const int MaxName = 75;
 
-            public const string Name = @"^([A-Z]){1}([a-z])*";
-            public const string ShortName = @"[A-Z]{3}";
+            public const string Name = @"^[A-Z]{1}[a-z]* * [a-z]* *[A-Z]*[a-z]* *[A-Z]*[a-z]* *[A-Z]*[a-z]* *[A-Z]*[a-z]*";
+            public const string ShortName = @"[A-Z]{2}";
 
         }
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.TeamModels;
+using My_Transfermarkt_Core.Pagening;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -49,10 +50,18 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             return RedirectToAction(nameof(AllTeams));
         }
 
-        public async Task<IActionResult> AllTeams()
+        public async Task<IActionResult> AllTeams(int pg =1)
         {
             var result = await teamService.GetAllTeamsAvailable();
-            return View(result);
+            const int pageSize = 9;
+            if (pg < 1) pg = 1;
+            int resCounts =  result.Count();
+            var pager = new Pager(resCounts, pg, pageSize);
+            int recSkip = (pg-1)* pageSize;
+            var data = result.Skip(recSkip).Take(pager.PageSize).ToList();
+            pager.TotalPages = resCounts/pageSize;
+            this.ViewBag.Pager = pager;
+            return View(data);
         }
 
         [HttpGet]
@@ -90,6 +99,11 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(AddNewTeamModel team)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(team);
+            }
+
             await teamService.SaveChangesAsync(team);
             return RedirectToAction(nameof(AllTeams));
         }
@@ -105,6 +119,10 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStadium(TeamToAddStadium model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             await teamService.AddToStadiumAsync(model);
             return RedirectToAction(nameof(AllTeams));
         }

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Infastructure.Enums;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 
 namespace My_Transfermarkt.Controllers
@@ -23,6 +23,8 @@ namespace My_Transfermarkt.Controllers
             teamService = _teamService;
         }
 
+        [Authorize(Roles = "Agent")]
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -39,6 +41,7 @@ namespace My_Transfermarkt.Controllers
             return View(findFootballer);
         }
 
+        [Authorize(Roles = "Agent")]
         [HttpPost]
         public async Task<IActionResult> Edit(AddNewFootallerModel model)
         {
@@ -53,6 +56,7 @@ namespace My_Transfermarkt.Controllers
             return RedirectToAction(nameof(MyFootballers));
         }
 
+        [Authorize(Roles = "Agent")]
         public async Task<IActionResult> MyFootballers()
         {
             var agentId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -60,6 +64,7 @@ namespace My_Transfermarkt.Controllers
             return View(result);
         }
 
+        [Authorize(Roles = "Agent")]
         [HttpGet]
         public async Task<IActionResult> SignToClub(int Id)
         {
@@ -74,6 +79,7 @@ namespace My_Transfermarkt.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Agent")]
         [HttpPost]
         public async Task<IActionResult> SignToClub(SignFootballerToATeam model)
         {
@@ -86,18 +92,21 @@ namespace My_Transfermarkt.Controllers
             return RedirectToAction(nameof(MyFootballers));
         }
 
+        [Authorize(Roles = "Agent")]
         public async Task<IActionResult> Release (int Id)
         {
             await footballerService.Release(Id);
             return RedirectToAction(nameof(MyFootballers));
         }
 
+        [Authorize(Roles = "Agent")]
         [HttpGet]
         public IActionResult UploadPicture(int Id)
         {
             return View(Id);
         }
 
+        [Authorize(Roles = "Agent")]
         [HttpPost]
         public async Task<IActionResult> UploadPicture(IFormFileCollection files, int Id)
         {
@@ -114,6 +123,7 @@ namespace My_Transfermarkt.Controllers
             return RedirectToAction(nameof(MyFootballers));
         }
 
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetAllPlayersForClub(int Id)
         {
             var listedPlayers = await footballerService.GetAllPLayersForClub(Id);
@@ -122,10 +132,25 @@ namespace My_Transfermarkt.Controllers
             return View(listedPlayers);
         }
 
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Details (int Id)
         {
             var result = await footballerService.Details(Id);
             return View(result);
+        }
+        [Authorize(Roles = "Agent")]
+        public async Task<IActionResult> Retire(int Id)
+        {
+            await footballerService.Release(Id);
+            await footballerService.RetireFromFootball(Id);
+            return RedirectToAction(nameof(MyFootballers));
+        }
+
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> RetiredPlayers()
+        {
+            var getRetiredPlayers = await footballerService.GetRetiredPlayers();
+            return View(getRetiredPlayers);
         }
     }
 }

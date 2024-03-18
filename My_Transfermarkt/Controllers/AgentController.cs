@@ -43,6 +43,7 @@ namespace My_Transfermarkt.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFootballer(AddNewFootallerModel model)
         {
+
             if (!ModelState.IsValid)
             {
                 model.BirthDay = DateTime.Parse("2000-01-01 12:00", CultureInfo.InvariantCulture);

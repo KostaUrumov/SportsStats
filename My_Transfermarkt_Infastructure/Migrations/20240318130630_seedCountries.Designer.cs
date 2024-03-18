@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using My_Transfermarkt.Data;
 
@@ -11,9 +12,10 @@ using My_Transfermarkt.Data;
 namespace My_Transfermarkt_Infastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240318130630_seedCountries")]
+    partial class seedCountries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,21 +54,21 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "acff52ae-28da-4423-86db-62110806a15a",
+                            ConcurrencyStamp = "7999c8c6-5a1c-4613-9de2-50c8bc14eced",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c93174e-3b0e-446f-86af-883d56fr7210",
-                            ConcurrencyStamp = "d9fa4937-3678-4b09-a8ac-3c725978b4ba",
+                            ConcurrencyStamp = "cf051911-8863-46b4-88a1-b22aa3a7f83b",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "4t67567e-5f7e-446f-88fa-441f56fr8700",
-                            ConcurrencyStamp = "a108a405-0646-4b56-ab3d-dd5242911994",
+                            ConcurrencyStamp = "d5ea168c-4c6b-41ed-bdc8-a348d80a54c4",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -1831,230 +1833,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.HasIndex("StadiumId");
 
                     b.ToTable("Teams");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CountryId = 230,
-                            Name = "Arsenal"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CountryId = 230,
-                            Name = "Liverpool"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CountryId = 230,
-                            Name = "Manchester City"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CountryId = 230,
-                            Name = "Aston Villa"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CountryId = 230,
-                            Name = "Tottenham"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CountryId = 230,
-                            Name = "Manchester United"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CountryId = 230,
-                            Name = "West Ham"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CountryId = 230,
-                            Name = "Brighton"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CountryId = 230,
-                            Name = "Wolverhampton"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            CountryId = 230,
-                            Name = "Newcastle"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            CountryId = 230,
-                            Name = "Chelsea"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            CountryId = 229,
-                            Name = "Fulham"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            CountryId = 230,
-                            Name = "Bournemouth"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            CountryId = 230,
-                            Name = "Crystal Palace"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            CountryId = 230,
-                            Name = "Brentford"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            CountryId = 230,
-                            Name = "Everton"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            CountryId = 230,
-                            Name = "Notthingham"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            CountryId = 230,
-                            Name = "Luton"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            CountryId = 230,
-                            Name = "Burnley"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            CountryId = 80,
-                            Name = "Bayer Leverkusen"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            CountryId = 80,
-                            Name = "Bayern Munchen"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            CountryId = 80,
-                            Name = "Stuttgart"
-                        },
-                        new
-                        {
-                            Id = 23,
-                            CountryId = 80,
-                            Name = "Borussia Dortmund"
-                        },
-                        new
-                        {
-                            Id = 24,
-                            CountryId = 80,
-                            Name = "RB Leipzig"
-                        },
-                        new
-                        {
-                            Id = 25,
-                            CountryId = 80,
-                            Name = "Eintracht Frankfurt"
-                        },
-                        new
-                        {
-                            Id = 26,
-                            CountryId = 80,
-                            Name = "Augsburg"
-                        },
-                        new
-                        {
-                            Id = 27,
-                            CountryId = 80,
-                            Name = "Hoffenheim"
-                        },
-                        new
-                        {
-                            Id = 28,
-                            CountryId = 80,
-                            Name = "Freiburg"
-                        },
-                        new
-                        {
-                            Id = 29,
-                            CountryId = 80,
-                            Name = "Werder Bremen"
-                        },
-                        new
-                        {
-                            Id = 30,
-                            CountryId = 80,
-                            Name = "Heidenheim"
-                        },
-                        new
-                        {
-                            Id = 31,
-                            CountryId = 80,
-                            Name = "Borussia Monchengladbach"
-                        },
-                        new
-                        {
-                            Id = 32,
-                            CountryId = 80,
-                            Name = "Union Berlin"
-                        },
-                        new
-                        {
-                            Id = 33,
-                            CountryId = 80,
-                            Name = "Wolfsburg"
-                        },
-                        new
-                        {
-                            Id = 34,
-                            CountryId = 80,
-                            Name = "Bochum"
-                        },
-                        new
-                        {
-                            Id = 35,
-                            CountryId = 80,
-                            Name = "Mainz 05"
-                        },
-                        new
-                        {
-                            Id = 36,
-                            CountryId = 80,
-                            Name = "Koln"
-                        },
-                        new
-                        {
-                            Id = 37,
-                            CountryId = 80,
-                            Name = "Darmstadt"
-                        });
                 });
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.TeamsFootballers", b =>

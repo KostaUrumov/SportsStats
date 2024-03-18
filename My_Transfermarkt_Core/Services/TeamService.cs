@@ -165,7 +165,6 @@ namespace My_Transfermarkt_Core.Services
             team.Name = model.Name;
             team.CountryId = model.CountryId;
             team.StadiumId = model.StadiumId;
-            team.Logo = null;
             await data.SaveChangesAsync();
         }
     }

@@ -102,7 +102,8 @@ namespace My_Transfermarkt_Core.Services
                     CurrentValue = x.CurrentMarketValue.ToString(),
                     Caps = x.InternationalCaps,
                     CurrentTeam = x.Team.Name,
-                    Photo = x.Picture
+                    Photo = x.Picture,
+                    IsRetired = x.IsRetired
                 })
                 .ToListAsync();
             
@@ -161,6 +162,34 @@ namespace My_Transfermarkt_Core.Services
 
             return playersToClub;
         }
+
+        public async Task<List<ShowFootballerDetailsViewModel>> GetRetiredPlayers()
+        {
+           List<ShowFootballerDetailsViewModel> retired = await data
+                .Footballers
+                .Where(f=> f.IsRetired == true)
+                .Select(x=> new ShowFootballerDetailsViewModel()
+                {
+                    HighestValueDate = DateOnly.FromDateTime(x.HishestValueDate),
+                    Name = x.FirstName + " " + x.LastName,
+                    Country = x.Country.Name,
+                    PrefferedFoot = x.PreferedFoot.ToString(),
+                    Position = x.Position.ToString(),
+                    TeamsPlayed = x.TeamsPlayed,
+                    HighestValue = x.HighestValue.ToString(),
+                    CurrentValue = x.CurrentMarketValue.ToString(),
+                    Caps = x.InternationalCaps,
+                    CurrentTeam = x.Team.Name,
+                    Photo = x.Picture,
+                    IsRetired = x.IsRetired
+
+                })
+                .OrderByDescending(x=> x.Caps)
+                .ToListAsync ();
+            
+            return retired;
+        }
+
         /// <summary>
         /// Check if player already exists in database
         /// </summary>
@@ -201,7 +230,8 @@ namespace My_Transfermarkt_Core.Services
                     Id = n.Footballer.Id,
                     Foot = n.Footballer.PreferedFoot.ToString(),
                     Position = n.Footballer.Position.ToString(),
-                    Photo = n.Footballer.Picture
+                    Photo = n.Footballer.Picture,
+                    IsRetired = n.Footballer.IsRetired
                 })
                 .OrderBy(x=>x.Name)
                 .ToListAsync();
@@ -230,6 +260,15 @@ namespace My_Transfermarkt_Core.Services
             data.RemoveRange(result);
             await data.SaveChangesAsync();
         }
+
+        public async Task RetireFromFootball(int footballerId)
+        {
+            var findPlayer = await data.Footballers
+                .FirstAsync(f => f.Id == footballerId);
+            findPlayer.IsRetired = true;
+            await data.SaveChangesAsync();
+        }
+
         /// <summary>
         /// Update footballer
         /// </summary>

@@ -20,8 +20,6 @@ namespace My_Transfermarkt_Core.Models.TeamModels
         public IEnumerable<Country> Countries { get; set; } = new List<Country>();
 
         
-        public byte[]? Logo { get; set; }
-
         
         public int StadiumId { get; set; }
 
