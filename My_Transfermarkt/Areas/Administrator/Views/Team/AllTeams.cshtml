@@ -95,26 +95,26 @@ else
             @if (pager.TotalPages > 0)
             {
                 <ul class="pagination justify-content-end">
-                    @if (pager.CurrentPage > 1)
-                    {
-                        @for (var pge = pager.Startpage; pge <= pager.EndPage; pge++)
-                        {
-                            <li class="page-item @(pge == pager.CurrentPage ? "active": ")")">
-                                <a asp-controller="Team" asp-action="AllTeams" asp-route-pg="@pge">@pge</a>
-                            </li>
-
-                        }
-                        
-                    }
+                    
                     @for (int pge = pager.Startpage; pge <= pager.EndPage; pge++)
                     {
                         <li class="page-item @(pge == pager.CurrentPage ? "active": ")")">
                             <a class="page-link" asp-controller="Team" asp-action="AllTeams" asp-route-pg="@pge">@pge</a>
                         </li>
-
                     }
                 </ul>
+            }
+            @if (pager.TotalPages == 0)
+            {
+                <ul class="pagination justify-content-end">
 
+                    @for (int pge = pager.Startpage; pge <= pager.EndPage; pge++)
+                    {
+                        <li class="page-item @(pge == pager.CurrentPage ? "active": ")")">
+                            <a class="page-link" asp-controller="Team" asp-action="AllTeams" asp-route-pg="@pge">@pge</a>
+                        </li>
+                    }
+                </ul>
             }
         </div>
     </div>
