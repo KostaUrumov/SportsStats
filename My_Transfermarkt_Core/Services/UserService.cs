@@ -37,7 +37,7 @@ namespace My_Transfermarkt_Core.Services
         public async Task AddToRole(RegisterUserViewModel model)
         {
             var findUser = data.Users.First(x => x.UserName == model.Username);
-            if (findUser.UserName == "kostadin")
+            if (model.Role.ToString() == "Admin")
             {
                 await userManager.AddToRoleAsync((User)findUser, "Admin");
             }

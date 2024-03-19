@@ -1,0 +1,4 @@
+1.Correctness of  dates in footballer entity check
+2.Home view Team in grid layout
+3.Pagination for any total results we have
+4. Search Function

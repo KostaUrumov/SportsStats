@@ -104,6 +104,11 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(team);
             }
 
+            var isThereAlready = await teamService.IsAlreadyCreated(team);
+            if (isThereAlready == true)
+            {
+                return View(team);
+            }
             await teamService.SaveChangesAsync(team);
             return RedirectToAction(nameof(AllTeams));
         }

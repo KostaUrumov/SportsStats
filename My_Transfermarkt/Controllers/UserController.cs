@@ -20,12 +20,15 @@ namespace My_Transfermarkt.Controllers
 
         [HttpGet]
         public IActionResult Register()
-
         {
+            if (User.Identity.IsAuthenticated)
+            { 
+                return RedirectToAction("Index", "Home");
+            }
             RegisterUserViewModel model = new RegisterUserViewModel();
             model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Agent);
             model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.User);
-
+            model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Admin);
             return View(model);
         }
 
@@ -72,6 +75,10 @@ namespace My_Transfermarkt.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             LogInUserViewModel model = new LogInUserViewModel();
             return View(model);
         }

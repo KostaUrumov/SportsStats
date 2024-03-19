@@ -63,6 +63,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Edit(AddNewStadiumModel model)
         {
             if (!ModelState.IsValid)
