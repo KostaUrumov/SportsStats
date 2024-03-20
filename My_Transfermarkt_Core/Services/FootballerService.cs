@@ -3,7 +3,6 @@ using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Infastructure.DataModels;
-using System.Globalization;
 using Footballer = My_Transfermarkt_Infastructure.DataModels.Footballer;
 
 
@@ -17,6 +16,7 @@ namespace My_Transfermarkt_Core.Services
         {
             data = _data;
         }
+
         /// <summary>
         /// Add picture to a footballer
         /// </summary>
@@ -30,6 +30,7 @@ namespace My_Transfermarkt_Core.Services
             findFootballer.Picture = pictureData;
             await data.SaveChangesAsync();
         }
+
         /// <summary>
         /// Check if age of footballer is less than 40 years
         /// </summary>
@@ -46,6 +47,29 @@ namespace My_Transfermarkt_Core.Services
             return true;
 
         }
+
+        public bool CheckDatesCorrectness(SignFootballerToATeam model)
+        {
+            if (model.StartContractDate.Date < DateTime.UtcNow.Date)
+            {
+                return false;
+            }
+
+            
+            if (model.StartContractDate.AddMonths(6) > model.EndContractDate)
+            {
+                return false;
+            }
+
+            if ((model.EndContractDate.Year - model.StartContractDate.Year) > 5)
+            {
+                return false;
+            }
+
+            return true;
+            
+        }
+
         /// <summary>
         /// Create new footballer 
         /// </summary>
@@ -78,6 +102,7 @@ namespace My_Transfermarkt_Core.Services
             data.AddRange(newFootballer);
             await data.SaveChangesAsync();
         }
+
         /// <summary>
         /// Return details of a specific footballer and process it to view
         /// </summary>
@@ -110,6 +135,7 @@ namespace My_Transfermarkt_Core.Services
 
             return listed[0];
         }
+
         /// <summary>
         /// Search for spesific footballer entity
         /// </summary>
@@ -135,6 +161,7 @@ namespace My_Transfermarkt_Core.Services
             return result[0];
                 
         }
+
         /// <summary>
         /// Return all players listed currently in a given club
         /// </summary>
@@ -155,7 +182,8 @@ namespace My_Transfermarkt_Core.Services
                     Picture = x.Footballer.Picture,
                     StartContract = DateOnly.FromDateTime((DateTime)x.Footballer.StartDateContract),
                     EndContract = DateOnly.FromDateTime((DateTime)x.Footballer.EndDateContract),
-                    Team = x.Footballer.Team.Name
+                    Team = x.Footballer.Team.Name,
+                    InternationaCaps = x.Footballer.InternationalCaps
 
                 })
                 .ToListAsync();
@@ -208,6 +236,18 @@ namespace My_Transfermarkt_Core.Services
 
             return true;
         }
+
+        public async Task<bool> IsheSignedToAClub(int id)
+        {
+            var findFootballer = await data.Footballers.FirstOrDefaultAsync(x => x.Id == id);
+            if (findFootballer.TeamId == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Footballers of an Agent
         /// </summary>
@@ -238,6 +278,7 @@ namespace My_Transfermarkt_Core.Services
 
             return models;
         }
+
         /// <summary>
         /// Remove a player from current club
         /// </summary>
@@ -301,6 +342,7 @@ namespace My_Transfermarkt_Core.Services
 
             await data.SaveChangesAsync();
         }
+
         /// <summary>
         /// Sing a player to a club
         /// </summary>

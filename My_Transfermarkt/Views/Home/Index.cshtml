@@ -1,7 +1,33 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using My_Transfermarkt_Core.Models.TeamModels﻿
+@model List<ShowTeamModelView>
+
+@{
+    ViewData["Title"] = "Welcome";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h3>@ViewBag.Title</h3>
 </div>
+
+<div class="text-center row">
+    @foreach (var team in Model)
+    {
+        <div class="card col-4" style="width: 20rem;">
+            <div class="card-body, bg-primary text-white">
+                <p class="mb-0">Model: @team.Name</p>
+                <p class="mb-0">Manifacturer: @team.Country</p>
+                <p class="mb-0">Registered on: @team.Stadium</p>
+                    @if (team.Picture != null)
+                    {
+                        <img src="data:image;base64,@System.Convert.ToBase64String(@team.Picture)" width="40" height="40" />
+                        
+                    }
+                <p class="mb-0"> Click to see players
+                    <a asp-controller="Footballer" asp-action="GetAllPlayersForClub" asp-route-id="@team.Id" class="btn btn-warning">Players</a>
+                </p>
+                
+            </div>
+        </div>
+    }
+</div>
+

@@ -87,7 +87,19 @@ namespace My_Transfermarkt.Controllers
             {
                 return View(model);
             }
-            
+
+            var isPlayerAlreadySigned = await footballerService.IsheSignedToAClub(model.Id);
+            if (isPlayerAlreadySigned == true)
+            {
+                return RedirectToAction(nameof(MyFootballers));
+            }
+
+            var areDtaesCorrect = footballerService.CheckDatesCorrectness(model);
+            if (areDtaesCorrect == false)
+            {
+                model.Teams = await teamService.GetAllTeams();
+                return View(model);
+            }
             await footballerService.SignToClub(model);
             return RedirectToAction(nameof(MyFootballers));
         }
@@ -123,7 +135,7 @@ namespace My_Transfermarkt.Controllers
             return RedirectToAction(nameof(MyFootballers));
         }
 
-        [Authorize(Roles = "User")]
+        
         public async Task<IActionResult> GetAllPlayersForClub(int Id)
         {
             var listedPlayers = await footballerService.GetAllPLayersForClub(Id);

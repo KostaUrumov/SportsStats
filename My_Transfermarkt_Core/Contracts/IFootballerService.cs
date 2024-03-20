@@ -1,4 +1,5 @@
 ﻿using My_Transfermarkt_Core.Models.FootballerModels;
+using My_Transfermarkt_Core.Models.TeamModels;
 
 namespace My_Transfermarkt_Core.Contracts
 {
@@ -17,5 +18,8 @@ namespace My_Transfermarkt_Core.Contracts
         Task<ShowFootballerDetailsViewModel> Details(int playerId);
         Task RetireFromFootball(int footballerId);
         Task<List<ShowFootballerDetailsViewModel>> GetRetiredPlayers();
+        bool CheckDatesCorrectness(SignFootballerToATeam model);
+        Task<bool> IsheSignedToAClub(int id);
+
     }
 }

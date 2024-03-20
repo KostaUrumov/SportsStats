@@ -139,6 +139,43 @@ namespace My_Transfermarkt_Core.Services
             return teams;
             
         }
+
+        public async Task<List<ShowTeamModelView>> GetRandomListForHomePage()
+        {
+           List<ShowTeamModelView> result = new List<ShowTeamModelView>();
+           List<ShowTeamModelView> allTeams = await data
+                .Teams
+                .Select (x=> new ShowTeamModelView()
+                {
+                    Country = x.Country.Name,
+                    Name = x.Name,
+                    Stadium = x.Stadium.Name,
+                    Picture = x.Logo,
+                    Id = x.Id
+                })
+                .ToListAsync ();
+
+            Random random = new Random();
+
+            while(true) 
+            {
+                if (result.Count() == 8)
+                {
+                    break;
+                }
+                int teamIndex = random.Next(0, allTeams.Count());
+
+                if (result.Contains(allTeams[teamIndex]))
+                {
+                    continue;
+
+                }
+                result.Add(allTeams[teamIndex]);
+            }
+
+            return result;
+         }
+
         /// <summary>
         /// Checking if stadium exists in our database
         /// </summary>

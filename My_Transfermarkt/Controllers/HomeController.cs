@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt.Models;
+using My_Transfermarkt_Core.Contracts;
 using System.Diagnostics;
 
 namespace My_Transfermarkt.Controllers
@@ -7,13 +8,17 @@ namespace My_Transfermarkt.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ITeamService teamerService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            ITeamService team)
         {
             _logger = logger;
+            teamerService = team;
         }
 
-        public IActionResult Index()
+        public async Task< IActionResult> Index()
         {
             if (User.IsInRole("Admin"))
             {
@@ -27,7 +32,8 @@ namespace My_Transfermarkt.Controllers
             {
                 return RedirectToAction("AllTeams", "Team");
             }
-            return View();
+            var result = await teamerService.GetRandomListForHomePage();
+            return View(result);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

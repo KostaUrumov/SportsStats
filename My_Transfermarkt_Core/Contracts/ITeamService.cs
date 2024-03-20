@@ -14,6 +14,6 @@ namespace My_Transfermarkt_Core.Contracts
         Task<TeamToAddStadium> FindTeam(int teamId);
         Task AddToStadiumAsync(TeamToAddStadium model);
         Task<bool> IsAlreadyCreated(AddNewTeamModel team);
-
+        Task<List<ShowTeamModelView>> GetRandomListForHomePage();
     }
 }
