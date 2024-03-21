@@ -140,6 +140,9 @@ namespace My_Transfermarkt.Controllers
         {
             var listedPlayers = await footballerService.GetAllPLayersForClub(Id);
             var team = await teamService.FindTeam(Id);
+            if (team == null)
+            return View("Error404");
+
             ViewBag.TeamName = team.TeamName;
             return View(listedPlayers);
         }

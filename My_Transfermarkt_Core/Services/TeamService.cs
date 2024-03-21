@@ -73,6 +73,10 @@ namespace My_Transfermarkt_Core.Services
                     
                 })
                 .ToListAsync();
+            if (retutnModel.Count() == 0)
+            {
+                return null;
+            }
             return retutnModel[0];
         }
         /// <summary>
