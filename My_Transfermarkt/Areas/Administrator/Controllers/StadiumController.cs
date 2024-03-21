@@ -59,6 +59,10 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> Edit (int id)
         {
             var model = await stadiumService.FindToEdit(id);
+            if (model == null)
+            {
+                return View("Error404", new { area = "" });
+            }
             model.Countries = await countryService.GetAllCuntries();
             return View(model);
         }

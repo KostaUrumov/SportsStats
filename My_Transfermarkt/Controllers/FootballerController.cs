@@ -4,6 +4,7 @@ using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Infastructure.Enums;
 using System.Security.Claims;
+using Umbraco.Core;
 
 namespace My_Transfermarkt.Controllers
 {
@@ -30,6 +31,10 @@ namespace My_Transfermarkt.Controllers
         {
             var userId  = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var findFootballer = await footballerService.FindFootballer(id);
+            if (findFootballer == null)
+            {
+                return View("Error404");
+            }
             findFootballer.Countries = await countryService.GetAllCuntries();
             findFootballer.Teams = await teamService.GetAllTeams();
             findFootballer.Positions.Add(Position.Goalkeeper);
@@ -68,6 +73,9 @@ namespace My_Transfermarkt.Controllers
         [HttpGet]
         public async Task<IActionResult> SignToClub(int Id)
         {
+            var findFootballer = await footballerService.FindFootballer(Id);
+
+
             SignFootballerToATeam model = new SignFootballerToATeam
             {
                 Id = Id,
@@ -113,8 +121,13 @@ namespace My_Transfermarkt.Controllers
 
         [Authorize(Roles = "Agent")]
         [HttpGet]
-        public IActionResult UploadPicture(int Id)
+        public async Task< IActionResult> UploadPicture(int Id)
         {
+            var findFootballer = await footballerService.FindFootballer(Id);
+            if (findFootballer == null)
+            {
+                return View("Error404");
+            }
             return View(Id);
         }
 
@@ -141,8 +154,9 @@ namespace My_Transfermarkt.Controllers
             var listedPlayers = await footballerService.GetAllPLayersForClub(Id);
             var team = await teamService.FindTeam(Id);
             if (team == null)
-            return View("Error404");
-
+            {
+                return View("Error404");
+            }
             ViewBag.TeamName = team.TeamName;
             return View(listedPlayers);
         }
@@ -150,6 +164,12 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> Details (int Id)
         {
+            var findFootballer = await footballerService.FindFootballer(Id);
+            if (findFootballer == null)
+            {
+                return View("Error404");
+            }
+
             var result = await footballerService.Details(Id);
             return View(result);
         }
@@ -178,7 +198,24 @@ namespace My_Transfermarkt.Controllers
         [HttpPost]
         public async Task<IActionResult> SearchFootballersForCountry(SearchByCountryModel model)
         {
+            var isCountryIn = await countryService.FindCountryByname(model.Country);
+            if (isCountryIn == false)
+            {
+                ViewBag.comment = "No Such Country";
+                return View("Error404");
+            }
+
+
             var listetPlayers = await footballerService.GetAllPLayersForCountry(model.Country);
+            if (listetPlayers.Count == 0)
+            {
+                listetPlayers.Add(new ShowFootballerDetailsViewModel()
+                {
+                    Country = model.Country
+                });
+                ViewBag.comment = "No players for";
+                return View("Result", listetPlayers);
+            }
             return View("Result", listetPlayers);
         }
 

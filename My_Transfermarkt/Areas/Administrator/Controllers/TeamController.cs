@@ -65,8 +65,13 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
 
         [HttpGet]
-        public IActionResult UploadLogo(int Id)
+        public async Task <IActionResult> UploadLogo(int Id)
         {
+            var result = await teamService.FindTeamToBeEdited(Id);
+            if (result == null)
+            {
+                return View("Error404", new { area = "" });
+            }
             return View(Id);
         }
 
@@ -90,6 +95,10 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> Edit(int Id)
         {
             var result = await teamService.FindTeamToBeEdited(Id);
+            if (result == null)
+            {
+                return View("Error404", new { area = "" });
+            }
             result.Stadiums = await stadiumService.GetAllStadiums();
             result.Countries = await countryService.GetAllCuntries();
             result.Id = Id;
@@ -117,6 +126,10 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> AddStadium(int Id)
         {
             var team = await teamService.FindTeam(Id);
+            if (team == null)
+            {
+                return View("Error404", new { area = "" });
+            }
             team.Stadiums = await stadiumService.GetAllStadiums();
             return View(team);
         }

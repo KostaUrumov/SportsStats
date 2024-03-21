@@ -86,7 +86,11 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task<AddNewTeamModel> FindTeamToBeEdited(int id)
         {
-            var find = await data.Teams.FirstAsync(t => t.Id == id);
+            var find = await data.Teams.FirstOrDefaultAsync(t => t.Id == id);
+            if (find == null)
+            {
+                return null;
+            }
             AddNewTeamModel model;
             if (find.StadiumId == null)
             {
@@ -95,7 +99,6 @@ namespace My_Transfermarkt_Core.Services
                     Name = find.Name,
                     CountryId = find.CountryId,
                     Id = find.Id
-
                 };
             }
 
@@ -111,7 +114,6 @@ namespace My_Transfermarkt_Core.Services
                 };
 
             }
-            
 
             return model;
         }

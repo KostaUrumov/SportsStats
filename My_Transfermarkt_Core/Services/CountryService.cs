@@ -64,8 +64,24 @@ namespace My_Transfermarkt_Core.Services
                     Id = x.Id
                 })
                 .ToListAsync();
+            if (result.Count == 0)
+            {
+                return null;
+            }
             return result[0];
         }
+
+        public async Task<bool> FindCountryByname(string name)
+        {
+            var country = await data.Countries.FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
+            if (country == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// R%eturn all countries to fil List of countries where we need them to create new entity as Footballer or Stadium
         /// </summary>

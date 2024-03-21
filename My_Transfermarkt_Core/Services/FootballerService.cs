@@ -159,6 +159,10 @@ namespace My_Transfermarkt_Core.Services
                     Id = m.Id
                 })
                 .ToListAsync();
+            if (result.Count() == 0)
+            {
+                return null;
+            }
             return result[0];
                 
         }

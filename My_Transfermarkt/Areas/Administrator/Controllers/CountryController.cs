@@ -48,7 +48,12 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+
             AddNewCountryModel model = await countryService.FindCountry(id);
+            if (model == null)
+            {
+                return View("Error404", new { area = "" });
+            }
             return View(model);
         }
 

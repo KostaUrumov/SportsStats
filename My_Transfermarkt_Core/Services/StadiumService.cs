@@ -71,7 +71,11 @@ namespace My_Transfermarkt_Core.Services
         public async Task<AddNewStadiumModel> FindToEdit(int id)
         {
             var result = await data.Stadiums
-                .FirstAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (result == null)
+            {
+                return null;
+            }
             AddNewStadiumModel model = new AddNewStadiumModel()
             {
                 Build = result.Build,
