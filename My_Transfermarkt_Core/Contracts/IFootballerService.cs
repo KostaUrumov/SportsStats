@@ -15,11 +15,14 @@ namespace My_Transfermarkt_Core.Contracts
         Task Release(int Id);
         Task AddPictureToFootballer(byte[]pictureData, int Id);
         Task <List<ShowFootballerToClubModel>> GetAllPLayersForClub(int clubId);
+
+        Task<List<ShowFootballerDetailsViewModel>> GetAllPLayersForCountry(string countryName);
         Task<ShowFootballerDetailsViewModel> Details(int playerId);
         Task RetireFromFootball(int footballerId);
         Task<List<ShowFootballerDetailsViewModel>> GetRetiredPlayers();
         bool CheckDatesCorrectness(SignFootballerToATeam model);
         Task<bool> IsheSignedToAClub(int id);
+        
 
     }
 }

@@ -6,6 +6,7 @@ namespace My_Transfermarkt_Core.Models.FootballerModels
     {
         public string Name { get; set; } = null!;
         public string Country { get; set; } = null!;
+        public string Birthday { get; set; } = null!;
         public string PrefferedFoot { get; set; } = null!;
         public string Position { get; set; } = null!;
         public ICollection<Team >TeamsPlayed { get; set; } = null!;

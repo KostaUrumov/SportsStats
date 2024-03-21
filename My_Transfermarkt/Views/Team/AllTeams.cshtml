@@ -17,6 +17,7 @@
 
 <div class="text-center">
     <h3>Teams</h3>
+    <h3><a class="page-link" asp-controller="Footballer" asp-action="SearchFootballersForCountry">Find footballers by country</a></h3>
 </div>
 @if (Model.Count == 0)
 {
@@ -27,6 +28,8 @@
         <h5>Nothing found</h5>
     </div>
 }
+<div class="text-center">
+</div>
 else
 {
     <table class="table table-striped">

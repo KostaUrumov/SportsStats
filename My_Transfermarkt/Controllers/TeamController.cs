@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
+using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Core.Pagening;
 
 namespace My_Transfermarkt.Controllers
@@ -17,6 +18,8 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> AllTeams(int pg = 1)
         {
+            
+
             var listedTeams = await teamService.GetAllTeamsAvailable();
             const int pageSize = 9;
             if (pg < 1) pg = 1;
@@ -28,5 +31,7 @@ namespace My_Transfermarkt.Controllers
             this.ViewBag.Pager = pager;
             return View(data);
         }
+
+        
     }
 }

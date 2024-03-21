@@ -164,5 +164,24 @@ namespace My_Transfermarkt.Controllers
             var getRetiredPlayers = await footballerService.GetRetiredPlayers();
             return View(getRetiredPlayers);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchFootballersForCountry()
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchFootballersForCountry(SearchByCountryModel model)
+        {
+            var listetPlayers = await footballerService.GetAllPLayersForCountry(model.Country);
+            return View("Result", listetPlayers);
+        }
+
+        public IActionResult Result(List<ShowFootballerDetailsViewModel> listetPlayers)
+        {
+            return View(listetPlayers);
+        }
     }
 }

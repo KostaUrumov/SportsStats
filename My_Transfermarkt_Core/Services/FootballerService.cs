@@ -128,7 +128,8 @@ namespace My_Transfermarkt_Core.Services
                     Caps = x.InternationalCaps,
                     CurrentTeam = x.Team.Name,
                     Photo = x.Picture,
-                    IsRetired = x.IsRetired
+                    IsRetired = x.IsRetired,
+                    Birthday = x.BirthDay.ToString("MM/dd/yyyy"),
                 })
                 .ToListAsync();
             
@@ -189,6 +190,34 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
 
             return playersToClub;
+        }
+
+        public async Task<List<ShowFootballerDetailsViewModel>> GetAllPLayersForCountry(string countryName)
+        {
+            List<ShowFootballerDetailsViewModel> playersToCountry = await data
+                .Footballers
+                .Where(f => f.Country.Name.ToLower() == countryName.ToLower())
+                .Select(x => new ShowFootballerDetailsViewModel()
+                {
+                    HighestValueDate = DateOnly.FromDateTime(x.HishestValueDate),
+                    Name = x.FirstName + " " + x.LastName,
+                    Country = x.Country.Name,
+                    PrefferedFoot = x.PreferedFoot.ToString(),
+                    Position = x.Position.ToString(),
+                    TeamsPlayed = x.TeamsPlayed,
+                    HighestValue = x.HighestValue.ToString(),
+                    CurrentValue = x.CurrentMarketValue.ToString(),
+                    Caps = x.InternationalCaps,
+                    CurrentTeam = x.Team.Name,
+                    Photo = x.Picture,
+                    IsRetired = x.IsRetired,
+                    Birthday = x.BirthDay.ToString("MM/dd/yyyy"),
+
+                })
+                .ToListAsync();
+
+            return playersToCountry;
+
         }
 
         public async Task<List<ShowFootballerDetailsViewModel>> GetRetiredPlayers()

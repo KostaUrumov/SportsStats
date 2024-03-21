@@ -1,0 +1,101 @@
+﻿@model List<ShowFootballerDetailsViewModel>
+@{
+    ViewData["Title"] = "Result";
+}
+
+<div class="text-center">
+    <h3>@Model[0].Country players</h3>
+</div>
+
+
+<table class="table">
+
+    <th scope="col">Name</th>
+    <th scope="col">Bitrhday</th>
+    <th scope="col">Country</th>
+    <th scope="col">International Caps</th>
+    <th scope="col">Current team</th>
+    <th scope="col">Teams played</th>
+    <th scope="col">Current Value</th>
+    <th scope="col">Highest Value</th>
+    <th scope="col">Highest Value date</th>
+    <th scope="col">Position</th>
+    <th scope="col">Preffered foot</th>
+    <th scope="col">Picture</th>
+
+
+    @foreach (var footballer in Model)
+    {
+
+
+        <tr>
+            <td>@footballer.Name</td>
+            <td>@footballer.Birthday</td>
+            <td>@footballer.Country</td>
+            <td>@footballer.Caps</td>
+            <td>
+                @if (@footballer.CurrentTeam == null && footballer.IsRetired == false)
+                {
+                    <p>No club</p>
+                }
+                else if (@footballer.IsRetired == false)
+                {
+                    @footballer.CurrentTeam
+                }
+                else
+                {
+                    <p>Retired</p>
+                }
+            </td>
+            <td>
+                @if (@footballer.TeamsPlayed.Count() == 0)
+                {
+                    <p>No prevous teams played</p>
+                }
+
+                else
+                {
+                    @foreach (var team in @footballer.TeamsPlayed)
+                    {
+                        <p>@team.Name.ToString()</p>
+                    }
+                }
+
+            </td>
+            <td>
+                @if (@footballer.IsRetired == false)
+                {
+                    @footballer.CurrentValue
+
+                }
+                else
+                {
+                    <p>Retired</p>
+                }
+
+            </td>
+            <td>@footballer.HighestValue</td>
+            <td>@footballer.HighestValueDate</td>
+            <td>@footballer.Position</td>
+            <td>@footballer.PrefferedFoot</td>
+            <td>
+                @if (footballer.Photo == null)
+                {
+                    <p>No picture </p>
+                }
+                else
+                {
+                    <img src="data:image;base64,@System.Convert.ToBase64String(footballer.Photo)" width="40" height="40" />
+                }
+
+            </td>
+
+
+        </tr>
+    }
+
+
+    </tbody>
+
+
+
