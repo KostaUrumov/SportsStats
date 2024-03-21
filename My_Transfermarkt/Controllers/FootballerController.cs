@@ -207,12 +207,14 @@ namespace My_Transfermarkt.Controllers
 
 
             var listetPlayers = await footballerService.GetAllPLayersForCountry(model.Country);
+            model.Country = (char.ToUpper(model.Country[0]) + model.Country.Substring(1));
             if (listetPlayers.Count == 0)
             {
                 listetPlayers.Add(new ShowFootballerDetailsViewModel()
                 {
                     Country = model.Country
                 });
+
                 ViewBag.comment = "No players for";
                 return View("Result", listetPlayers);
             }
