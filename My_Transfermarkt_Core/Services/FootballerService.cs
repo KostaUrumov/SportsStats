@@ -31,6 +31,34 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
+        public async Task<List<AllFootballersViewModel>> AllFootballers()
+        {
+            List<AllFootballersViewModel> all = await data
+                .Footballers
+                .Select(f=> new AllFootballersViewModel()
+                {
+                    HighestValueDate = DateOnly.FromDateTime(f.HishestValueDate),
+                    Name = f.FirstName + " " + f.LastName,
+                    Country = f.Country.Name,
+                    PrefferedFoot = f.PreferedFoot.ToString(),
+                    Position = f.Position.ToString(),
+                    TeamsPlayed = f.TeamsPlayed,
+                    HighestValue = f.HighestValue.ToString(),
+                    CurrentValue = f.CurrentMarketValue.ToString(),
+                    Caps = f.InternationalCaps,
+                    CurrentTeam = f.Team.Name,
+                    Photo = f.Picture,
+                    IsRetired = f.IsRetired,
+                    Birthday = f.BirthDay.ToString("MM/dd/yyyy"),
+                    Agent = f.Agent.User.FirstName +" "+ f.Agent.User.LastName
+
+                })
+                .OrderByDescending(x=> x.Name)
+                .ToListAsync();
+
+            return all;
+        }
+
         /// <summary>
         /// Check if age of footballer is less than 40 years
         /// </summary>

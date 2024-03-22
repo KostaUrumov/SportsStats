@@ -22,7 +22,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task<List<ShowFootballerDetailsViewModel>> GetRetiredPlayers();
         bool CheckDatesCorrectness(SignFootballerToATeam model);
         Task<bool> IsheSignedToAClub(int id);
-        
 
+        Task<List<AllFootballersViewModel>> AllFootballers();
     }
 }

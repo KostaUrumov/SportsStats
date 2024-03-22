@@ -71,15 +71,15 @@ namespace My_Transfermarkt_Core.Services
             return result[0];
         }
 
-        public async Task<bool> FindCountryByname(string name)
+        public async Task<string> FindCountryByname(string name)
         {
-            var country = await data.Countries.FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
+            var country = await data.Countries.FirstOrDefaultAsync(c => c.Name.ToLower().Contains(name.ToLower()));
             if (country == null)
             {
-                return false;
+                return null;
             }
 
-            return true;
+            return country.Name;
         }
 
         /// <summary>

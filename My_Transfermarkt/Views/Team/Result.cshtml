@@ -1,23 +1,20 @@
-﻿@using My_Transfermarkt_Core.Models.TeamModels
-@using My_Transfermarkt_Core.Pagening
-@model List<ShowTeamModelView>
-@{
-    Pager pager = new Pager();
-    int pageNo = 0;
-    if (ViewBag.Pager != null)
-    {
-        pager = ViewBag.Pager;
-        pageNo = pager.CurrentPage;
-
-    }
-}
+﻿@model List<ShowTeamModelView>
 @{
     ViewData["Title"] = "Result";
 }
+@if (@Model[0].Name == null)
+{
+    <div class="text-center">
+        <h3>@ViewBag.comment @Model[0].Country</h3>
+    </div>
+ 
+}
+
+else
+{
 
 <div class="text-center">
-    <h3>Teams</h3>
-    <h3><a class="page-link" asp-controller="Team" asp-action="SearchTeamsForCountry">Find Teams by Country</a></h3>
+    <h3>Teams from @Model[0].Country</h3>
 </div>
 @if (Model.Count == 0)
 {
@@ -78,38 +75,12 @@
                 <td>
                     <a asp-controller="Footballer" asp-action="GetAllPlayersForClub" asp-route-id="@Model[i].Id" class="btn btn-warning">Players</a>
                 </td>
-
-
             </tr>
         </tbody>
 
     }
 </table>
-<div class="container">
-    @if (pager.TotalPages > 0)
-    {
-        <ul class="pagination justify-content-end">
+}
 
-            @for (int pge = pager.Startpage; pge <= pager.EndPage; pge++)
-            {
-                <li class="page-item @(pge == pager.CurrentPage ? "active": ")")">
-                    <a class="page-link" asp-controller="Team" asp-action="AllTeams" asp-route-pg="@pge">@pge</a>
-                </li>
-            }
-        </ul>
-    }
-    @if (pager.TotalPages == 0)
-    {
-        <ul class="pagination justify-content-end">
-
-            @for (int pge = pager.Startpage; pge <= pager.EndPage; pge++)
-            {
-                <li class="page-item @(pge == pager.CurrentPage ? "active": ")")">
-                    <a class="page-link" asp-controller="Team" asp-action="AllTeams" asp-route-pg="@pge">@pge</a>
-                </li>
-            }
-        </ul>
-    }
-</div>
 
 

@@ -188,6 +188,12 @@ namespace My_Transfermarkt.Controllers
             return View(getRetiredPlayers);
         }
 
+        public async Task<IActionResult> GetAllFootballers()
+        {
+            var result = await footballerService.AllFootballers();
+            return View(result);
+        }
+
         [HttpGet]
         public async Task<IActionResult> SearchFootballersForCountry()
         {
@@ -198,8 +204,14 @@ namespace My_Transfermarkt.Controllers
         [HttpPost]
         public async Task<IActionResult> SearchFootballersForCountry(SearchByCountryModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View (model);
+            }
+
+
             var isCountryIn = await countryService.FindCountryByname(model.Country);
-            if (isCountryIn == false)
+            if (isCountryIn == null)
             {
                 ViewBag.comment = "No Such Country";
                 return View("Error404");
@@ -207,12 +219,12 @@ namespace My_Transfermarkt.Controllers
 
 
             var listetPlayers = await footballerService.GetAllPLayersForCountry(model.Country);
-            model.Country = (char.ToUpper(model.Country[0]) + model.Country.Substring(1));
+            //model.Country = (char.ToUpper(model.Country[0]) + model.Country.Substring(1));
             if (listetPlayers.Count == 0)
             {
                 listetPlayers.Add(new ShowFootballerDetailsViewModel()
                 {
-                    Country = model.Country
+                    Country = isCountryIn
                 });
 
                 ViewBag.comment = "No players for";

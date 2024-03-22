@@ -79,6 +79,27 @@ namespace My_Transfermarkt_Core.Services
             }
             return retutnModel[0];
         }
+
+        public async Task<List<ShowTeamModelView>> FindTeamByCountry(string country)
+        {
+            var countryName = await data.Countries.FirstAsync(x => x.Name.ToLower().Contains(country.ToLower()));
+            List<ShowTeamModelView> listed = await data.Teams
+                .Where(x=> x.Country.Name.ToLower().Contains(country.ToLower()))
+                .Select(x=> new ShowTeamModelView()
+                {
+                    Country = x.Country.Name,
+                    Name = x.Name,
+                    Stadium = x.Stadium.Name,
+                    Picture = x.Logo,
+                    Id = x.Id
+                })
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+            
+            return listed;
+            
+        }
+
         /// <summary>
         /// Return searched team to be edited
         /// </summary>
@@ -141,6 +162,7 @@ namespace My_Transfermarkt_Core.Services
                     Picture = x.Logo,
                     Id = x.Id
                 })
+                .OrderBy(x => x.Name)
                 .ToListAsync();
             return teams;
             

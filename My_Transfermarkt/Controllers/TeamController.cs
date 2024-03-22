@@ -9,10 +9,14 @@ namespace My_Transfermarkt.Controllers
     public class TeamController : Controller
     {
         private readonly ITeamService teamService;
+        private readonly ICountryService countryService;
 
-        public TeamController(ITeamService _team)
+        public TeamController(
+            ITeamService _team, 
+            ICountryService _countryService)
         {
             teamService = _team;
+            countryService = _countryService;
         }
 
         [Authorize(Roles = "User")]
@@ -32,6 +36,48 @@ namespace My_Transfermarkt.Controllers
             return View(data);
         }
 
-        
+        [HttpGet]
+        public async Task<IActionResult> SearchTeamsForCountry()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchTeamsForCountry(SearchCountry model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var isCountryIn = await countryService.FindCountryByname(model.Country);
+            if (isCountryIn == null)
+            {
+                ViewBag.comment = "No Such Country";
+                return View("Error404");
+            }
+
+            var listedTeams = await teamService.FindTeamByCountry(model.Country);
+            //model.Country = (char.ToUpper(model.Country[0]) + model.Country.Substring(1));
+            if (listedTeams.Count == 0)
+            {
+                ShowTeamModelView newModel = new ShowTeamModelView()
+                {
+                    Country = isCountryIn
+                };
+                ViewBag.comment = "No teams listed from ";
+                listedTeams.Add(newModel);
+                return View(nameof(Result), listedTeams);
+            }
+
+            return View(nameof(Result), listedTeams);
+        }
+
+        public IActionResult Result(List<ShowTeamModelView> listedTeams)
+        {
+            return View(listedTeams);
+        }
+
+
     }
 }
