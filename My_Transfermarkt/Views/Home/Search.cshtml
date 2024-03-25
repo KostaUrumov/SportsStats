@@ -1,0 +1,23 @@
+﻿@using My_Transfermarkt_Core.Models.GeneralModels
+@model SearchViewModel
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="" method="post">
+            <hr />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.Search" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="@Model.Search"></label>
+                <span asp-validation-for="@Model.Search" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Search</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

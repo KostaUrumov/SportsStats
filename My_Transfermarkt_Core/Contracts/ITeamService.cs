@@ -1,4 +1,5 @@
-﻿using My_Transfermarkt_Core.Models.TeamModels;
+﻿using My_Transfermarkt_Core.Models.GeneralModels;
+using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt_Core.Contracts
@@ -16,5 +17,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task<bool> IsAlreadyCreated(AddNewTeamModel team);
         Task<List<ShowTeamModelView>> GetRandomListForHomePage();
         Task<List<ShowTeamModelView>> FindTeamByCountry(string country);
+
+        Task<List<ResultsViewModel>> FindTeams(string name);
     }
 }

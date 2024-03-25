@@ -2,6 +2,7 @@
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
+using My_Transfermarkt_Core.Models.GeneralModels;
 using My_Transfermarkt_Infastructure.DataModels;
 using Footballer = My_Transfermarkt_Infastructure.DataModels.Footballer;
 
@@ -193,6 +194,23 @@ namespace My_Transfermarkt_Core.Services
             }
             return result[0];
                 
+        }
+
+        public async Task<List<ResultsViewModel>> FindFootballers(string search)
+        {
+            List<ResultsViewModel> results = await data
+                .Footballers
+                .Where(x => (x.FirstName + " " + x.LastName).ToLower().Contains(search.ToLower()))
+                .Select(x => new ResultsViewModel()
+                {
+                    Name = x.FirstName + " " + x.LastName,
+                    Type = "Footballer",
+                    Id = x.Id
+                })
+                .ToListAsync();
+
+            return results;
+            
         }
 
         /// <summary>

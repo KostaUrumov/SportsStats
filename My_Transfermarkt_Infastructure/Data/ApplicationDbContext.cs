@@ -41,6 +41,7 @@ namespace My_Transfermarkt.Data
             builder.ApplyConfiguration(new CountryEntityConfiguration());
             builder.ApplyConfiguration(new TeamEntityConfiguration());
 
+
             base.OnModelCreating(builder);
         }
 

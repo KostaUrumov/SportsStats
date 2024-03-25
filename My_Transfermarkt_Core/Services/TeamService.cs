@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
+using My_Transfermarkt_Core.Models.GeneralModels;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Infastructure.DataModels;
 
@@ -98,6 +99,22 @@ namespace My_Transfermarkt_Core.Services
             
             return listed;
             
+        }
+
+        public async Task<List<ResultsViewModel>> FindTeams(string name)
+        {
+            List<ResultsViewModel> searched = await data
+                .Teams
+                .Where(x => x.Name.ToLower().Contains(name.ToLower()))
+                .Select(x => new ResultsViewModel()
+                {
+                    Name = x.Name,
+                    Type = "Team",
+                    Id = x.Id
+
+                })
+                .ToListAsync();
+            return searched;
         }
 
         /// <summary>

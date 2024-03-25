@@ -52,21 +52,21 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "acff52ae-28da-4423-86db-62110806a15a",
+                            ConcurrencyStamp = "0d216ca0-9602-4f34-af30-affc9d128684",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c93174e-3b0e-446f-86af-883d56fr7210",
-                            ConcurrencyStamp = "d9fa4937-3678-4b09-a8ac-3c725978b4ba",
+                            ConcurrencyStamp = "11456e80-c2a6-4454-9327-7cc577df4387",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "4t67567e-5f7e-446f-88fa-441f56fr8700",
-                            ConcurrencyStamp = "a108a405-0646-4b56-ab3d-dd5242911994",
+                            ConcurrencyStamp = "16849357-6eac-46d3-98c4-d870d35ac9cb",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -1795,6 +1795,104 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Stadiums");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 18082,
+                            CountryId = 34,
+                            Name = "Hristo Botev"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 14082,
+                            CountryId = 34,
+                            Name = "Vivakom Arena"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 73139,
+                            CountryId = 31,
+                            Name = "Maracana"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 62276,
+                            CountryId = 230,
+                            Name = "Anfield"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 74813,
+                            CountryId = 230,
+                            Name = "Old Trafford"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 62813,
+                            CountryId = 230,
+                            Name = "Tottenham Hotspur Stadium"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 99354,
+                            CountryId = 204,
+                            Name = "Camp Nou"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 70460,
+                            CountryId = 204,
+                            Name = "Metropolitano"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 81044,
+                            CountryId = 204,
+                            Name = "Bernabeu"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 74667,
+                            CountryId = 80,
+                            Name = "Olympiastadion"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 75024,
+                            CountryId = 80,
+                            Name = "Alianz Arena"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Build = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 62271,
+                            CountryId = 80,
+                            Name = "Schalke Arena"
+                        });
                 });
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Team", b =>

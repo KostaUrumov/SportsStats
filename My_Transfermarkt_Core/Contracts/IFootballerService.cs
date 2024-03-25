@@ -1,4 +1,6 @@
-﻿using My_Transfermarkt_Core.Models.FootballerModels;
+﻿using Microsoft.AspNetCore.Http;
+using My_Transfermarkt_Core.Models.FootballerModels;
+using My_Transfermarkt_Core.Models.GeneralModels;
 using My_Transfermarkt_Core.Models.TeamModels;
 
 namespace My_Transfermarkt_Core.Contracts
@@ -22,7 +24,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task<List<ShowFootballerDetailsViewModel>> GetRetiredPlayers();
         bool CheckDatesCorrectness(SignFootballerToATeam model);
         Task<bool> IsheSignedToAClub(int id);
-
         Task<List<AllFootballersViewModel>> AllFootballers();
+        Task<List<ResultsViewModel>> FindFootballers(string search);
     }
 }
