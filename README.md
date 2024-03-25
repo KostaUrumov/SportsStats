@@ -3,7 +3,7 @@
 Application is orginzed to work with three types of roles: Admin, User and Agent
 
 Main responsibilities for admin is access and edit data for entities Countries, Stadiums and Teams.
-Data for Countries, Stadiums and Teams has been seeded by reading Json files, but Administartors can also update it if needed.
+Data for Countries and Teams has been seeded by reading Json files, but Administartors can also update it if needed.
 
 Agents are responsible to add and Edit players detail. They are king of owners of the Footballers. Also they are authorized to sign players with different teams or retire them.
 
