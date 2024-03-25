@@ -12,8 +12,8 @@ using My_Transfermarkt.Data;
 namespace My_Transfermarkt_Infastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240318134205_seedTeams")]
-    partial class seedTeams
+    [Migration("20240325202026_one")]
+    partial class one
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,21 +54,21 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "acff52ae-28da-4423-86db-62110806a15a",
+                            ConcurrencyStamp = "2833f63e-c8a3-4c4f-81d9-c18fce68b6cc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c93174e-3b0e-446f-86af-883d56fr7210",
-                            ConcurrencyStamp = "d9fa4937-3678-4b09-a8ac-3c725978b4ba",
+                            ConcurrencyStamp = "4c81fda3-2dfb-4a95-8c71-8cdeb34e02bd",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "4t67567e-5f7e-446f-88fa-441f56fr8700",
-                            ConcurrencyStamp = "a108a405-0646-4b56-ab3d-dd5242911994",
+                            ConcurrencyStamp = "ae901259-d75f-4948-a456-e28e0d34cf6e",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -1797,6 +1797,72 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Stadiums");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Build = new DateTime(1999, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 19999,
+                            CountryId = 5,
+                            Name = "New Anfield"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Build = new DateTime(1899, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 33999,
+                            CountryId = 77,
+                            Name = "Arena Koblenz"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Build = new DateTime(1999, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 75024,
+                            CountryId = 80,
+                            Name = "Alianz Arena"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Build = new DateTime(1934, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 74667,
+                            CountryId = 77,
+                            Name = "Olympiastadion"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Build = new DateTime(1969, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 24310,
+                            CountryId = 80,
+                            Name = "Bochum Arena"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Build = new DateTime(1977, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 33979,
+                            CountryId = 77,
+                            Name = "Arena Diesel"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Build = new DateTime(1948, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 51024,
+                            CountryId = 80,
+                            Name = "Solna Arena"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Build = new DateTime(1947, 5, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Capacity = 74667,
+                            CountryId = 77,
+                            Name = "Old Trafford"
+                        });
                 });
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Team", b =>

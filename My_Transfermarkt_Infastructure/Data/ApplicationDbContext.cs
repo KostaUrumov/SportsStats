@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt_Infastructure.Config;
 using My_Transfermarkt_Infastructure.DataModels;
-using My_Transfermarkt_Infastructure.Migrations;
 
 namespace My_Transfermarkt.Data
 {
@@ -41,6 +40,18 @@ namespace My_Transfermarkt.Data
             builder.ApplyConfiguration(new CountryEntityConfiguration());
             builder.ApplyConfiguration(new TeamEntityConfiguration());
 
+            builder.Entity<My_Transfermarkt_Infastructure.DataModels.Stadium>()
+                .HasData(
+                    new My_Transfermarkt_Infastructure.DataModels.Stadium { Id = 1, CountryId = 5, Build = DateTime.Parse("1999/01/01"), Capacity = 19999, Name = "New Anfield" },
+                    new My_Transfermarkt_Infastructure.DataModels.Stadium { Id = 2, CountryId = 77, Build = DateTime.Parse("1899/01/01"), Capacity = 33999, Name = "Arena Koblenz" },
+                    new My_Transfermarkt_Infastructure.DataModels.Stadium { Id = 3, CountryId = 80, Build = DateTime.Parse("1999/01/01"), Capacity = 75024, Name = "Alianz Arena" },
+                    new My_Transfermarkt_Infastructure.DataModels.Stadium { Id = 4, CountryId = 77, Build = DateTime.Parse("1934/08/06"), Capacity = 74667, Name = "Olympiastadion" },
+                    new My_Transfermarkt_Infastructure.DataModels.Stadium { Id = 5, CountryId = 80, Build = DateTime.Parse("1969/10/06"), Capacity = 24310, Name = "Bochum Arena" },
+                    new My_Transfermarkt_Infastructure.DataModels.Stadium { Id = 6, CountryId = 77, Build = DateTime.Parse("1977/01/01"), Capacity = 33979, Name = "Arena Diesel" },
+                    new My_Transfermarkt_Infastructure.DataModels.Stadium { Id = 7, CountryId = 80, Build = DateTime.Parse("1948/01/01"), Capacity = 51024, Name = "Solna Arena" },
+                    new My_Transfermarkt_Infastructure.DataModels.Stadium { Id = 8, CountryId = 77, Build = DateTime.Parse("1947/05/09"), Capacity = 74667, Name = "Old Trafford" }
+                );
+
 
             base.OnModelCreating(builder);
         }
@@ -49,7 +60,7 @@ namespace My_Transfermarkt.Data
         public DbSet<AgentsFootballers> AgentsFootballers { get; set; } = null!;
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Footballer> Footballers { get; set; } = null!;
-        public DbSet<Stadium> Stadiums { get; set; } = null!;
+        public DbSet<My_Transfermarkt_Infastructure.DataModels.Stadium> Stadiums { get; set; } = null!;
         public DbSet<Team> Teams { get; set; } = null!;
         public DbSet<TeamsFootballers> TeamsFootballers { get; set; } = null!;
     }
