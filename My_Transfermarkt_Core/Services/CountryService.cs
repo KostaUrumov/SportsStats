@@ -2,6 +2,7 @@
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.CountryModels;
+using My_Transfermarkt_Core.Models.GeneralModels;
 using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt_Core.Services
@@ -47,6 +48,22 @@ namespace My_Transfermarkt_Core.Services
 
             return result;
         }
+
+        public async Task<List<ResultsViewModel>> FindCountries(string name)
+        {
+            var found = await data
+                .Countries
+                .Where(x => x.Name.ToLower().Contains(name.ToLower()))
+                .Select(c => new ResultsViewModel()
+                {
+                    Name = c.Name,
+                    Id = c.Id,
+                    Type = "Stadium"
+                })
+                .ToListAsync();
+            return found;
+        }
+
         /// <summary>
         /// Find specific country
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
+using My_Transfermarkt_Core.Models.GeneralModels;
 using My_Transfermarkt_Core.Models.StadiumModels;
 using My_Transfermarkt_Infastructure.DataModels;
 
@@ -138,6 +139,21 @@ namespace My_Transfermarkt_Core.Services
             }
 
             return true;
+        }
+
+        public async Task<List<ResultsViewModel>> FindStadiums(string name)
+        {
+            var result = await data
+                .Stadiums
+                .Where(x => x.Name.ToLower().Contains(name.ToLower()))
+                .Select(x => new ResultsViewModel()
+                {
+                    Name = x.Name,
+                    Id = x.Id,
+                    Type = "Stadium"
+                })
+                .ToListAsync();
+            return result;
         }
     }
 }

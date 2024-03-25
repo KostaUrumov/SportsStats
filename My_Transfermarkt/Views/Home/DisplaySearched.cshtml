@@ -1,5 +1,6 @@
 ﻿@using My_Transfermarkt_Core.Models.GeneralModels
 @model List<ResultsViewModel>
+
 @if (Model.Count == 0)
 {
     <div class="text-center">
@@ -62,6 +63,54 @@
         }
     }
 </table>
+<div class="text center">Stadiums</div>
+<table class="table">
+
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        @if (Model[i].Type == "Stadium")
+        {
+
+            <body>
+            <tr>
+                <td>@Model[i].Name</td>
+            </tr>
+            </body>
+        }
+    }
+</table>
+
+<div class="text center">Countries</div>
+<table class="table">
+    
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    
+    @for (int i = 0; i < Model.Count; i++)
+   
+        @if (Model[i].Type == "Country")
+        {
+          
+
+            <body>
+            <tr>
+                <td>@Model[i].Name</td>
+            </tr>
+            </body>
+        }
+    }
+</table>
+
+
 
 
 

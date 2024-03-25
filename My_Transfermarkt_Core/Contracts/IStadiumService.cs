@@ -1,4 +1,5 @@
-﻿using My_Transfermarkt_Core.Models.StadiumModels;
+﻿using My_Transfermarkt_Core.Models.GeneralModels;
+using My_Transfermarkt_Core.Models.StadiumModels;
 using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt_Core.Contracts
@@ -12,7 +13,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task SaveChangesAsync(AddNewStadiumModel model);
         Task RemoveStadium(int stadiumId);
         Task<bool> IsStadiumAlreadyIn(AddNewStadiumModel model);
-
+        Task<List<ResultsViewModel>> FindStadiums(string name);
 
     }
 }
