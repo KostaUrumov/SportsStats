@@ -1,7 +1,7 @@
 # My_Transfermarkt is a small project for accessing and uploading data for football players and teams.
 
 Application is orginzed to work with three types of roles: Admin, User and Agent
-When registering a new user can be selected what role will be your role.
+
 Main responsibilities for admin is access and edit data for entities Countries, Stadiums and Teams.
 Data for Countries, Stadiums and Teams has been seeded by reading Json files, but Administartors can also update it if needed.
 
