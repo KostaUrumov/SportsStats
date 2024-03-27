@@ -9,4 +9,4 @@ Agents are responsible to add and Edit players detail. They are king of owners o
 
 Users can not enter or edit any data. They can see what teams and footballers are listed filter them by country and view some details for them. Also teams or players can be added in their watchlist.
 
-Unregistered user also can only access data but different views are limited for them.
+Unregistered user also can only see home page with random 10 teams display.
