@@ -51,7 +51,8 @@ namespace My_Transfermarkt_Core.Services
                     Photo = f.Picture,
                     IsRetired = f.IsRetired,
                     Birthday = f.BirthDay.ToString("MM/dd/yyyy"),
-                    Agent = f.Agent.User.FirstName +" "+ f.Agent.User.LastName
+                    Agent = f.Agent.User.FirstName +" "+ f.Agent.User.LastName,
+                    Id= f.Id,
 
                 })
                 .OrderByDescending(x=> x.Name)

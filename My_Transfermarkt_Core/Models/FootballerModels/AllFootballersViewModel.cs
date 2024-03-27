@@ -3,5 +3,6 @@
     public class AllFootballersViewModel: ShowFootballerDetailsViewModel
     {
         public string Agent { get; set; } = null!;
+        public int Id { get; set; }
     }
 }
