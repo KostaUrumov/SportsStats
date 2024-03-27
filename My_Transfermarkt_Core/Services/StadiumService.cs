@@ -15,6 +15,7 @@ namespace My_Transfermarkt_Core.Services
         {
             data = _data;
         }
+
         /// <summary>
         /// Cteate new stadium entity
         /// </summary>
@@ -33,6 +34,7 @@ namespace My_Transfermarkt_Core.Services
             data.AddRange(newStadium);
             await data.SaveChangesAsync();
         }
+
         /// <summary>
         /// Return all stadiums in database to proceed to a view
         /// </summary>
@@ -66,6 +68,7 @@ namespace My_Transfermarkt_Core.Services
 
             return allStadiums;
         }
+
         /// <summary>
         /// Return all stadiums to list to be selected when adding a new team
         /// </summary>
@@ -76,6 +79,7 @@ namespace My_Transfermarkt_Core.Services
                 .OrderBy(x => x.Name)
                 .ToListAsync();
         }
+
         /// <summary>
         /// Find stadium to be edited
         /// </summary>
@@ -100,6 +104,7 @@ namespace My_Transfermarkt_Core.Services
 
             return model;
         }
+
         /// <summary>
         /// Save changes to a stadium
         /// </summary>
@@ -116,6 +121,7 @@ namespace My_Transfermarkt_Core.Services
 
             await data.SaveChangesAsync();
         }
+
         /// <summary>
         /// Remove stadium from database
         /// </summary>
@@ -137,6 +143,7 @@ namespace My_Transfermarkt_Core.Services
 
             await data.SaveChangesAsync();
         }
+
         /// <summary>
         /// Check if stadium already exists
         /// </summary>

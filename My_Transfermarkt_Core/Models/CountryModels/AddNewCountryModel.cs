@@ -14,7 +14,7 @@ namespace My_Transfermarkt_Core.Models.CountryModels
         public string Name { get; set; } = null!;
 
         [Required]
-        [RegularExpression(DataConstraints.Country.ShortName, ErrorMessage = "Example: BUL")]
+        [RegularExpression(DataConstraints.Country.ShortName, ErrorMessage = "Example: BU")]
         public string ShortName { get; set; } = null!;
     }
 }

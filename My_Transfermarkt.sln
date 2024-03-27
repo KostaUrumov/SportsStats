@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "My_Transfermarkt_Core", "My
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A26D5212-70FB-46F6-903B-4ACBBFC8D813}"
 	ProjectSection(SolutionItems) = preProject
-		TextFile1.txt = TextFile1.txt
+		TextFile.txt = TextFile.txt
 	EndProjectSection
 EndProject
 Global

@@ -41,6 +41,9 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             var isStadiumAlreadyIn = await stadiumService.IsStadiumAlreadyIn(stadium);
             if (isStadiumAlreadyIn == true)
             {
+                ViewBag.Comment = "Stadium Already Exist";
+                stadium.Countries = await countryService.GetAllCuntries();
+                stadium.Build = DateTime.Parse("1980-01-01 12:00", CultureInfo.InvariantCulture);
                 return View(stadium);
             }
 
@@ -76,6 +79,9 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             var isStadiumAlreadyIn = await stadiumService.IsStadiumAlreadyIn(model);
             if (isStadiumAlreadyIn == true)
             {
+                ViewBag.Comment = "Stadium Already Exist";
+                model.Countries = await countryService.GetAllCuntries();
+                model.Build = DateTime.Parse("1980-01-01 12:00", CultureInfo.InvariantCulture);
                 return View(model);
             }
             await stadiumService.SaveChangesAsync(model);

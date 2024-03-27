@@ -43,6 +43,9 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             var isThereAlready = await teamService.IsAlreadyCreated(team);
             if (isThereAlready == true)
             {
+                ViewBag.Comment = "Team Already Exists";
+                team.Countries = await countryService.GetAllCuntries();
+                team.Stadiums = await stadiumService.GetAllStadiums();
                 return View(team);
             }
 
@@ -116,6 +119,9 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             var isThereAlready = await teamService.IsAlreadyCreated(team);
             if (isThereAlready == true)
             {
+                ViewBag.Comment = "Team Already Exists";
+                team.Countries = await countryService.GetAllCuntries();
+                team.Stadiums = await stadiumService.GetAllStadiums();
                 return View(team);
             }
             await teamService.SaveChangesAsync(team);

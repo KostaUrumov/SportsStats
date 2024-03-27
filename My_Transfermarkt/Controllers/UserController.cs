@@ -48,14 +48,16 @@ namespace My_Transfermarkt.Controllers
 
             if (checkedEmail == true)
             {
-                return RedirectToAction("Register");
+                ViewBag.Comment = "Email Already In Use";
+                return View(model);
             }
 
             var checkUsernameUsed = await userService.CheckUserNameExist(model.Username);
 
             if (checkUsernameUsed == true)
             {
-                return RedirectToAction("Register");
+                ViewBag.Comment = "Username Already In Use";
+                return View(model);
             }
 
 

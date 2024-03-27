@@ -39,7 +39,6 @@ namespace My_Transfermarkt.Controllers
         [HttpGet]
         public  IActionResult SearchTeamsForCountry()
         {
-
             return View();
         }
 

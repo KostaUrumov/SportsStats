@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Add new team";
 }
+@if (ViewBag.Comment != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Comment");
+        };
+    </script>
+}
 
 <h1>@ViewData["Title"]</h1>
 <div class="row">

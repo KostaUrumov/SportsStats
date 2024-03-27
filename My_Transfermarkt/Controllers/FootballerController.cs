@@ -110,12 +110,14 @@ namespace My_Transfermarkt.Controllers
             var isPlayerAlreadySigned = await footballerService.IsheSignedToAClub(model.Id);
             if (isPlayerAlreadySigned == true)
             {
+                
                 return RedirectToAction(nameof(MyFootballers));
             }
 
             var areDtaesCorrect = footballerService.CheckDatesCorrectness(model);
             if (areDtaesCorrect == false)
             {
+                ViewBag.Comment = "Shortest contract is 6 months";
                 model.Teams = await teamService.GetAllTeams();
                 return View(model);
             }
@@ -233,7 +235,6 @@ namespace My_Transfermarkt.Controllers
         [HttpGet]
         public IActionResult SearchFootballersForCountry()
         {
-            
             return View();
         }
 

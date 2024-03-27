@@ -32,6 +32,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             var isThereAlready = await countryService.IsAlreadyCreated(model);
             if (isThereAlready == true)
             {
+                ViewBag.Comment = "Country Already Exist";
                 return View(model);
             }
             await countryService.AddCountryAsync(model);
@@ -67,6 +68,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             var isThereAlready = await countryService.IsAlreadyCreated(model);
             if (isThereAlready == true)
             {
+                ViewBag.Comment = "Country Already Exist";
                 return View(model);
             }
 

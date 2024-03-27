@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Create country";
 }
+@if (ViewBag.Comment != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Comment");
+        };
+    </script>
+}
 
 <h1>@ViewData["Title"]</h1>
 <div class="row">
@@ -28,6 +36,7 @@
         </form>
     </div>
 </div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
