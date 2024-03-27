@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.UserModels;
 using System.Security.Claims;
 
 namespace My_Transfermarkt.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly IUserService userService;
         public UserController(IUserService _userServ)
@@ -101,6 +102,7 @@ namespace My_Transfermarkt.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult ChangePassword()
         {
             ChangePassWordModel model = new ChangePassWordModel();

@@ -58,7 +58,7 @@ namespace My_Transfermarkt_Core.Services
                 {
                     Name = c.Name,
                     Id = c.Id,
-                    Type = "Stadium"
+                    Type = "Country"
                 })
                 .ToListAsync();
             return found;
@@ -90,7 +90,7 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task<string> FindCountryByname(string name)
         {
-            var country = await data.Countries.FirstOrDefaultAsync(c => c.Name.ToLower().Contains(name.ToLower()));
+            var country = await data.Countries.FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
             if (country == null)
             {
                 return null;

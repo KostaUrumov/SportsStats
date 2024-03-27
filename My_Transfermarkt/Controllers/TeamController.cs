@@ -6,7 +6,7 @@ using My_Transfermarkt_Core.Pagening;
 
 namespace My_Transfermarkt.Controllers
 {
-    public class TeamController : Controller
+    public class TeamController : BaseController
     {
         private readonly ITeamService teamService;
         private readonly ICountryService countryService;
@@ -37,7 +37,7 @@ namespace My_Transfermarkt.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchTeamsForCountry()
+        public  IActionResult SearchTeamsForCountry()
         {
 
             return View();
@@ -58,7 +58,7 @@ namespace My_Transfermarkt.Controllers
             }
 
             var listedTeams = await teamService.FindTeamByCountry(model.Country);
-            //model.Country = (char.ToUpper(model.Country[0]) + model.Country.Substring(1));
+            model.Country = (char.ToUpper(model.Country[0]) + model.Country.Substring(1));
             if (listedTeams.Count == 0)
             {
                 ShowTeamModelView newModel = new ShowTeamModelView()

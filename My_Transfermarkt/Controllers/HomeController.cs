@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace My_Transfermarkt.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ITeamService teamerService;
@@ -97,7 +97,7 @@ namespace My_Transfermarkt.Controllers
         {
             if (statusCode == 404)
             {
-                return View();
+                return View("Error404");
             }
 
             return View();

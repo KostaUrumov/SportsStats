@@ -39,6 +39,7 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task<List<StadiumViewModel>> AllAvailableStadiums()
         {
+            
             List<StadiumViewModel> allStadiums = await data
                 .Stadiums
                 .Select(s => new StadiumViewModel
@@ -48,9 +49,20 @@ namespace My_Transfermarkt_Core.Services
                     Country = s.Country.Name,
                     Id = s.Id,
                     Name = s.Name
+                    
                 })
                 .OrderBy(x => x.Name)
                 .ToListAsync();
+            foreach (var item in allStadiums)
+            {
+                foreach (var team in data.Teams)
+                {
+                    if (item.Id == team.StadiumId)
+                    {
+                        item.Team = team.Name;
+                    }
+                }
+            }
 
             return allStadiums;
         }
@@ -151,8 +163,20 @@ namespace My_Transfermarkt_Core.Services
                     Name = x.Name,
                     Id = x.Id,
                     Type = "Stadium"
+                    
                 })
                 .ToListAsync();
+
+            foreach (var item in result)
+            {
+                foreach (var team in data.Teams)
+                {
+                    if (item.Id == team.StadiumId)
+                    {
+                        item.Team = team.Name;
+                    }
+                }
+            }
             return result;
         }
     }

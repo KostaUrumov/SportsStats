@@ -10,109 +10,107 @@
         <h5>Nothing found</h5>
     </div>
 }
-<div class="text center">Footballers</div>
-<table class="table">
+else
+{
+    <div class="text-danger">Footballers</div>
+    <table class="table">
 
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        @if (Model[i].Type == "Footballer")
-        {
-
-            <body>
+        <thead>
             <tr>
-                <td>@Model[i].Name</td>
-                <td>
-                    <a asp-controller="Footballer" asp-action="Details" asp-route-id="@Model[i].Id" class="btn btn-success">Details</a>
-                </td>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
             </tr>
-            </body>
-        }
-    }
-</table>
+        </thead>
 
-<div class="text center">Teams</div>
-<table class="table">
-
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        @if (Model[i].Type == "Team")
+        @for (int i = 0; i < Model.Count; i++)
         {
+            @if (Model[i].Type == "Footballer")
+            {
 
-            <body>
-            <tr>
-                <td>@Model[i].Name</td>
-                <td>
-                    <a asp-controller="Footballer" asp-action="Details" asp-route-id="@Model[i].Id" class="btn btn-success">Details</a>
-                </td>
-            </tr>
-            </body>
+                <body>
+                <tr>
+                    <td>@Model[i].Name</td>
+                    <td>
+                        <a asp-controller="Footballer" asp-action="Details" asp-route-id="@Model[i].Id" class="btn btn-success">Details</a>
+                    </td>
+                </tr>
+                </body>
+            }
         }
-    }
-</table>
-<div class="text center">Stadiums</div>
-<table class="table">
+    </table>
 
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-        </tr>
-    </thead>
+    <div class="text-warning">Teams</div>
+    <table class="table">
 
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        @if (Model[i].Type == "Stadium")
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+
+        @for (int i = 0; i < Model.Count; i++)
         {
+            @if (Model[i].Type == "Team")
+            {
 
-            <body>
-            <tr>
-                <td>@Model[i].Name</td>
-            </tr>
-            </body>
+                <body>
+                <tr>
+                    <td>@Model[i].Name</td>
+                    <td>
+                        <a asp-controller="footballer" asp-action="GetAllPlayersForClub" asp-route-id="@Model[i].Id" class="btn btn-success">Players</a>
+                    </td>
+                </tr>
+                </body>
+            }
         }
-    }
-</table>
+    </table>
+    <div class="text-primary">Stadiums</div>
+    <table class="table">
 
-<div class="text center">Countries</div>
-<table class="table">
-    
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-        </tr>
-    </thead>
-    
-    @for (int i = 0; i < Model.Count; i++)
-   
-        @if (Model[i].Type == "Country")
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Home ground of</th>
+            </tr>
+        </thead>
+
+        @for (int i = 0; i < Model.Count; i++)
         {
-          
+            @if (Model[i].Type == "Stadium")
+            {
 
-            <body>
-            <tr>
-                <td>@Model[i].Name</td>
-            </tr>
-            </body>
+                <body>
+                <tr>
+                    <td>@Model[i].Name</td>
+                    <td>@Model[i].Team</td>
+                </tr>
+                </body>
+            }
         }
-    }
-</table>
+    </table>
+
+    <div class="text-success">Countries</div>
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+            </tr>
+        </thead>
+
+        @for (int i = 0; i < Model.Count; i++)
+
+            @if (Model[i].Type == "Country")
+            {
 
 
+                <body>
+                <tr>
+                    <td>@Model[i].Name</td>
+                </tr>
+                </body>
+            }
 
-
-
-
-
+    </table>
+}

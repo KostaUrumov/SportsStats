@@ -15,46 +15,54 @@
             <div class="container-fluid">
                 <a class="navbar-brand">
                     <a class="nav-link text-light " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        
-                        @if (User.IsInRole("Agent"))
-                        {
-                            <li>
-                                <a class="nav-link text-light" asp-area="" asp-controller="agent" asp-action="AddFootballer">Add footballer</a>
-                            </li>
-                            <li>
-                                <a class="nav-link text-light" asp-area="" asp-controller="footballer" asp-action="MyFootballers">My footballers</a>
-                            </li>
-                        }
-                        @if (User.IsInRole("User"))
-                        {
-                            <li>
-                                <a class="nav-link text-light" asp-area="" asp-controller="team" asp-action="Allteams">All teams</a>
-                            </li>
-                            <li>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+
+                            @if (User.IsInRole("Agent"))
+                            {
+                                <li>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="team" asp-action="Allteams">All teams</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="agent" asp-action="AddFootballer">Add footballer</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="footballer" asp-action="MyFootballers">My footballers</a>
+                                </li>
+                            }
+                            @if (User.IsInRole("User"))
+                            {
+                                <li>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="team" asp-action="Allteams">All teams</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="stadium" asp-action="AllStadiums">All stadiums</a>
+                                </li>
+                                <li>
                                     <a class="nav-link text-light" asp-area="" asp-controller="footballer" asp-action="GetAllFootballers">All footballers</a>
-                                    
-                            </li>
-                            <li>
+
+                                </li>
+                                <li>
                                     <a class="nav-link text-light" asp-area="" asp-controller="footballer" asp-action="RetiredPlayers">Retired</a>
-                            </li>
-                        }
+                                </li>
+                            }
                             <li>
                                 <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Search">Search</a>
                             </li>
-                    </ul>
-                        
-                   
-                    <partial name="_LoginPartial" />
-                </div>
+
+
+                        </ul>
+
+
+                        <partial name="_LoginPartial" />
+                    </div>
             </div>
         </nav>
-        
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">

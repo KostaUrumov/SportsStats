@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.StadiumModels;
-using NPoco.Expressions;
 using System.Globalization;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers

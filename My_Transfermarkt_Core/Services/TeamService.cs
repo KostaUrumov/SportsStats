@@ -110,7 +110,8 @@ namespace My_Transfermarkt_Core.Services
                 {
                     Name = x.Name,
                     Type = "Team",
-                    Id = x.Id
+                    Id = x.Id,
+                    Team = x.Name
 
                 })
                 .ToListAsync();

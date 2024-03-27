@@ -196,6 +196,7 @@ namespace My_Transfermarkt_Core.Services
                 
         }
 
+
         public async Task<List<ResultsViewModel>> FindFootballers(string search)
         {
             List<ResultsViewModel> results = await data

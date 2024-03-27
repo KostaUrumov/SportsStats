@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace My_Transfermarkt.Controllers
 {
     [Authorize(Roles = "Agent")]
-    public class AgentController : Controller
+    public class AgentController : BaseController
     {
         private readonly ICountryService countryService;
         private readonly ITeamService teamService;

@@ -14,15 +14,21 @@
     {
         <div class="card col-4" style="width: 20rem;">
             <div class="card-body, bg-primary text-white">
-                <p class="mb-0">Model: @team.Name</p>
-                <p class="mb-0">Manifacturer: @team.Country</p>
-                <p class="mb-0">Registered on: @team.Stadium</p>
+                <p class="mb-0">Club: @team.Name</p>
+                <p class="mb-0">Country: @team.Country</p>
+                <p class="mb-0">Logo: 
                     @if (team.Picture != null)
                     {
-                        <img src="data:image;base64,@System.Convert.ToBase64String(@team.Picture)" width="40" height="40" />
-                        
+                        <img src="data:image;base64,@System.Convert.ToBase64String(@team.Picture)" width="70" height="70" />
+
                     }
-                <p class="mb-0"> Click to see players
+                    else
+                    {
+                     
+                        <p>No logo available</p>
+                    }
+                </p>
+                <p class="mb-8"> Current players
                     <a asp-controller="Footballer" asp-action="GetAllPlayersForClub" asp-route-id="@team.Id" class="btn btn-warning">Players</a>
                 </p>
                 

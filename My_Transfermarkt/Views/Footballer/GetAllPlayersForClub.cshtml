@@ -29,6 +29,7 @@ else
                 <th scope="col">International caps</th>
                 <th scope="col">Position</th>
                 <th scope="col">Picture</th>
+                <th scope="col">Details</th>
             </tr>
         </thead>
 
@@ -56,11 +57,12 @@ else
 
                         }
                     </td>
+                    
                     <td>
-                    <td>
-                    </td>
                         <a asp-controller="Footballer" asp-action="Details" asp-route-id="@Model[i].Id" class="btn btn-success">Details</a>
                     </td>
+                        
+                    
                 </tr>
             </tbody>
         }

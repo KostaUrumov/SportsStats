@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
@@ -8,7 +9,7 @@ using Umbraco.Core;
 
 namespace My_Transfermarkt.Controllers
 {
-    public class FootballerController : Controller
+    public class FootballerController : BaseController
     {
         private readonly IFootballerService footballerService;
         private readonly ICountryService countryService;
@@ -31,6 +32,11 @@ namespace My_Transfermarkt.Controllers
         {
             var userId  = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var findFootballer = await footballerService.FindFootballer(id);
+            if (findFootballer.AgentId != userId)
+            {
+                ViewBag.comment = "Not Authorized";
+                return View("NotAuthorize");
+            }
             if (findFootballer == null)
             {
                 return View("Error404");
@@ -74,7 +80,12 @@ namespace My_Transfermarkt.Controllers
         public async Task<IActionResult> SignToClub(int Id)
         {
             var findFootballer = await footballerService.FindFootballer(Id);
-
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (findFootballer.AgentId != userId)
+            {
+                ViewBag.comment = "Not Authorized";
+                return View("NotAuthorize");
+            }
 
             SignFootballerToATeam model = new SignFootballerToATeam
             {
@@ -115,6 +126,14 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "Agent")]
         public async Task<IActionResult> Release (int Id)
         {
+            var findFootballer = await footballerService.FindFootballer(Id);
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (findFootballer.AgentId != userId)
+            {
+                ViewBag.comment = "Not Authorized";
+                return View("NotAuthorize");
+            }
+
             await footballerService.Release(Id);
             return RedirectToAction(nameof(MyFootballers));
         }
@@ -124,6 +143,12 @@ namespace My_Transfermarkt.Controllers
         public async Task< IActionResult> UploadPicture(int Id)
         {
             var findFootballer = await footballerService.FindFootballer(Id);
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (findFootballer.AgentId != userId)
+            {
+                ViewBag.comment = "Not Authorized";
+                return View("NotAuthorize");
+            }
             if (findFootballer == null)
             {
                 return View("Error404");
@@ -148,6 +173,7 @@ namespace My_Transfermarkt.Controllers
             return RedirectToAction(nameof(MyFootballers));
         }
 
+        [Authorize(Roles = "Agent, User")]
         
         public async Task<IActionResult> GetAllPlayersForClub(int Id)
         {
@@ -173,9 +199,18 @@ namespace My_Transfermarkt.Controllers
             var result = await footballerService.Details(Id);
             return View(result);
         }
+
         [Authorize(Roles = "Agent")]
         public async Task<IActionResult> Retire(int Id)
         {
+            var findFootballer = await footballerService.FindFootballer(Id);
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (findFootballer.AgentId != userId)
+            {
+                ViewBag.comment = "Not Authorized";
+                return View("NotAuthorize");
+            }
+
             await footballerService.Release(Id);
             await footballerService.RetireFromFootball(Id);
             return RedirectToAction(nameof(MyFootballers));
@@ -188,6 +223,7 @@ namespace My_Transfermarkt.Controllers
             return View(getRetiredPlayers);
         }
 
+        [Authorize]
         public async Task<IActionResult> GetAllFootballers()
         {
             var result = await footballerService.AllFootballers();
@@ -195,7 +231,7 @@ namespace My_Transfermarkt.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchFootballersForCountry()
+        public IActionResult SearchFootballersForCountry()
         {
             
             return View();
@@ -219,7 +255,7 @@ namespace My_Transfermarkt.Controllers
 
 
             var listetPlayers = await footballerService.GetAllPLayersForCountry(model.Country);
-            //model.Country = (char.ToUpper(model.Country[0]) + model.Country.Substring(1));
+            model.Country = (char.ToUpper(model.Country[0]) + model.Country.Substring(1));
             if (listetPlayers.Count == 0)
             {
                 listetPlayers.Add(new ShowFootballerDetailsViewModel()
