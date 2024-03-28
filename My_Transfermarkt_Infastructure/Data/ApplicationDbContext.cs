@@ -13,8 +13,7 @@ namespace My_Transfermarkt.Data
         {
 
         }
-
-
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<AgentsFootballers>()
@@ -61,6 +60,8 @@ namespace My_Transfermarkt.Data
 
             base.OnModelCreating(builder);
         }
+
+        
 
         public DbSet<Agent> Agents { get; set; } = null!;
         public DbSet<AgentsFootballers> AgentsFootballers { get; set; } = null!;
