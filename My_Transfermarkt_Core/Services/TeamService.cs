@@ -228,15 +228,7 @@ namespace My_Transfermarkt_Core.Services
         /// <param name="team"></param>
         /// <returns></returns>
         public async Task<bool> IsAlreadyCreated(AddNewTeamModel team)
-        {
-            var result = await data.Teams.FirstOrDefaultAsync(t => t.Name == team.Name);
-            if (result == null)
-            {
-                return false;
-            }
 
-            return true;
-        }
         /// <summary>
         /// Update Stadium entity
         /// </summary>

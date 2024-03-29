@@ -2,8 +2,13 @@
 using Moq;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
+using My_Transfermarkt_Core.Models.StadiumModels;
 using My_Transfermarkt_Core.Services;
 using My_Transfermarkt_Infastructure.DataModels;
+using static My_Transfermarkt_Infastructure.DataConstraints;
+using System.Xml.Linq;
+using Stadium = My_Transfermarkt_Infastructure.DataModels.Stadium;
+using Country = My_Transfermarkt_Infastructure.DataModels.Country;
 
 namespace My_Transfermarkt_Tests
 {
@@ -56,6 +61,114 @@ namespace My_Transfermarkt_Tests
             IStadiumService service = new StadiumService(data);
             var result = service.GetAllStadiums();
             Assert.That(result.Result.Count(), Is.EqualTo(7));
+        }
+
+        [Test]
+        public void TestFindStadiumToEdit()
+        {
+            IStadiumService service = new StadiumService(data);
+            var result = service.FindToEdit(1);
+            Assert.That(result.Result.Name, Is.EqualTo("New Anfield"));
+        }
+
+        [Test]
+        public void TestFindStadiumToEditWrong()
+        {
+            IStadiumService service = new StadiumService(data);
+            var result = service.FindToEdit(100);
+            Assert.That(result.Result, Is.EqualTo(null));
+        }
+
+        [Test]
+        public void TestSavechangesAsync()
+        {
+            AddNewStadiumModel model = new AddNewStadiumModel()
+            {
+                Id = 1, 
+                CountryId = 1, 
+                Build = DateTime.Parse("1999/01/01"), 
+                Capacity = 19999, 
+                Name = "New Anfieldv2" 
+            };
+            IStadiumService service = new StadiumService(data);
+            service.SaveChangesAsync(model);
+            var result = service.FindToEdit(1);
+            Assert.That(result.Result.Name, Is.EqualTo("New Anfieldv2"));
+        }
+
+        [Test]
+        public void TestRemoveStadium()
+        {
+            IStadiumService service = new StadiumService(data);
+            service.RemoveStadium(1);
+            Assert.That(data.Stadiums.Count, Is.EqualTo(6));
+        }
+
+        [Test]
+        public void TestRemoveStadiumUnexpectedId()
+        {
+            IStadiumService service = new StadiumService(data);
+            service.RemoveStadium(100);
+            Assert.That(data.Stadiums.Count, Is.EqualTo(7));
+        }
+
+        [Test]
+        public void TestCreatenewStadium()
+        {
+            AddNewStadiumModel model = new AddNewStadiumModel()
+            {
+                Id = 40,
+                CountryId = 2,
+                Build = DateTime.Parse("1934/08/06"),
+                Capacity = 74667,
+                Name = "Olympiastadionv2"
+            };
+
+            IStadiumService service = new StadiumService(data);
+            service.CreateStadiumAsync(model);
+            Assert.That(data.Stadiums.Count, Is.EqualTo(8));
+        }
+
+        [Test]
+        public void TestIsStadiumInTrue()
+        {
+            AddNewStadiumModel model = new AddNewStadiumModel()
+            {
+                CountryId = 2,
+                Build = DateTime.Parse("1934/08/06"),
+                Capacity = 74667,
+                Name = "Olympiastadion"
+            };
+
+            IStadiumService service = new StadiumService(data);
+            var result = service.IsStadiumAlreadyIn(model);
+            Assert.That(result.Result.ToString(), Is.EqualTo("True"));
+        }
+
+        [Test]
+        public void TestIsStadiumInFalse()
+        {
+            AddNewStadiumModel model = new AddNewStadiumModel()
+            {
+                CountryId = 2,
+                Build = DateTime.Parse("1934/08/06"),
+                Capacity = 74667,
+                Name = "Olympiastadionv2"
+            };
+
+            IStadiumService service = new StadiumService(data);
+            var result = service.IsStadiumAlreadyIn(model);
+            Assert.That(result.Result.ToString(), Is.EqualTo("False"));
+        }
+
+        [Test]
+        public void TestIsFindStasiums()
+        {
+            IStadiumService service = new StadiumService(data);
+            var result = service.FindStadiums("Olym");
+            var result2 = service.FindStadiums("re");
+            Assert.That(result.Result.Count(), Is.EqualTo(1));
+            Assert.That(result2.Result.Count(), Is.EqualTo(5));
         }
     }
 }

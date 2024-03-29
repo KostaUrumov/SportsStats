@@ -129,7 +129,11 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task RemoveStadium(int stadiumId)
         {
-            var findStadium = await data.Stadiums.FirstAsync(s => s.Id == stadiumId);
+            var findStadium = await data.Stadiums.FirstOrDefaultAsync(s => s.Id == stadiumId);
+            if ( findStadium == null)
+            {
+                return;                
+            }
             foreach (var item in data.Teams)
             {
                 if (item.StadiumId == stadiumId)
