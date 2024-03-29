@@ -1,12 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Moq;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.StadiumModels;
 using My_Transfermarkt_Core.Services;
-using My_Transfermarkt_Infastructure.DataModels;
-using static My_Transfermarkt_Infastructure.DataConstraints;
-using System.Xml.Linq;
 using Stadium = My_Transfermarkt_Infastructure.DataModels.Stadium;
 using Country = My_Transfermarkt_Infastructure.DataModels.Country;
 
