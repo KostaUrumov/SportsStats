@@ -13,6 +13,7 @@ namespace My_Transfermarkt_Tests
         private ApplicationDbContext data;
         private IEnumerable<Team> teams;
         private IEnumerable<Country> countries;
+        private IEnumerable<Stadium> stadiums;
 
 
         [SetUp]
@@ -24,6 +25,10 @@ namespace My_Transfermarkt_Tests
                 new Country(){Id = 2, Name= "Belgium", ShortName="BE"},
                 new Country(){Id = 3, Name= "Bulgaria", ShortName="BG"},
                 new Country(){Id = 4, Name= "England", ShortName="EN"}
+            };
+            this.stadiums = new List<Stadium>()
+            {
+                new Stadium { Id = 4, CountryId = 2, Build = DateTime.Parse("1934/08/06"), Capacity = 74667, Name = "Olympiastadion" },
             };
             
             this.teams = new List<Team>()
@@ -97,5 +102,38 @@ namespace My_Transfermarkt_Tests
             var teams = service.IsAlreadyCreated(model);
             Assert.That(teams.Result.ToString, Is.EqualTo("False"));
         }
+
+        [Test]
+        public void TestIFindTeamTrue()
+        {
+            
+            ITeamService service = new TeamService(data);
+            var teams = service.FindTeam(2);
+            Assert.That(teams.Result.TeamName, Is.EqualTo("Botev Plovdiv"));
+        }
+
+        [Test]
+        public void TestIFindTeamFalse()
+        {
+
+            ITeamService service = new TeamService(data);
+            var teams = service.FindTeam(200);
+            Assert.That(teams.Result, Is.EqualTo(null));
+        }
+        [Test]
+        public void TestAddToStadium()
+        {
+            TeamToAddStadium team = new TeamToAddStadium()
+            {
+                Id= 1,
+                StadiumId=4,
+            };
+
+            ITeamService service = new TeamService(data);
+            service.AddToStadiumAsync(team);
+            var stadiumName = data.Teams.First(x => x.Id == 1);
+            Assert.That(stadiumName.StadiumId, Is.EqualTo(4));
+        }
+
     }
 }
