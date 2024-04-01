@@ -53,6 +53,7 @@ namespace My_Transfermarkt_Core.Services
                     Birthday = f.BirthDay.ToString("MM/dd/yyyy"),
                     Agent = f.Agent.User.FirstName +" "+ f.Agent.User.LastName,
                     Id= f.Id,
+                    AgentName = f.Agent.User.UserName
 
                 })
                 .OrderByDescending(x=> x.Name)

@@ -4,5 +4,7 @@
     {
         public string Agent { get; set; } = null!;
         public int Id { get; set; }
+
+        public string AgentName { get; set; } = null!;
     }
 }

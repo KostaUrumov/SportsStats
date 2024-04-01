@@ -1,1 +1,3 @@
-Check if agents can edit only their footballers
+Right the tests for all services
+Check the restrictions
+Check the error messages when adding data 
