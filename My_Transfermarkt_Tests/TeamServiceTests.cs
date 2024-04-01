@@ -36,7 +36,12 @@ namespace My_Transfermarkt_Tests
                 new Team{Id =1, CountryId = 4, Name = "Manchester United" },
                 new Team{Id =2, CountryId = 3, Name = "Botev Plovdiv" },
                 new Team{Id =3, CountryId = 3, Name = "Levski Sofia" },
-                new Team{Id =4, CountryId = 4, Name = "Arsenal" }
+                new Team{Id =4, CountryId = 4, Name = "Arsenal" },
+                new Team{Id =5, CountryId = 1, Name = "Barcelona" },
+                new Team{Id =6, CountryId = 1, Name = "Real Madrid" },
+                new Team{Id =7, CountryId = 2, Name = "Standard" },
+                new Team{Id =8, CountryId = 2, Name = "Brugge" },
+                new Team{Id =9, CountryId = 3, Name = "Spartak Varna" },
             };
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -135,5 +140,42 @@ namespace My_Transfermarkt_Tests
             Assert.That(stadiumName.StadiumId, Is.EqualTo(4));
         }
 
+        [Test]
+        public void TestRandomList()
+        {
+            ITeamService service = new TeamService(data);
+            var result =  service.GetRandomListForHomePage();
+            Assert.That(result.Result.Count(), Is.EqualTo(8));
+
+        }
+
+        [Test]
+        public void TestFindteamByCountry()
+        {
+            string country = "Spain";
+
+            ITeamService service = new TeamService(data);
+            var result = service.FindTeamByCountry(country);
+            Assert.That(result.Result.Count(), Is.EqualTo(2));
+
+            var result2 = service.FindTeamByCountry("spa");
+            Assert.That(result2.Result.Count(), Is.EqualTo(2));
+
+            var result3 = service.FindTeamByCountry("Bulga");
+            Assert.That(result3.Result.Count(), Is.EqualTo(3));
+
+        }
+        [Test]
+        public void TestFindteamByBame()
+        {
+            ITeamService service = new TeamService(data);
+            var result = service.FindTeams("manche");
+            var result2 = service.FindTeams("ars");
+            var result3 = service.FindTeams("ar");
+
+            Assert.That(result.Result.Count(), Is.EqualTo(1));
+            Assert.That(result2.Result.Count(), Is.EqualTo(1));
+            Assert.That(result3.Result.Count(), Is.EqualTo(4));
+        }
     }
 }
