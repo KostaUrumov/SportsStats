@@ -36,12 +36,14 @@ namespace My_Transfermarkt.Controllers
             return View(data);
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet]
         public  IActionResult SearchTeamsForCountry()
         {
             return View();
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> SearchTeamsForCountry(SearchCountry model)
         {
@@ -72,8 +74,15 @@ namespace My_Transfermarkt.Controllers
             return View(nameof(Result), listedTeams);
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult Result(List<ShowTeamModelView> listedTeams)
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
+            }
+
+            
             return View(listedTeams);
         }
 

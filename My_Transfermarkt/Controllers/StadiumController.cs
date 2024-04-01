@@ -14,6 +14,10 @@ namespace My_Transfermarkt.Controllers
 
         public async Task<IActionResult> AllStadiums()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
+            }
             var result = await stadiumService.AllAvailableStadiums();
             return View(result);
         }

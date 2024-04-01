@@ -228,6 +228,10 @@ namespace My_Transfermarkt.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllFootballers()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
+            }
             var result = await footballerService.AllFootballers();
             return View(result);
         }
@@ -235,12 +239,20 @@ namespace My_Transfermarkt.Controllers
         [HttpGet]
         public IActionResult SearchFootballersForCountry()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
+            }
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> SearchFootballersForCountry(SearchByCountryModel model)
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
+            }
             if (!ModelState.IsValid)
             {
                 return View (model);
@@ -272,6 +284,10 @@ namespace My_Transfermarkt.Controllers
 
         public IActionResult Result(List<ShowFootballerDetailsViewModel> listetPlayers)
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
+            }
             return View(listetPlayers);
         }
     }

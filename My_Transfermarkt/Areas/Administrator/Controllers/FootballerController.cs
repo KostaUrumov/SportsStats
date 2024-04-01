@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
-using My_Transfermarkt_Core.Services;
 using My_Transfermarkt_Infastructure.Enums;
 using System.Security.Claims;
-using Umbraco.Core.Services.Implement;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class FootballerController : BaseController
     {
         private readonly IFootballerService footballerService;
