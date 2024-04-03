@@ -39,7 +39,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -71,8 +70,6 @@ app.UseEndpoints(endpoints =>
     );
 
 });
-
-
 
 app.MapRazorPages();
 
