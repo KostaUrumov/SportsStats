@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using My_Transfermarkt_Core.Models.FootballerModels;
+﻿using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Core.Models.GeneralModels;
-using My_Transfermarkt_Core.Models.TeamModels;
 
 namespace My_Transfermarkt_Core.Contracts
 {

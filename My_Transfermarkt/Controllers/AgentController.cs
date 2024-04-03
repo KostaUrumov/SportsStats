@@ -74,6 +74,7 @@ namespace My_Transfermarkt.Controllers
                 model.Feet.Add(Foot.Right);
                 model.Teams = await teamService.GetAllTeams();
 
+                ViewBag.Comment = "Footballer Already Exists";
                 return View(model);
             }
 
@@ -90,6 +91,7 @@ namespace My_Transfermarkt.Controllers
                 model.Feet.Add(Foot.Right);
                 model.Teams = await teamService.GetAllTeams();
 
+                ViewBag.Comment = "Football can not be more than 40 years old";
                 return View(model);
             }
             await footballerService.CreateFootballerAsync(model);

@@ -59,7 +59,7 @@ namespace My_Transfermarkt_Tests
         {
             ITeamService service = new TeamService(data);
             var teams = service.GetAllTeams();
-            Assert.That(teams.Result.Count, Is.EqualTo(4));
+            Assert.That(teams.Result.Count, Is.EqualTo(9));
         }
 
         [Test]
@@ -88,9 +88,19 @@ namespace My_Transfermarkt_Tests
                 Name = "Arsenal"
             };
 
+            AddNewTeamModel model2 = new AddNewTeamModel()
+            {
+                Id = 5,
+                CountryId = 4,
+                Name = "Arsenal"
+            };
+
+
             ITeamService service = new TeamService(data);
             var teams = service.IsAlreadyCreated(model);
-            Assert.That(teams.Result.ToString, Is.EqualTo("True"));
+            var teams2 = service.IsAlreadyCreated(model2);
+            Assert.That(teams.Result.ToString, Is.EqualTo("False"));
+            Assert.That(teams2.Result.ToString, Is.EqualTo("True"));
         }
 
         [Test]
@@ -176,6 +186,42 @@ namespace My_Transfermarkt_Tests
             Assert.That(result.Result.Count(), Is.EqualTo(1));
             Assert.That(result2.Result.Count(), Is.EqualTo(1));
             Assert.That(result3.Result.Count(), Is.EqualTo(4));
+        }
+
+        [Test]
+        public void TestAddNewTeam()
+        {
+            ITeamService service = new TeamService(data);
+            AddNewTeamModel model = new AddNewTeamModel()
+            {
+                StadiumId = 1,
+                Id = 1,
+                Name = "Strumska Slava",
+                CountryId = 1,
+                
+            };
+            service.AddNewTeamAsync(model);
+            Assert.That(data.Teams.Count, Is.EqualTo(10));
+            
+        }
+
+        [Test]
+        public void TestChangeTeam()
+        {
+            ITeamService service = new TeamService(data);
+            AddNewTeamModel model = new AddNewTeamModel()
+            {
+                StadiumId = 1,
+                Id = 1,
+                Name = "Strumska Slava",
+                CountryId = 1,
+
+            };
+            service.SaveChangesAsync(model);
+            var result = service.FindTeamToBeEdited(1);
+            Assert.That(result.Result.Name, Is.EqualTo("Strumska Slava"));
+            Assert.That(result.Result.StadiumId, Is.EqualTo(1));
+            Assert.That(result.Result.CountryId, Is.EqualTo(1));
         }
     }
 }

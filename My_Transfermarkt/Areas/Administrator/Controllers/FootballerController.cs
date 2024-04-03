@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Infastructure.Enums;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
@@ -61,7 +62,39 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(model);
             }
 
+            var isAlredadIn = await footballerService.IsAlreadyIn(model);
+            if (isAlredadIn == true)
+            {
+                model.BirthDay = DateTime.Parse("2000-01-01 12:00", CultureInfo.InvariantCulture);
+                model.Countries = await countryService.GetAllCuntries();
+                model.Positions.Add(Position.Goalkeeper);
+                model.Positions.Add(Position.Defender);
+                model.Positions.Add(Position.Midfielder);
+                model.Positions.Add(Position.Forward);
+                model.Feet.Add(Foot.Left);
+                model.Feet.Add(Foot.Right);
+                model.Teams = await teamService.GetAllTeams();
 
+                ViewBag.Comment = "Footballer Already Exists";
+                return View(model);
+            }
+
+            var areDateCorrect = footballerService.AreDtaesCorrect(model);
+            if (areDateCorrect == false)
+            {
+                model.BirthDay = DateTime.Parse("2000-01-01 12:00", CultureInfo.InvariantCulture);
+                model.Countries = await countryService.GetAllCuntries();
+                model.Positions.Add(Position.Goalkeeper);
+                model.Positions.Add(Position.Defender);
+                model.Positions.Add(Position.Midfielder);
+                model.Positions.Add(Position.Forward);
+                model.Feet.Add(Foot.Left);
+                model.Feet.Add(Foot.Right);
+                model.Teams = await teamService.GetAllTeams();
+
+                ViewBag.Comment = "Football can not be more than 40 years old";
+                return View(model);
+            }
             await footballerService.SaveChangesAsync(model);
 
             return RedirectToAction(nameof(GetAllFootballers));

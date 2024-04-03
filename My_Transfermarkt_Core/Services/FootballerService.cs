@@ -315,7 +315,13 @@ namespace My_Transfermarkt_Core.Services
             {
                 return false;
             }
-
+            if (find  != null)
+            {
+                if (find.Id == model.Id)
+                {
+                    return false;
+                }
+            }
             return true;
         }
 

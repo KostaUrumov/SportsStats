@@ -234,6 +234,13 @@ namespace My_Transfermarkt_Core.Services
             {
                 return false;
             }
+            if (findTeam != null)
+            {
+                if (findTeam.Id == team.Id)
+                {
+                    return false;
+                }
+            }
 
             return true;
 

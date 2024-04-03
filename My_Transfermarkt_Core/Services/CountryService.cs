@@ -121,6 +121,19 @@ namespace My_Transfermarkt_Core.Services
         public async Task<bool> IsAlreadyCreated(AddNewCountryModel model)
         {
             var found = await data.Countries.FirstOrDefaultAsync(x => x.Name == model.Name);
+            if (found != null)
+            {
+                for (int i = 0; i < found.Name.Length; i++)
+                {
+                    if (found.Name[i] != model.Name[i])
+                    {
+                        return false;
+                    }
+
+                }
+
+            }
+            
             if (found == null)
             {
                 return false;
