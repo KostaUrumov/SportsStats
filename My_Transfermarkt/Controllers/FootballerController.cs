@@ -31,16 +31,21 @@ namespace My_Transfermarkt.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var userId  = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+           
             var findFootballer = await footballerService.FindFootballer(id);
+
+            if (findFootballer == null)
+            {
+                ViewBag.comment = "Player do not exist";
+                return View("Error404");
+            }
+
             if (findFootballer.AgentId != userId)
             {
                 ViewBag.comment = "Not Authorized";
                 return View("NotAuthorize");
             }
-            if (findFootballer == null)
-            {
-                return View("Error404");
-            }
+            
             findFootballer.Countries = await countryService.GetAllCuntries();
             findFootballer.Teams = await teamService.GetAllTeams();
             findFootballer.Positions.Add(Position.Goalkeeper);
@@ -129,6 +134,11 @@ namespace My_Transfermarkt.Controllers
         public async Task<IActionResult> Release (int Id)
         {
             var findFootballer = await footballerService.FindFootballer(Id);
+            if (findFootballer == null)
+            {
+                ViewBag.Comment = "Player do not exists";
+                return View("Error404");
+            }
             var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if (findFootballer.AgentId != userId)
             {
@@ -195,6 +205,7 @@ namespace My_Transfermarkt.Controllers
             var findFootballer = await footballerService.FindFootballer(Id);
             if (findFootballer == null)
             {
+
                 return View("Error404");
             }
 
@@ -206,12 +217,20 @@ namespace My_Transfermarkt.Controllers
         public async Task<IActionResult> Retire(int Id)
         {
             var findFootballer = await footballerService.FindFootballer(Id);
+
+            if (findFootballer == null)
+            {
+                ViewBag.comment = "Player do not exist";
+                return View("Error404");
+            }
             var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if (findFootballer.AgentId != userId)
             {
                 ViewBag.comment = "Not Authorized";
                 return View("NotAuthorize");
             }
+
+            
 
             await footballerService.Release(Id);
             await footballerService.RetireFromFootball(Id);

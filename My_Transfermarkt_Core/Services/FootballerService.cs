@@ -378,6 +378,7 @@ namespace My_Transfermarkt_Core.Services
                 .TeamsFootballers
                 .Where(x => x.FootballerId == Id)
                 .ToListAsync();
+            
             var findFootballer = await data
                 .Footballers.FirstAsync(f => f.Id == Id);
             var findTeam = await data
@@ -393,7 +394,7 @@ namespace My_Transfermarkt_Core.Services
         public async Task RetireFromFootball(int footballerId)
         {
             var findPlayer = await data.Footballers
-                .FirstAsync(f => f.Id == footballerId);
+                .FirstOrDefaultAsync(f => f.Id == footballerId);
             findPlayer.IsRetired = true;
             await data.SaveChangesAsync();
         }
