@@ -50,15 +50,15 @@ namespace My_Transfermarkt_Tests
             {
                 new Footballer(){Id = 1, FirstName = "Benjamin", LastName = "Sesko", BirthDay = DateTime.Parse("1993/03/10"), CountryId = 3,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder, PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Left,
-                CurrentMarketValue = decimal.Parse("1000000"),HighestValue = decimal.Parse("1000000"), HishestValueDate = DateTime.Parse("2013/03/10")},
+                CurrentMarketValue = decimal.Parse("1000000"),HighestValue = decimal.Parse("1000000"), HishestValueDate = DateTime.Parse("2013/03/10"), },
 
                 new Footballer(){Id = 2, FirstName = "Stanislav", LastName = "Ivanov", BirthDay = DateTime.Parse("2003/03/10"), CountryId = 3,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Forward, PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Right,
-                CurrentMarketValue = decimal.Parse("2000000"),HighestValue = decimal.Parse("3000000"), HishestValueDate = DateTime.Parse("2018/03/10")},
+                CurrentMarketValue = decimal.Parse("2000000"),HighestValue = decimal.Parse("3000000"), HishestValueDate = DateTime.Parse("2018/03/10"), TeamId =2},
 
                 new Footballer(){Id = 3, FirstName = "Petar", LastName = "Minchev", BirthDay = DateTime.Parse("2002/03/10"), CountryId = 4,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Forward, PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Right,
-                CurrentMarketValue = decimal.Parse("200000"),HighestValue = decimal.Parse("1500000"), HishestValueDate = DateTime.Parse("2022/03/10") },
+                CurrentMarketValue = decimal.Parse("200000"),HighestValue = decimal.Parse("1500000"), HishestValueDate = DateTime.Parse("2022/03/10"), TeamId = 2 },
 
                 new Footballer(){Id = 4, FirstName = "Venzislav", LastName = "Urumov", BirthDay = DateTime.Parse("2002/03/10"), CountryId = 4,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Forward, PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Right,
@@ -265,5 +265,46 @@ namespace My_Transfermarkt_Tests
             Assert.That(result3.Result.Count, Is.EqualTo(3));
         }
 
+        [Test]
+        public void TestIsPlayerSignedToAClub()
+        {
+            IFootballerService service = new FootballerService(data);
+            var result = service.IsheSignedToAClub(1);
+            var result2 = service.IsheSignedToAClub(2);
+
+            Assert.That(result.Result.ToString, Is.EqualTo("False"));
+            Assert.That(result2.Result.ToString, Is.EqualTo("True"));
+        }
+
+        [Test]
+        public void TestIsPlayerAlreadyIn()
+        {
+            IFootballerService service = new FootballerService(data);
+            AddNewFootallerModel model = new AddNewFootallerModel()
+            {
+                FirstName = "Benjamin",
+                LastName = "Sesko",
+                BirthDay = DateTime.Parse("1993/03/10"),
+                CountryId = 3,
+                Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder,
+                PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Left,
+                CurrentMarketValue = decimal.Parse("1000000") 
+            };
+
+            AddNewFootallerModel model2 = new AddNewFootallerModel()
+            {
+                FirstName = "Benjamin",
+                LastName = "Sesko",
+                BirthDay = DateTime.Parse("1998/03/10"),
+                CountryId = 3,
+                Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder,
+                PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Left,
+                CurrentMarketValue = decimal.Parse("1000000")
+            };
+            var isIn = service.IsAlreadyIn(model);
+            var isNotIn = service.IsAlreadyIn(model2);
+            Assert.That(isIn.Result.ToString, Is.EqualTo("True"));
+            Assert.That(isNotIn.Result.ToString, Is.EqualTo("False"));
+        }
     }
 }

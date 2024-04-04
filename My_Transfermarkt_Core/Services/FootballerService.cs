@@ -309,7 +309,7 @@ namespace My_Transfermarkt_Core.Services
         {
             string name = model.FirstName + model.LastName;
             var find = await data.Footballers
-                .FirstOrDefaultAsync(x=> x.FirstName + x.LastName == name && x.BirthDay == x.BirthDay);
+                .FirstOrDefaultAsync(x=> x.FirstName + x.LastName == name && x.BirthDay == model.BirthDay);
 
             if (find == null)
             {

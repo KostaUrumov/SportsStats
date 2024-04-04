@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
+using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Core.Services;
 using My_Transfermarkt_Infastructure.DataModels;
@@ -222,6 +223,16 @@ namespace My_Transfermarkt_Tests
             Assert.That(result.Result.Name, Is.EqualTo("Strumska Slava"));
             Assert.That(result.Result.StadiumId, Is.EqualTo(1));
             Assert.That(result.Result.CountryId, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void TestFetAllAvailableTeams()
+        {
+            ITeamService service = new TeamService(data);
+            
+            var result = service.GetAllTeamsAvailable();
+            Assert.That(result.Result.Count, Is.EqualTo(9));
+            
         }
     }
 }
