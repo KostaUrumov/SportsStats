@@ -1,0 +1,13 @@
+﻿using Humanizer;
+using My_Transfermarkt_Core.Models.TeamModels;
+
+namespace My_Transfermarkt_Core.Models.TournamentModels
+{
+    public class TournamentViewModel
+    {
+        public string Name { get; set; } = null!;
+
+        public List<ShowTeamModelView> Teams { get; set; } =new List<ShowTeamModelView>();
+
+    }
+}

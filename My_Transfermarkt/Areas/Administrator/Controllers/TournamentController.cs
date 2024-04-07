@@ -40,13 +40,40 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTeams(int Id, AddTeamsToTournament model)
         {
+            var tournament = await tournamentService.FindTournament(Id);
+            model.Id = tournament.Id;
+            
+            if (tournament == null)
+            {
+                return View("Error404", new { area = "" });
+            }
             int[] teams = new int[model.SelectedTeams.Count()];
            for (int i = 0;i < teams.Length; i++)
             {
+                var team = await teamService.FindTeam(model.SelectedTeams[i]);
+                if (team == null)
+                {
+                    return View("Error404", new { area = "" });
+                }
                 teams[i] = model.SelectedTeams[i];
+                await tournamentService.AddTeamToTournament(Id, model.SelectedTeams[i]);
+            }
+            
+            return RedirectToAction("TournamentDeails", model);
+        }
+
+        public async Task<IActionResult> TournamentDeails(AddTeamsToTournament model)
+        {
+            var tournament = await tournamentService.FindTournament(model.Id);
+
+            if (tournament == null)
+            {
+                return View("Error404", new { area = "" });
             }
 
-           return View(teams);
+            var result = await tournamentService.GetDetails(model.Id);
+            return View(result);
+
         }
 
     }
