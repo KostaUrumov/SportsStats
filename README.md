@@ -10,4 +10,4 @@ Players can sign contract, be released or update any data only by their agents.
 
 Users can not enter or edit any data. They can see what teams and footballers are listed filter them by country and view some details for them.
 
-Unregistered user also can only see home page with random 10 teams display.
+Unregistered user also can see home page with random 10 teams display, also can search by name for footballers, teams, country or stadiums. Of course they have access to register and log in pages
