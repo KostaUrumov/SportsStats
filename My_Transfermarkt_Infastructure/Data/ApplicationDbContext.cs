@@ -22,6 +22,9 @@ namespace My_Transfermarkt.Data
             builder.Entity<TeamsFootballers>()
                 .HasKey(k => new { k.TeamId, k.FootballerId });
 
+            builder.Entity<TournamentsTeams>()
+                .HasKey(k => new { k.TeamId, k.TournamentId });
+
             builder.Entity<Footballer>()
                 .Property(p => p.CurrentMarketValue)
                 .HasPrecision(18,2);
@@ -57,6 +60,13 @@ namespace My_Transfermarkt.Data
                     new Stadium { Id = 14, CountryId = 34, Build = DateTime.Parse("1963/03/10"), Capacity = 29200, Name = "Georgi Asparihov" }
                 );
 
+            builder.Entity<Tournament>()
+                .HasData
+                (
+                    new Tournament { Id = 1, Name = "Champions League 23/24" },
+                    new Tournament { Id = 2, Name = "Bundesliga 23/24" },
+                    new Tournament { Id = 3, Name = "Serie A 23/24" }
+                );
 
             base.OnModelCreating(builder);
         }
@@ -67,6 +77,8 @@ namespace My_Transfermarkt.Data
         public DbSet<AgentsFootballers> AgentsFootballers { get; set; } = null!;
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Footballer> Footballers { get; set; } = null!;
+        public DbSet<Tournament> Tournaments { get; set; } = null!;
+        public DbSet<TournamentsTeams> TournamentsTeams { get; set; } = null!;
         public DbSet<My_Transfermarkt_Infastructure.DataModels.Stadium> Stadiums { get; set; } = null!;
         public DbSet<Team> Teams { get; set; } = null!;
         public DbSet<TeamsFootballers> TeamsFootballers { get; set; } = null!;

@@ -59,7 +59,7 @@ namespace My_Transfermarkt.Controllers
                 return View(model);
             }
 
-            
+
             model.AgentId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var isAlredadIn = await footballerService.IsAlreadyIn(model);
             if (isAlredadIn == true)
@@ -97,6 +97,7 @@ namespace My_Transfermarkt.Controllers
             await footballerService.CreateFootballerAsync(model);
             return RedirectToAction("MyFootballers", "Footballer");
         }
-       
+
+
     }
 }

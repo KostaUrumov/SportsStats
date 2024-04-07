@@ -251,7 +251,9 @@ namespace My_Transfermarkt.Controllers
             {
                 return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
             }
-            var result = await footballerService.AllFootballers();
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var result = await footballerService.AllFootballers(userId);
+            
             return View(result);
         }
 

@@ -1,3 +1,2 @@
 Check the restrictions
-Footballer Service Tests a bit more to fulfil the requirements
 Seed data

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 
 namespace My_Transfermarkt.Controllers
@@ -12,6 +13,7 @@ namespace My_Transfermarkt.Controllers
             stadiumService = _stadiumService;
         }
 
+        [Authorize]
         public async Task<IActionResult> AllStadiums()
         {
             if (User.IsInRole("Admin"))

@@ -17,5 +17,6 @@ namespace My_Transfermarkt_Core.Models.FootballerModels
         public string? CurrentTeam { get; set; }
         public byte[]? Photo { get; set; }
         public bool IsRetired { get; set; }
+        public string? CurrentUser { get; set; }
     }
 }

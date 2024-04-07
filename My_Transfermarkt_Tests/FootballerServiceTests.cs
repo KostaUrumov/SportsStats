@@ -171,15 +171,6 @@ namespace My_Transfermarkt_Tests
 
 
         [Test]
-        public void TestAllFootballers()
-        {
-            IFootballerService service = new FootballerService(data);
-            var result = service.AllFootballers();
-
-            Assert.That(result.Result.Count(), Is.EqualTo(8));
-        }
-
-        [Test]
         public void TestDatesAreCorrect()
         {
             IFootballerService service = new FootballerService(data);

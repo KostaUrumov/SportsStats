@@ -18,6 +18,7 @@ namespace My_Transfermarkt_Core.Services
             data = _data;
         }
 
+
         /// <summary>
         /// Add picture to a footballer
         /// </summary>
@@ -32,7 +33,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        public async Task<List<AllFootballersViewModel>> AllFootballers()
+        public async Task<List<AllFootballersViewModel>> AllFootballers(string username)
         {
             List<AllFootballersViewModel> all = await data
                 .Footballers
@@ -53,7 +54,8 @@ namespace My_Transfermarkt_Core.Services
                     Birthday = f.BirthDay.ToString("MM/dd/yyyy"),
                     Agent = f.Agent.User.FirstName +" "+ f.Agent.User.LastName,
                     Id= f.Id,
-                    AgentName = f.Agent.User.UserName
+                    AgentName = f.Agent.User.Id,
+                    CurrentUser = username
 
                 })
                 .OrderByDescending(x=> x.Name)

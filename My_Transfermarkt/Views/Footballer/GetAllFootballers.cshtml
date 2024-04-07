@@ -40,7 +40,6 @@ else
                 <th scope="col">Agent</th>
                 <th scope="col">Picture</th>
                 <th scope="col">Is retired</th>
-                
             </tr>
         </thead>
 
@@ -74,7 +73,16 @@ else
                     <td>@Model[i].Caps</td>
                     <td>@Model[i].Position</td>
                     <td>@Model[i].PrefferedFoot</td>
-                    <td>@Model[i].Agent</td>
+                    <td>
+                        @if (Model[i].CurrentUser == Model[i].AgentName)
+                        {
+                            <p class="text-danger">My Player</p>
+                        }
+                        else
+                        {
+                            @Model[i].Agent
+                        }
+                    </td>
                     <td>
                         @if (@Model[i].Photo == null)
                         {
@@ -95,6 +103,8 @@ else
                             <p>No</p>
                         }
                     </td>
+                    
+                    
                     
                 </tr>
             </tbody>

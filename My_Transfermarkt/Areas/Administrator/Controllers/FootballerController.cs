@@ -27,7 +27,8 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
         public async Task<IActionResult> GetAllFootballers()
         {
-            var result = await footballerService.AllFootballers();
+            var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var result = await footballerService.AllFootballers(user);
             return View(result);
         }
         [Authorize(Roles = "Admin")]
