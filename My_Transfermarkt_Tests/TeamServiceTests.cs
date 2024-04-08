@@ -51,6 +51,7 @@ namespace My_Transfermarkt_Tests
             this.data = new ApplicationDbContext(options);
             this.data.AddRange(this.teams);
             this.data.AddRange(this.countries);
+            this.data.AddRange(this.stadiums);
             this.data.SaveChanges();
 
         }

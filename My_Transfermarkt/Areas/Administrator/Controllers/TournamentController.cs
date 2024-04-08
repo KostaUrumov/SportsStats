@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.TournamentModels;
+using My_Transfermarkt_Core.Services;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -73,10 +74,10 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 ViewBag.Comment = "Name Is not Valid";
                 return View(model);
             }
-            
+
 
             var isTournamentAlreadyIn = await tournamentService.CheckIfTournamentIsIn(model.Name);
-            if (isTournamentAlreadyIn !=null)
+            if (isTournamentAlreadyIn != null)
             {
                 var find = await tournamentService.FindTournament(model.Id);
                 model.Name = find.Name;
@@ -136,6 +137,34 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             return RedirectToAction("CurrentTeams", model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> RemoveTeams(int Id)
+        {
+            AddTeamsToTournament model = new AddTeamsToTournament
+            {
+                Id = Id,
+                Teams = await teamService.CurrentTeamsInTournament(Id)
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveTeams(int Id, AddTeamsToTournament model)
+        {
+            var tournament = await tournamentService.FindTournament(Id);
+            if (tournament == null)
+            {
+                return View("Error404", new { area = "" });
+            }
+            int[] teams = new int[model.SelectedTeams.Count()];
+            for (int i = 0; i < teams.Length; i++)
+            {
+                await tournamentService.RemoveFromTournament(Id, model.SelectedTeams[i]);
+            }
+
+            return RedirectToAction("CurrentTeams", model);
+        }
+
         public async Task<IActionResult> CurrentTeams(AddTeamsToTournament model)
         {
             var tournament = await tournamentService.FindTournament(model.Id);
@@ -149,5 +178,6 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             return View(result);
 
         }
+
     }
 }

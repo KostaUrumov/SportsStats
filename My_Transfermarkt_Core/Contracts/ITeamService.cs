@@ -19,5 +19,6 @@ namespace My_Transfermarkt_Core.Contracts
         Task<List<ShowTeamModelView>> FindTeamByCountry(string country);
 
         Task<List<ResultsViewModel>> FindTeams(string name);
+        Task<List<ShowTeamModelView>> CurrentTeamsInTournament(int tournamentId);
     }
 }

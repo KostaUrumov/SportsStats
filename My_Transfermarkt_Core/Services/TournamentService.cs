@@ -108,6 +108,13 @@ namespace My_Transfermarkt_Core.Services
             return true;
         }
 
+        public async Task RemoveFromTournament(int tournamentiD, int teamId)
+        {
+            var removeTeam = await data.TournamentsTeams.FirstAsync(i => i.TournamentId == tournamentiD && i.TeamId == teamId);
+            data.Remove(removeTeam);
+            await data.SaveChangesAsync();
+        }
+
         public async Task SaveChangesAsync(EditTournamentModel model)
         {
             var findTourneyToUpdate = await data

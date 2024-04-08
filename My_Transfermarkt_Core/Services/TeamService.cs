@@ -4,6 +4,7 @@ using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.GeneralModels;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Infastructure.DataModels;
+using System.Xml.Linq;
 
 namespace My_Transfermarkt_Core.Services
 {
@@ -57,6 +58,26 @@ namespace My_Transfermarkt_Core.Services
 
             await data.SaveChangesAsync();  
         }
+
+        public async Task<List<ShowTeamModelView>> CurrentTeamsInTournament(int tournamentId)
+        {
+            List<ShowTeamModelView> teams = await data
+               .TournamentsTeams
+               .Where(x=> x.TournamentId == tournamentId)
+               .Select(x => new ShowTeamModelView()
+               {
+                   Country = x.Team.Country.Name,
+                   Name = x.Team.Name,
+                   Stadium = x.Team.Stadium.Name,
+                   Picture = x.Team.Logo,
+                   Id = x.TeamId
+               })
+               .OrderBy(x => x.Name)
+               .ToListAsync();
+            return teams;
+
+        }
+
         /// <summary>
         /// Search a team to which stadium will be added
         /// </summary>

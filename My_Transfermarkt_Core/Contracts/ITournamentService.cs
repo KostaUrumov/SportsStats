@@ -15,5 +15,6 @@ namespace My_Transfermarkt_Core.Contracts
         Task<Tournament> CheckIfTournamentIsIn(string tournamentName);
         Task AddNewTournamentAsync(AddNewTournamentModel model);
         Task SaveChangesAsync(EditTournamentModel model);
+        Task RemoveFromTournament(int tournamentiD, int teamId);
     }
 }
