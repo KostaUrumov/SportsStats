@@ -14,6 +14,8 @@
     <thead>
         <tr>
             <th class="col-md-1">Entity</th>
+            <th class="col-md-1">Action</th>
+            <th class="col-md-1">All</th>
         </tr>
     </thead>
 
@@ -36,9 +38,16 @@
             <td><a class="nav-link" asp-area="Administrator" asp-controller="team" asp-action="AllTeams">All Teams</a></td>
         </tr>
         <tr>
-            <td>Footballers</td>
-            <td><a class="nav-link" asp-area="Administrator" asp-controller="Footballer" asp-action="GetAllFootballers">All players</a></td>
+            <td>Tournaments</td>
+            <td><a class="nav-link" asp-area="Administrator" asp-controller="Tournament" asp-action="AddNewTournament">Add tournament</a></td>
+            <td><a class="nav-link" asp-area="Administrator" asp-controller="Tournament" asp-action="AllTournaments">All tournaments</a></td>
         </tr>
+        <tr>
+            <td>Footballers</td>
+            <td></td>
+            <td><a class="nav-link" asp-area="Administrator" asp-controller="Footballer" asp-action="GetAllFootballers">All footballers</a></td>
+        </tr>
+        
     </tbody>
 
 </table>

@@ -19,6 +19,75 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             teamService = _team;
         }
 
+        [HttpGet]
+        public IActionResult AddNewTournament()
+        {
+            AddNewTournamentModel model = new AddNewTournamentModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewTournament(AddNewTournamentModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Comment = "Name Is not Valid";
+                return View(model);
+            }
+
+            var isTournamentAlreadyIn = await tournamentService.CheckIfTournamentIsIn(model.Name);
+            if (isTournamentAlreadyIn != null)
+            {
+                ViewBag.Comment = "Tournament is Already Created";
+                return View(model);
+            }
+
+            await tournamentService.AddNewTournamentAsync(model);
+
+
+            return RedirectToAction(nameof(AllTournaments));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var findTournament = await tournamentService.FindTournament(id);
+            if (findTournament == null)
+            {
+                return View("Error404", new { area = "" });
+            }
+            EditTournamentModel model = new EditTournamentModel()
+            {
+                Name = findTournament.Name,
+                Id = findTournament.Id
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditTournamentModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Comment = "Name Is not Valid";
+                return View(model);
+            }
+            
+
+            var isTournamentAlreadyIn = await tournamentService.CheckIfTournamentIsIn(model.Name);
+            if (isTournamentAlreadyIn !=null)
+            {
+                var find = await tournamentService.FindTournament(model.Id);
+                model.Name = find.Name;
+                ViewBag.Comment = "Tournament is Already Created";
+                return View(model);
+            }
+
+            await tournamentService.SaveChangesAsync(model);
+            return RedirectToAction(nameof(AllTournaments));
+        }
+
         public async Task<IActionResult> AllTournaments()
         {
             var result = await tournamentService.GetAllTournaments();
@@ -42,15 +111,20 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         {
             var tournament = await tournamentService.FindTournament(Id);
             model.Id = tournament.Id;
-            
+
             if (tournament == null)
             {
                 return View("Error404", new { area = "" });
             }
             int[] teams = new int[model.SelectedTeams.Count()];
-           for (int i = 0;i < teams.Length; i++)
+            for (int i = 0; i < teams.Length; i++)
             {
                 var team = await teamService.FindTeam(model.SelectedTeams[i]);
+                var isTeamIn = await tournamentService.IsTeamInTournament(Id, team.Id);
+                if (isTeamIn == true)
+                {
+                    continue;
+                }
                 if (team == null)
                 {
                     return View("Error404", new { area = "" });
@@ -58,11 +132,11 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 teams[i] = model.SelectedTeams[i];
                 await tournamentService.AddTeamToTournament(Id, model.SelectedTeams[i]);
             }
-            
-            return RedirectToAction("TournamentDeails", model);
+
+            return RedirectToAction("CurrentTeams", model);
         }
 
-        public async Task<IActionResult> TournamentDeails(AddTeamsToTournament model)
+        public async Task<IActionResult> CurrentTeams(AddTeamsToTournament model)
         {
             var tournament = await tournamentService.FindTournament(model.Id);
 
@@ -75,6 +149,5 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             return View(result);
 
         }
-
     }
 }
