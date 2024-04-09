@@ -105,8 +105,14 @@ namespace My_Transfermarkt_Tests
             ITournamentService service = new TournamentService(data);
             var result = service.GetDetails(12);
             Assert.That(result.Result.Name, Is.EqualTo("Bundesliga 18/19"));
-            
         }
 
+        [Test]
+        public void TestGetName()
+        {
+            ITournamentService service = new TournamentService(data);
+            var result = service.GetName(14);
+            Assert.That(result.Result, Is.EqualTo("Vtora Liga 18/19"));
+        }
     }
 }

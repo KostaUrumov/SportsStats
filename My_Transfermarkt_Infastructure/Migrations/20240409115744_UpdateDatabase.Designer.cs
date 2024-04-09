@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using My_Transfermarkt.Data;
 
@@ -11,9 +12,10 @@ using My_Transfermarkt.Data;
 namespace My_Transfermarkt_Infastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240409115744_UpdateDatabase")]
+    partial class UpdateDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,21 +54,21 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "4f8325cd-75f2-4d50-b36c-39084e5d01b2",
+                            ConcurrencyStamp = "3891d994-0196-41b4-aedc-a7755741b651",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c93174e-3b0e-446f-86af-883d56fr7210",
-                            ConcurrencyStamp = "e60e535a-aac2-4580-aab0-184181ebccfa",
+                            ConcurrencyStamp = "d5545622-9cd6-45d6-b857-445319e18e65",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "4t67567e-5f7e-446f-88fa-441f56fr8700",
-                            ConcurrencyStamp = "037f8caf-4678-4745-8bca-4083c58f6048",
+                            ConcurrencyStamp = "f42e9758-73ef-4719-9769-634a74a0097c",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
