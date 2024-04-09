@@ -19,12 +19,7 @@ namespace My_Transfermarkt_Core.Services
         }
 
 
-        /// <summary>
-        /// Add picture to a footballer
-        /// </summary>
-        /// <param name="pictureData"></param>
-        /// <param name="Id"></param>
-        /// <returns></returns>
+       
         public async Task AddPictureToFootballer(byte[] pictureData, int Id)
         {
             var findFootballer = await data.Footballers
@@ -32,6 +27,7 @@ namespace My_Transfermarkt_Core.Services
             findFootballer.Picture = pictureData;
             await data.SaveChangesAsync();
         }
+
 
         public async Task<List<AllFootballersViewModel>> AllFootballers(string username)
         {
@@ -64,11 +60,7 @@ namespace My_Transfermarkt_Core.Services
             return all;
         }
 
-        /// <summary>
-        /// Check if age of footballer is less than 40 years
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        
         public bool AreDtaesCorrect(AddNewFootallerModel model)
         {
 
@@ -103,11 +95,6 @@ namespace My_Transfermarkt_Core.Services
             
         }
 
-        /// <summary>
-        /// Create new footballer 
-        /// </summary>
-        /// <param name="fooballer"></param>
-        /// <returns></returns>
         public async Task CreateFootballerAsync(AddNewFootallerModel fooballer)
         {
 
@@ -136,11 +123,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// Return details of a specific footballer and process it to view
-        /// </summary>
-        /// <param name="playerId"></param>
-        /// <returns></returns>
+       
         public async Task<ShowFootballerDetailsViewModel> Details(int playerId)
         {
             var findPLayer = await data.Footballers.FirstAsync(f => f.Id == playerId);
@@ -170,11 +153,7 @@ namespace My_Transfermarkt_Core.Services
             return listed[0];
         }
 
-        /// <summary>
-        /// Search for spesific footballer entity
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+       
         public async Task<AddNewFootallerModel> FindFootballer(int id)
         {
             List<AddNewFootallerModel> result = await data.Footballers
@@ -218,11 +197,7 @@ namespace My_Transfermarkt_Core.Services
             
         }
 
-        /// <summary>
-        /// Return all players listed currently in a given club
-        /// </summary>
-        /// <param name="clubId"></param>
-        /// <returns></returns>
+       
         public async Task<List<ShowFootballerToClubModel>> GetAllPLayersForClub(int clubId)
         {
             List<ShowFootballerToClubModel> playersToClub = await data
@@ -302,11 +277,7 @@ namespace My_Transfermarkt_Core.Services
             return retired;
         }
 
-        /// <summary>
-        /// Check if player already exists in database
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+       
         public async Task<bool> IsAlreadyIn(AddNewFootallerModel model)
         {
             string name = model.FirstName + model.LastName;
@@ -338,11 +309,7 @@ namespace My_Transfermarkt_Core.Services
             return true;
         }
 
-        /// <summary>
-        /// Footballers of an Agent
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+        
         public async Task<List<ShowFootballerModel>> MyFootballers(string userId)
         {
             List<ShowFootballerModel> models = await data
@@ -369,11 +336,7 @@ namespace My_Transfermarkt_Core.Services
             return models;
         }
 
-        /// <summary>
-        /// Remove a player from current club
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
+        
         public async Task Release(int Id)
         {
             List<TeamsFootballers> result = await data
@@ -401,11 +364,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// Update footballer
-        /// </summary>
-        /// <param name="footballer"></param>
-        /// <returns></returns>
+        
         public async Task SaveChangesAsync(AddNewFootallerModel footballer)
         {
             var findFootballer = await data.Footballers.FirstAsync(f => f.Id == footballer.Id);
@@ -434,11 +393,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// Sing a player to a club
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        
         public async Task SignToClub(SignFootballerToATeam model)
         {
             var updateFootballer = await data.Footballers

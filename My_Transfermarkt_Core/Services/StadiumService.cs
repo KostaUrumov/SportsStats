@@ -16,11 +16,7 @@ namespace My_Transfermarkt_Core.Services
             data = _data;
         }
 
-        /// <summary>
-        /// Cteate new stadium entity
-        /// </summary>
-        /// <param name="stadium"></param>
-        /// <returns></returns>
+       
         public async Task CreateStadiumAsync(AddNewStadiumModel stadium)
         {
             Stadium newStadium = new Stadium()
@@ -35,10 +31,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// Return all stadiums in database to proceed to a view
-        /// </summary>
-        /// <returns></returns>
+        
         public async Task<List<StadiumViewModel>> AllAvailableStadiums()
         {
             
@@ -69,10 +62,7 @@ namespace My_Transfermarkt_Core.Services
             return allStadiums;
         }
 
-        /// <summary>
-        /// Return all stadiums to list to be selected when adding a new team
-        /// </summary>
-        /// <returns></returns>
+       
         public async Task<List<Stadium>> GetAllStadiums()
         {
             return await data.Stadiums
@@ -80,11 +70,7 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
         }
 
-        /// <summary>
-        /// Find stadium to be edited
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+       
         public async Task<AddNewStadiumModel> FindToEdit(int id)
         {
             var result = await data.Stadiums
@@ -105,11 +91,7 @@ namespace My_Transfermarkt_Core.Services
             return model;
         }
 
-        /// <summary>
-        /// Save changes to a stadium
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        
         public async Task SaveChangesAsync(AddNewStadiumModel model)
         {
             var editStadium = await data.Stadiums
@@ -122,11 +104,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// Remove stadium from database
-        /// </summary>
-        /// <param name="stadiumId"></param>
-        /// <returns></returns>
+        
         public async Task RemoveStadium(int stadiumId)
         {
             var findStadium = await data.Stadiums.FirstOrDefaultAsync(s => s.Id == stadiumId);
@@ -148,11 +126,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// Check if stadium already exists
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+      
         public async Task<bool> IsStadiumAlreadyIn(AddNewStadiumModel model)
         {
             var isItIn = await data.Stadiums.FirstOrDefaultAsync(s => s.Name == model.Name && s.CountryId == model.CountryId);
