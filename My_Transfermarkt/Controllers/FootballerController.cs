@@ -40,6 +40,12 @@ namespace My_Transfermarkt.Controllers
                 return View("Error404");
             }
 
+            if (findFootballer.isRetired == true)
+            {
+                ViewBag.comment = "Player is already retired";
+                return View("Error404");
+            }
+
             if (findFootballer.AgentId != userId)
             {
                 ViewBag.comment = "Not Authorized";
@@ -90,6 +96,12 @@ namespace My_Transfermarkt.Controllers
             {
                 ViewBag.comment = "Not Authorized";
                 return View("NotAuthorize");
+            }
+
+            if (findFootballer.isRetired == true)
+            {
+                ViewBag.comment = "Player is already retired";
+                return View("Error404");
             }
 
             SignFootballerToATeam model = new SignFootballerToATeam

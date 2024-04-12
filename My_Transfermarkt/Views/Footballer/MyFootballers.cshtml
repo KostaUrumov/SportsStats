@@ -97,7 +97,11 @@ else
                     </td>
                     
                     <td>
-                        <a asp-controller="Footballer" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-warning">Edit</a>
+                        @if (@Model[i].IsRetired == false)
+                        {
+                            <a asp-controller="Footballer" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-warning">Edit</a>
+                        }
+                        
                     </td>
                     <td>
                         @if (@Model[i].IsRetired == false && @Model[i].CurrentTeam != null!)

@@ -17,8 +17,10 @@ namespace My_Transfermarkt_Core.Services
         {
             data = _data;
         }
+        
+
         /// <summary>
-        /// Add new country entity
+        /// Method adds new country into database.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -31,10 +33,13 @@ namespace My_Transfermarkt_Core.Services
             data.AddRange(country);
             await data.SaveChangesAsync();
         }
+
+
         /// <summary>
-        /// Return all countries and proceed to view
+        /// Method return all country entities like  List of DisplayCountryModel
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List<DisplayCountryModel></returns>
+
         public async Task<List<DisplayCountryModel>> AllCountriesAsync()
         {
             List<DisplayCountryModel> result = await data
@@ -51,6 +56,12 @@ namespace My_Transfermarkt_Core.Services
             return result;
         }
 
+
+        /// <summary>
+        /// Method checks if there are any or more country entities containing the given string paramenter.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>List<ResultsViewModel></returns>
         public async Task<List<ResultsViewModel>> FindCountries(string name)
         {
             var found = await data
@@ -66,11 +77,12 @@ namespace My_Transfermarkt_Core.Services
             return found;
         }
 
+
         /// <summary>
-        /// Find specific country
+        /// Method checks if there is country with the given id and returns it as AddNewCountryModel model. If no matches returns null
         /// </summary>
         /// <param name="Id"></param>
-        /// <returns></returns>
+        /// <returns>AddNewCountryModel</returns>
         public async Task<AddNewCountryModel> FindCountry(int Id)
         {
             var result =  await data
@@ -90,6 +102,12 @@ namespace My_Transfermarkt_Core.Services
             return result[0];
         }
 
+
+        /// <summary>
+        /// Method checks if there are country entities matching the parameter string. Returns the country name matching or null. Could be only one match
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>String</returns>
         public async Task<string> FindCountryByname(string name)
         {
             var country = await data.Countries.FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
@@ -101,10 +119,11 @@ namespace My_Transfermarkt_Core.Services
             return country.Name;
         }
 
+
         /// <summary>
-        /// R%eturn all countries to fil List of countries where we need them to create new entity as Footballer or Stadium
+        /// Returns all countries as a List.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List<Country></returns>
         public async Task<IEnumerable<Country>> GetAllCuntries()
         {
             return await data.Countries
@@ -112,10 +131,10 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
         }
         /// <summary>
-        /// Check if country is already in the database
+        /// Method checks if country already exists in database.
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         public async Task<bool> IsAlreadyCreated(AddNewCountryModel model)
         {
             var found = await data.Countries.FirstOrDefaultAsync(x => x.Name == model.Name);
@@ -140,6 +159,12 @@ namespace My_Transfermarkt_Core.Services
             return true;
         }
 
+
+        /// <summary>
+        /// Edit already existing country entity and save changes into database.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task SaveChangesAsync(AddNewCountryModel model)
         {
             var countryToChange = await data.Countries.

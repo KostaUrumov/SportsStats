@@ -32,6 +32,8 @@ namespace My_Transfermarkt_Core.Models.FootballerModels
        
         public string? AgentId { get; set; }
 
+        public bool isRetired { get; set; }
+
         [Required]
         public Position Position { get; set; }
 

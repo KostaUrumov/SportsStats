@@ -17,6 +17,13 @@ namespace My_Transfermarkt_Core.Services
             data = _data;
         }
        
+
+        /// <summary>
+        /// Method updates logo to team.
+        /// </summary>
+        /// <param name="pictureData"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task AddLogoToTeam(byte[] pictureData, int id)
         {
             var findTeam = await data.Teams.FirstAsync(t => t.Id == id);
@@ -25,6 +32,13 @@ namespace My_Transfermarkt_Core.Services
 
         }
         
+
+
+        /// <summary>
+        /// Method adds new team into database.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddNewTeamAsync(AddNewTeamModel model)
         {
 
@@ -37,6 +51,13 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
         
+
+
+        /// <summary>
+        /// Method adds a team into stadium.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddToStadiumAsync(TeamToAddStadium model)
         {
             var findTeamToAddStadium = await data.Teams
@@ -46,6 +67,13 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();  
         }
 
+
+
+        /// <summary>
+        /// Method find teams into tournament by tournamentId. Might be null.
+        /// </summary>
+        /// <param name="tournamentId"></param>
+        /// <returns>List<ShowTeamModelView></returns>
         public async Task<List<ShowTeamModelView>> CurrentTeamsInTournament(int tournamentId)
         {
             List<ShowTeamModelView> teams = await data
@@ -65,7 +93,14 @@ namespace My_Transfermarkt_Core.Services
 
         }
 
-        
+
+
+
+        /// <summary>
+        /// Method finds team by id. If nothing dound returns null.
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <returns>TeamToAddStadium</returns>
         public async Task<TeamToAddStadium> FindTeam(int teamId)
         {
             List<TeamToAddStadium> retutnModel = await data.
@@ -85,6 +120,13 @@ namespace My_Transfermarkt_Core.Services
             return retutnModel[0];
         }
 
+
+
+        /// <summary>
+        /// Method finds and returns teams by country where country name contains the string paramenter.
+        /// </summary>
+        /// <param name="country"></param>
+        /// <returns>List<ShowTeamModelView></returns>
         public async Task<List<ShowTeamModelView>> FindTeamByCountry(string country)
         {
             var countryName = await data.Countries.FirstAsync(x => x.Name.ToLower().Contains(country.ToLower()));
@@ -105,6 +147,13 @@ namespace My_Transfermarkt_Core.Services
             
         }
 
+
+
+        /// <summary>
+        /// Method finds and returns teams where name contains the string parameter symbols.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>List<ResultsViewModel></returns>
         public async Task<List<ResultsViewModel>> FindTeams(string name)
         {
             List<ResultsViewModel> searched = await data
@@ -122,7 +171,14 @@ namespace My_Transfermarkt_Core.Services
             return searched;
         }
 
-       
+
+
+
+        /// <summary>
+        /// Method finds the team by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>AddNewTeamModel</returns>
         public async Task<AddNewTeamModel> FindTeamToBeEdited(int id)
         {
             var find = await data.Teams.FirstOrDefaultAsync(t => t.Id == id);
@@ -156,12 +212,24 @@ namespace My_Transfermarkt_Core.Services
 
             return model;
         }
-        
+
+
+
+        /// <summary>
+        /// Method returns all teams in database
+        /// </summary>
+        /// <returns>List<Team></returns>
         public async Task<List<Team>> GetAllTeams()
         {
             return await data.Teams.OrderBy(x => x.Name).ToListAsync();
         }
-       
+
+
+
+        /// <summary>
+        /// Metchod returns all available teams in ShowTeamModelView
+        /// </summary>
+        /// <returns>List<ShowTeamModelView></returns>
         public async Task<List<ShowTeamModelView>> GetAllTeamsAvailable()
         {
             List<ShowTeamModelView> teams = await data
@@ -180,6 +248,11 @@ namespace My_Transfermarkt_Core.Services
             
         }
 
+
+        /// <summary>
+        /// Method randomly returns 8 teams in modified as ShowTeamModelView
+        /// </summary>
+        /// <returns>List<ShowTeamModelView></returns>
         public async Task<List<ShowTeamModelView>> GetRandomListForHomePage()
         {
            List<ShowTeamModelView> result = new List<ShowTeamModelView>();
@@ -217,6 +290,12 @@ namespace My_Transfermarkt_Core.Services
          }
 
        
+
+        /// <summary>
+        /// Method checks if the team already exists in the database
+        /// </summary>
+        /// <param name="team"></param>
+        /// <returns>bool</returns>
         public async Task<bool> IsAlreadyCreated(AddNewTeamModel team)
         {
             var findTeam = await data.Teams.FirstOrDefaultAsync(x => x.Name == team.Name);
@@ -236,7 +315,12 @@ namespace My_Transfermarkt_Core.Services
 
         }
 
-        
+
+        /// <summary>
+        /// Method updates the new values for selected team by id
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task SaveChangesAsync(AddNewTeamModel model)
         {
             var team = await data.Teams.FirstAsync(t => t.Id == model.Id);

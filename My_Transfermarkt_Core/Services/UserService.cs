@@ -30,6 +30,13 @@ namespace My_Transfermarkt_Core.Services
             roleManager = _roleManager;
         }
        
+
+
+        /// <summary>
+        /// Method adds user to a role
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddToRole(RegisterUserViewModel model)
         {
             var findUser = data.Users.First(x => x.UserName == model.Username);
@@ -52,6 +59,13 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
        
+
+
+        /// <summary>
+        /// Method changes user`s password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task ChangePassAsync(ChangePassWordModel model)
         {
             var findUser = await data.Users.FirstAsync(x => x.Id == model.UserId);
@@ -72,6 +86,12 @@ namespace My_Transfermarkt_Core.Services
         }
 
        
+
+        /// <summary>
+        /// Method checks if e-mail is already in the database
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>bool</returns>
         public async Task<bool> CheckEmailExist(string email)
         {
             var emailIsThere = await data.Users.FirstOrDefaultAsync
@@ -84,6 +104,12 @@ namespace My_Transfermarkt_Core.Services
             return false;
         }
 
+
+        /// <summary>
+        /// Method checks if password and entered password in a log in are matching
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>bool</returns>
         public async Task<bool> CheckIfPasswordMatch(ChangePassWordModel model)
         {
             var findUser = await data.Users.FirstAsync(x => x.Id == model.UserId);
@@ -110,7 +136,12 @@ namespace My_Transfermarkt_Core.Services
 
         }
 
-        
+
+        /// <summary>
+        /// Method checks if username is already in the database
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>bool</returns>
         public async Task<bool> CheckUserNameExist(string username)
         {
             var usernameIsThere = await data.Users.FirstOrDefaultAsync
@@ -124,6 +155,12 @@ namespace My_Transfermarkt_Core.Services
 
         }
         
+
+        /// <summary>
+        /// Method logs in user.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>bool</returns>
         public async Task<bool> LoginAsync(LogInUserViewModel model)
         {
             var findUser = await data.Users.FirstOrDefaultAsync(x => x.UserName == model.Username);
@@ -153,7 +190,14 @@ namespace My_Transfermarkt_Core.Services
             await signInManager.SignInAsync((User)findUser, isPersistent: false);
             return true;
         }
-       
+
+
+
+        /// <summary>
+        /// Method logs out user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task Logout(string user)
         {
             var foundUser = await data
@@ -162,7 +206,12 @@ namespace My_Transfermarkt_Core.Services
             await signInManager.SignOutAsync();
         }
 
-        
+
+        /// <summary>
+        /// Method registers new user.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task RegisterNewUserAsync(RegisterUserViewModel model)
         {
             byte[] salt;
