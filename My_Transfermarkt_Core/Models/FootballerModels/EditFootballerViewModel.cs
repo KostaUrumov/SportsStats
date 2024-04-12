@@ -55,9 +55,9 @@ namespace My_Transfermarkt_Core.Models.FootballerModels
         public byte[]? Picture { get; set; }
 
         [Required]
-        [Range(DataConstraints.Footballer.MinValue, double.MaxValue)]
+        [RegularExpression(DataConstraints.Footballer.ValueRestriction)]
 
-        public decimal CurrentMarketValue { get; set; }
+        public string CurrentMarketValue { get; set; } = null!;
 
 
         [Range(DataConstraints.Footballer.MinValue, double.MaxValue)]

@@ -11,9 +11,7 @@ namespace My_Transfermarkt_Core.Services
     {
         private readonly ApplicationDbContext data;
 
-        public CountryService()
-        {
-        }
+        
 
         public CountryService(ApplicationDbContext _data)
         {

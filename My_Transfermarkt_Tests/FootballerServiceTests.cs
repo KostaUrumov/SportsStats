@@ -219,7 +219,7 @@ namespace My_Transfermarkt_Tests
                 CountryId = 3,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder,
                 PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Left,
-                CurrentMarketValue = decimal.Parse("1000000"),
+                CurrentMarketValue = "1000000",
                 
 
             };
@@ -232,7 +232,7 @@ namespace My_Transfermarkt_Tests
                 CountryId = 3,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder,
                 PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Left,
-                CurrentMarketValue = decimal.Parse("1000000"),
+                CurrentMarketValue = "1000000",
 
 
             };
@@ -279,7 +279,7 @@ namespace My_Transfermarkt_Tests
                 CountryId = 3,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder,
                 PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Left,
-                CurrentMarketValue = decimal.Parse("1000000") 
+                CurrentMarketValue = "1000000" 
             };
 
             AddNewFootallerModel model2 = new AddNewFootallerModel()
@@ -290,7 +290,7 @@ namespace My_Transfermarkt_Tests
                 CountryId = 3,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder,
                 PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Left,
-                CurrentMarketValue = decimal.Parse("1000000")
+                CurrentMarketValue = "1000000"
             };
             var isIn = service.IsAlreadyIn(model);
             var isNotIn = service.IsAlreadyIn(model2);

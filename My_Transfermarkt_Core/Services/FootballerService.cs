@@ -97,6 +97,10 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task CreateFootballerAsync(AddNewFootallerModel fooballer)
         {
+            if (fooballer.CurrentMarketValue.Contains("."))
+            {
+                fooballer.CurrentMarketValue = fooballer.CurrentMarketValue.Replace(".", ",");
+            }
 
             Footballer newFootballer = new Footballer()
             {
@@ -105,11 +109,11 @@ namespace My_Transfermarkt_Core.Services
                 Position = fooballer.Position,
                 PreferedFoot = fooballer.PreferedFoot,
                 InternationalCaps = fooballer.InternationalCaps,
-                CurrentMarketValue = fooballer.CurrentMarketValue,
+                CurrentMarketValue = decimal.Parse(fooballer.CurrentMarketValue),
                 BirthDay = fooballer.BirthDay,
                 AgentId = fooballer.AgentId,
                 CountryId = fooballer.CountryId,
-                HighestValue = fooballer.CurrentMarketValue,
+                HighestValue = decimal.Parse(fooballer.CurrentMarketValue),
                 HishestValueDate = DateTime.UtcNow,
                 
             };
@@ -167,7 +171,7 @@ namespace My_Transfermarkt_Core.Services
                     PreferedFoot = m.PreferedFoot,
                     CountryId = m.CountryId,
                     InternationalCaps = m.InternationalCaps,
-                    CurrentMarketValue = m.CurrentMarketValue,
+                    CurrentMarketValue = m.CurrentMarketValue.ToString(),
                     Id = m.Id
                 })
                 .ToListAsync();
@@ -367,17 +371,23 @@ namespace My_Transfermarkt_Core.Services
         
         public async Task SaveChangesAsync(AddNewFootallerModel footballer)
         {
-            var findFootballer = await data.Footballers.FirstAsync(f => f.Id == footballer.Id);
-            if (footballer.CurrentMarketValue > findFootballer.HighestValue)
+            if (footballer.CurrentMarketValue.Contains("."))
             {
-                findFootballer.HighestValue = footballer.CurrentMarketValue;
+                footballer.CurrentMarketValue = footballer.CurrentMarketValue.Replace(".", ",");
+            }
+
+            decimal currentValue = decimal.Parse(footballer.CurrentMarketValue);
+            var findFootballer = await data.Footballers.FirstAsync(f => f.Id == footballer.Id);
+            if (currentValue > findFootballer.HighestValue)
+            {
+                findFootballer.HighestValue = currentValue;
                 findFootballer.HishestValueDate = DateTime.UtcNow;
             }
             findFootballer.LastName = footballer.LastName;
             findFootballer.FirstName = footballer.FirstName;
             findFootballer.Position = footballer.Position;
             findFootballer.PreferedFoot = footballer.PreferedFoot;
-            findFootballer.CurrentMarketValue = footballer.CurrentMarketValue;
+            findFootballer.CurrentMarketValue = currentValue;
             findFootballer.InternationalCaps = footballer.InternationalCaps;
             findFootballer.CountryId = footballer.CountryId;
             findFootballer.BirthDay = footballer.BirthDay;

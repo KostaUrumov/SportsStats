@@ -10,6 +10,8 @@
             public const double MinValue = 5000;
 
             public const int MinCaps = 0;
+
+            public const string ValueRestriction = "[0-9]*[.]?[,]?[0-9]*";
         }
 
         public class Agent
