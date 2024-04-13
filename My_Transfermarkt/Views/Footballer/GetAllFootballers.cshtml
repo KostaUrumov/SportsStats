@@ -74,6 +74,10 @@ else
                     <td>@Model[i].Position</td>
                     <td>@Model[i].PrefferedFoot</td>
                     <td>
+                        @if (User.IsInRole("Agent") && Model[i].CurrentUser != Model[i].AgentName && Model[i].IsRetired == false)
+                        {
+                            <a asp-controller="Agent" asp-action="SignFootballerToMe" asp-route-id="@Model[i].Id" class="btn btn-success">Be his agent</a>
+                        }
                         @if (Model[i].CurrentUser == Model[i].AgentName)
                         {
                             <p class="text-danger">My Player</p>

@@ -125,6 +125,7 @@ namespace My_Transfermarkt.Data
                        PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Right,
                        InternationalCaps = 15,
                        CurrentMarketValue = 150000,
+                       HighestValue = 150000,
                        HishestValueDate = DateTime.Now,
                        IsRetired = false
                    },
@@ -140,6 +141,7 @@ namespace My_Transfermarkt.Data
                         PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Right,
                         InternationalCaps = 3,
                         CurrentMarketValue = decimal.Parse("170000,23"),
+                        HighestValue = decimal.Parse("170000,23"),
                         HishestValueDate = DateTime.Now,
                         IsRetired = false
                     },
@@ -155,6 +157,7 @@ namespace My_Transfermarkt.Data
                          PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Right,
                          InternationalCaps = 11,
                          CurrentMarketValue = decimal.Parse("200000,23"),
+                         HighestValue = decimal.Parse("200000,23"),
                          HishestValueDate = DateTime.Now,
                          IsRetired = false
                      }

@@ -31,6 +31,7 @@ builder.Services.AddScoped<IStadiumService, StadiumService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IFootballerService, FootballerService>();
 builder.Services.AddScoped<ITournamentService, TournamentService>();
+builder.Services.AddScoped<IAgentService, AgentService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

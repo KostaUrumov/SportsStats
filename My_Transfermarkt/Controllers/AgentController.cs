@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
+using My_Transfermarkt_Core.Services;
 using My_Transfermarkt_Infastructure.Enums;
 using System.Globalization;
 using System.Security.Claims;
@@ -14,14 +15,17 @@ namespace My_Transfermarkt.Controllers
         private readonly ICountryService countryService;
         private readonly ITeamService teamService;
         private readonly IFootballerService footballerService;
+        private readonly IAgentService agentService;
         public AgentController(
             ICountryService _country,
             ITeamService _teamService,
-            IFootballerService _football)
+            IFootballerService _football,
+            IAgentService _service)
         {
             countryService = _country;
             teamService = _teamService;
             footballerService = _football;
+            agentService = _service;
         }
         [HttpGet]
         public async Task<IActionResult> AddFootballer()
@@ -95,6 +99,19 @@ namespace My_Transfermarkt.Controllers
                 return View(model);
             }
             await footballerService.CreateFootballerAsync(model);
+            return RedirectToAction("MyFootballers", "Footballer");
+        }
+
+        public async Task<IActionResult> SignFootballerToMe(int id)
+        {
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var isFootballerIn = await footballerService.FindFootballer(id);
+            if (isFootballerIn == null)
+            {
+                ViewBag.comment = "Player do not exist";
+                return View("Error404");
+            }
+            await agentService.SignFootballerToMe(userId, id);
             return RedirectToAction("MyFootballers", "Footballer");
         }
 

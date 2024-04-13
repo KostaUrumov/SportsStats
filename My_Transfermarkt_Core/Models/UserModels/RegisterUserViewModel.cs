@@ -18,7 +18,7 @@ namespace My_Transfermarkt_Core.Models.UserModels
            ErrorMessage = "The {0} must be between {2} and {1}",
            MinimumLength = DataConstraints.User.MinName)]
         [RegularExpression(DataConstraints.User.ExampleName, ErrorMessage = "{0} example: Urumov")]
-        [Display(Name = "Username")]
+        [Display(Name = "LastName")]
 
         public string LastName { get; set; } = null!;
 
