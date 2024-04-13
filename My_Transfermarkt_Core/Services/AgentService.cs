@@ -14,6 +14,13 @@ namespace My_Transfermarkt_Core.Services
             data = _data;
         }
 
+
+        /// <summary>
+        /// Method makes the agent agent of the footballer
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="footballerId"></param>
+        /// <returns></returns>
         public async Task SignFootballerToMe(string userId, int footballerId)
         {
             var findFootballer = await data.Footballers.FirstOrDefaultAsync(x => x.Id == footballerId);
