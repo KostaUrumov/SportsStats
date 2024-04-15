@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using My_Transfermarkt_Infastructure.Configuration;
 using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt.Data
@@ -15,153 +16,15 @@ namespace My_Transfermarkt.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<AgentsFootballers>()
-                .HasKey(k => new { k.AgentId, k.FootballerId });
-
-            builder.Entity<TeamsFootballers>()
-                .HasKey(k => new { k.TeamId, k.FootballerId });
-
-            builder.Entity<TournamentsTeams>()
-                .HasKey(k => new { k.TeamId, k.TournamentId });
-
-            builder.Entity<Footballer>()
-                .Property(p => p.CurrentMarketValue)
-                .HasPrecision(18, 2);
-
-            builder.Entity<Footballer>()
-                .Property(p => p.HighestValue)
-                .HasPrecision(18, 2);
-
-            builder.Entity<IdentityRole>()
-               .HasData(
-               new IdentityRole { Id = "2c5e174e-3b0e-446f-86af-483d56fd7210", Name = "Admin", NormalizedName = "ADMIN".ToUpper() },
-               new IdentityRole { Id = "2c93174e-3b0e-446f-86af-883d56fr7210", Name = "User", NormalizedName = "USER".ToUpper() },
-               new IdentityRole { Id = "4t67567e-5f7e-446f-88fa-441f56fr8700", Name = "Agent", NormalizedName = "AGENT".ToUpper() });
-
-            builder.Entity<Country>()
-                .HasData
-                (
-                    new Country { Id = 1, Name = "Bulgaria", ShortName = "BU" },
-                    new Country { Id = 2, Name = "Spain", ShortName = "SP" },
-                    new Country { Id = 3, Name = "Hungary", ShortName = "HU" },
-                    new Country { Id = 4, Name = "Usa", ShortName = "US" },
-                    new Country { Id = 5, Name = "Japan", ShortName = "JA" },
-                    new Country { Id = 6, Name = "Bahrain", ShortName = "BA" },
-                    new Country { Id = 7, Name = "Ukraine", ShortName = "UK" },
-                    new Country { Id = 8, Name = "England", ShortName = "EN" },
-                    new Country { Id = 9, Name = "France", ShortName = "FR" },
-                    new Country { Id = 10, Name = "Norway", ShortName = "NO" },
-                    new Country { Id = 11, Name = "Egypt", ShortName = "EG" },
-                    new Country { Id = 12, Name = "Netherlands", ShortName = "NE" },
-                    new Country { Id = 13, Name = "Italy", ShortName = "IT" },
-                    new Country { Id = 14, Name = "Germany", ShortName = "DE" },
-                    new Country { Id = 15, Name = "Sweden", ShortName = "SW" }
-                );
-
-
-
-
-            builder.Entity<Stadium>()
-                .HasData(
-                    new Stadium { Id = 1, CountryId = 8, Build = DateTime.Parse("1999/01/01"), Capacity = 19999, Name = "New Anfield" },
-                    new Stadium { Id = 2, CountryId = 14, Build = DateTime.Parse("1899/01/01"), Capacity = 33999, Name = "Arena Koblenz" },
-                    new Stadium { Id = 3, CountryId = 14, Build = DateTime.Parse("1999/01/01"), Capacity = 75024, Name = "Alianz Arena" },
-                    new Stadium { Id = 4, CountryId = 14, Build = DateTime.Parse("1934/08/06"), Capacity = 74667, Name = "Olympiastadion" },
-                    new Stadium { Id = 5, CountryId = 14, Build = DateTime.Parse("1969/10/06"), Capacity = 24310, Name = "Bochum Arena" },
-                    new Stadium { Id = 6, CountryId = 14, Build = DateTime.Parse("1977/01/01"), Capacity = 33979, Name = "Arena Diesel" },
-                    new Stadium { Id = 7, CountryId = 15, Build = DateTime.Parse("1948/01/01"), Capacity = 51024, Name = "Solna Arena" },
-                    new Stadium { Id = 8, CountryId = 8, Build = DateTime.Parse("1947/05/09"), Capacity = 74667, Name = "Old Trafford" },
-                    new Stadium { Id = 9, CountryId = 14, Build = DateTime.Parse("1974/02/04"), Capacity = 81365, Name = "Westfalenstadion" },
-                    new Stadium { Id = 10, CountryId = 14, Build = DateTime.Parse("2004/11/17"), Capacity = 81365, Name = "Red Bull Arena" },
-                    new Stadium { Id = 11, CountryId = 14, Build = DateTime.Parse("1928/06/04"), Capacity = 50000, Name = "Max-Morlock-Stadion" },
-                    new Stadium { Id = 12, CountryId = 14, Build = DateTime.Parse("1929/11/08"), Capacity = 60449, Name = "MHPArena" },
-                    new Stadium { Id = 13, CountryId = 1, Build = DateTime.Parse("2023/04/30"), Capacity = 18455, Name = "Hristo Botev" },
-                    new Stadium { Id = 14, CountryId = 1, Build = DateTime.Parse("1963/03/10"), Capacity = 29200, Name = "Georgi Asparihov" }
-                );
-
-            builder.Entity<Tournament>()
-                .HasData
-                (
-                    new Tournament { Id = 1, Name = "Champions League 23/24" },
-                    new Tournament { Id = 2, Name = "Bundesliga 23/24" },
-                    new Tournament { Id = 3, Name = "Serie A 23/24" },
-                    new Tournament { Id = 4, Name = "Championship 23/24" },
-                    new Tournament { Id = 5, Name = "Parva Liga 23/24" },
-                    new Tournament { Id = 7, Name = "Premier League 23/24" }
-                );
-
-            builder.Entity<Team>()
-                .HasData
-                (
-                    new Team { Id = 1, Name = "Manchester United", CountryId = 8, StadiumId = 8 },
-                    new Team { Id = 2, Name = "Newcastle United", CountryId = 8, StadiumId = 2 },
-                    new Team { Id = 3, Name = "Hertha Berlin", CountryId = 14, StadiumId = 4 },
-                    new Team { Id = 4, Name = "Kolenz", CountryId = 14, StadiumId = 2 },
-                    new Team { Id = 5, Name = "AIK Solna", CountryId = 15, StadiumId = 7 },
-                    new Team { Id = 6, Name = "Lecester City", CountryId = 8, StadiumId = 1 },
-                    new Team { Id = 7, Name = "Liverpool", CountryId = 8, StadiumId = 1 },
-                    new Team { Id = 8, Name = "Stuttgart", CountryId = 14, StadiumId = 12 },
-                    new Team { Id = 9, Name = "Borissia Dortmund", CountryId = 14, StadiumId = 9 },
-                    new Team { Id = 12, Name = "Levski Sofia", CountryId = 1, StadiumId = 14 },
-                    new Team { Id = 14, Name = "Bochum", CountryId = 14, StadiumId = 5 },
-                    new Team { Id = 17, Name = "Bayern Munchen", CountryId = 14, StadiumId = 3 },
-                    new Team { Id = 31, Name = "Botev Plovdiv", CountryId = 1, StadiumId = 13 },
-                    new Team { Id = 51, Name = "Nuremberg", CountryId = 14, StadiumId = 11 },
-                    new Team { Id = 61, Name = "FC Magdeburg", CountryId = 14, StadiumId = 6 },
-                    new Team { Id = 82, Name = "BFC Dynamo", CountryId = 14, StadiumId = 4 }
-                );
-
-            builder.Entity<Footballer>()
-               .HasData
-               (
-                   new Footballer
-                   {
-                       Id = 1,
-                       CountryId = 1,
-                       FirstName = "Tsanko",
-                       LastName = "Tsvetanov",
-                       BirthDay = DateTime.Parse("2000/03/10"),
-                       Position = My_Transfermarkt_Infastructure.Enums.Position.Defender,
-                       PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Right,
-                       InternationalCaps = 15,
-                       CurrentMarketValue = 150000,
-                       HighestValue = 150000,
-                       HishestValueDate = DateTime.Now,
-                       IsRetired = false
-                   },
-
-                    new Footballer
-                    {
-                        Id = 2,
-                        CountryId = 1,
-                        FirstName = "Milen",
-                        LastName = "Gamakov",
-                        BirthDay = DateTime.Parse("1997/03/10"),
-                        Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder,
-                        PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Right,
-                        InternationalCaps = 3,
-                        CurrentMarketValue = decimal.Parse("170000,23"),
-                        HighestValue = decimal.Parse("170000,23"),
-                        HishestValueDate = DateTime.Now,
-                        IsRetired = false
-                    },
-
-                     new Footballer
-                     {
-                         Id = 3,
-                         CountryId = 1,
-                         FirstName = "Ivan",
-                         LastName = "Petkov",
-                         BirthDay = DateTime.Parse("1997/03/10"),
-                         Position = My_Transfermarkt_Infastructure.Enums.Position.Forward,
-                         PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Right,
-                         InternationalCaps = 11,
-                         CurrentMarketValue = decimal.Parse("200000,23"),
-                         HighestValue = decimal.Parse("200000,23"),
-                         HishestValueDate = DateTime.Now,
-                         IsRetired = false
-                     }
-              );
+            builder.ApplyConfiguration(new ApplicationAgentsFootballersConfiguration());
+            builder.ApplyConfiguration(new ApplicationTournamentsTeamsConfiguration());
+            builder.ApplyConfiguration(new ApplicationTeamsFootballersConfiguration());
+            builder.ApplyConfiguration(new ApplicationIdentityRoleConfiguration());
+            builder.ApplyConfiguration(new ApplicationCountryConfiguration());
+            builder.ApplyConfiguration(new ApplicationStadiumConfiguration());
+            builder.ApplyConfiguration(new ApplicationTournamentConfiguration());
+            builder.ApplyConfiguration(new ApplicationTeamConfiguration());
+            builder.ApplyConfiguration(new ApplicationFootballerConfiguration());
 
             base.OnModelCreating(builder);
         }
