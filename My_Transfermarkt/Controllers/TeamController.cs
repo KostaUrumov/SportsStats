@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Core.Pagening;
+using System.Security.Claims;
 
 namespace My_Transfermarkt.Controllers
 {
@@ -19,11 +20,10 @@ namespace My_Transfermarkt.Controllers
             countryService = _countryService;
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Agent, User")]
         public async Task<IActionResult> AllTeams(int pg = 1)
         {
             
-
             var listedTeams = await teamService.GetAllTeamsAvailable();
             const int pageSize = 9;
             if (pg < 1) pg = 1;
@@ -77,12 +77,6 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "User")]
         public IActionResult Result(List<ShowTeamModelView> listedTeams)
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
-            }
-
-            
             return View(listedTeams);
         }
 

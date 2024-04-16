@@ -214,6 +214,7 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> Details (int Id)
         {
+            
             var findFootballer = await footballerService.FindFootballer(Id);
             if (findFootballer == null)
             {
@@ -252,17 +253,15 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> RetiredPlayers()
         {
+           
             var getRetiredPlayers = await footballerService.GetRetiredPlayers();
             return View(getRetiredPlayers);
         }
 
         [Authorize]
+        [Authorize(Roles = "Agent, User")]
         public async Task<IActionResult> GetAllFootballers()
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
-            }
             var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var result = await footballerService.AllFootballers(userId);
             
@@ -270,22 +269,17 @@ namespace My_Transfermarkt.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Agent, User")]
         public IActionResult SearchFootballersForCountry()
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
-            }
+            
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Agent, User")]
         public async Task<IActionResult> SearchFootballersForCountry(SearchByCountryModel model)
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
-            }
             if (!ModelState.IsValid)
             {
                 return View (model);
@@ -315,12 +309,9 @@ namespace My_Transfermarkt.Controllers
             return View("Result", listetPlayers);
         }
 
+        [Authorize(Roles = "Agent, User")]
         public IActionResult Result(List<ShowFootballerDetailsViewModel> listetPlayers)
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
-            }
             return View(listetPlayers);
         }
     }

@@ -36,6 +36,10 @@ namespace My_Transfermarkt.Controllers
         [HttpGet]
         public IActionResult Search()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
+            }
             return View();
         }
 
@@ -77,6 +81,7 @@ namespace My_Transfermarkt.Controllers
 
         public async Task< IActionResult> Index()
         {
+            
             if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home", new { area = "Administrator" });

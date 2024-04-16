@@ -9,31 +9,26 @@ namespace My_Transfermarkt.Controllers
     public class TournamentController : Controller
     {
         private readonly ITournamentService tournamentService;
-        private readonly ITeamService teamService;
+        
 
         public TournamentController(
             ITournamentService _service,
             ITeamService _team)
         {
             tournamentService = _service;
-            teamService = _team;
         }
-        
+
+        [Authorize(Roles = "Agent, User")]
         public async Task<IActionResult> AllTournaments()
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
-            }
             var result = await tournamentService.GetAllTournaments();
             return View(result);
         }
+
+        [Authorize(Roles = "Agent, User")]
         public async Task<IActionResult> CurrentTeams(AddTeamsToTournament model)
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("NotAuthorize", "Home", new { area = "Administrator" });
-            }
+          
             var tournament = await tournamentService.FindTournament(model.Id);
 
             if (tournament == null)

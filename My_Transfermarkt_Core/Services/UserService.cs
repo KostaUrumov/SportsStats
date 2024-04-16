@@ -50,7 +50,7 @@ namespace My_Transfermarkt_Core.Services
                 await userManager.AddToRoleAsync((User)findUser, "Agent");
             }
 
-            else
+            if(model.Role.ToString() == "User")
             {
                 await userManager.AddToRoleAsync((User)findUser, "User");
             }
