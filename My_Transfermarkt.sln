@@ -9,11 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "My_Transfermarkt_Infastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "My_Transfermarkt_Core", "My_Transfermarkt_Core\My_Transfermarkt_Core.csproj", "{AB69D4B2-C052-482C-8D08-C190F6BFA244}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A26D5212-70FB-46F6-903B-4ACBBFC8D813}"
-	ProjectSection(SolutionItems) = preProject
-		Todos.txt = Todos.txt
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "My_Transfermarkt_Tests", "My_Transfermarkt_Tests\My_Transfermarkt_Tests.csproj", "{8EC4FDFA-26BA-4957-AF6A-39105812C555}"
 EndProject
 Global
