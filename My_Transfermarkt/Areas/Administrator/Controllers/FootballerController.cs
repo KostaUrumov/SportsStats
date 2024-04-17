@@ -51,6 +51,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             findFootballer.Positions.Add(Position.Forward);
             findFootballer.Feet.Add(Foot.Left);
             findFootballer.Feet.Add(Foot.Right);
+            ViewBag.FootballerName = findFootballer.FirstName + " " + findFootballer.LastName;
             return View(findFootballer);
         }
 
