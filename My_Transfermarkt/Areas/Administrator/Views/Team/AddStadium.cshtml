@@ -1,10 +1,10 @@
 ﻿@using My_Transfermarkt_Core.Models.TeamModels
 @model TeamToAddStadium
 @{
-    ViewData["Title"] = "Add new team";
+    ViewData["Title"] = "Add stadium";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"] to @ViewBag.team</h1>
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="" method="post">

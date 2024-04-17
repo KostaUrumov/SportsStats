@@ -31,8 +31,6 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
 
         }
-        
-
 
         /// <summary>
         /// Method adds new team into database.
@@ -46,6 +44,7 @@ namespace My_Transfermarkt_Core.Services
             team.Name = model.Name;
             team.CountryId = model.CountryId;
             team.StadiumId = model.StadiumId;
+            team.Logo = model.Picture;
             
             data.AddRange(team);
             await data.SaveChangesAsync();
@@ -327,6 +326,7 @@ namespace My_Transfermarkt_Core.Services
             team.Name = model.Name;
             team.CountryId = model.CountryId;
             team.StadiumId = model.StadiumId;
+            team.Logo = model.Picture;
             await data.SaveChangesAsync();
         }
     }

@@ -33,7 +33,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewTeam(AddNewTeamModel team)
+        public async Task<IActionResult> AddNewTeam(AddNewTeamModel team, IFormFileCollection files)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +48,23 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 team.Stadiums = await stadiumService.GetAllStadiums();
                 return View(team);
             }
+            if (files != null)
+            {
+                byte[] picData = new byte[files.Count];
+                foreach (var file in files)
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        file.CopyToAsync(ms);
+                        picData = ms.ToArray();
+                    }
+                }
+                team.Picture = picData;
 
+            }
+            
+
+            team.Picture = null;
             await teamService.AddNewTeamAsync(team);
             return RedirectToAction(nameof(AllTeams));
         }
@@ -109,7 +125,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(AddNewTeamModel team)
+        public async Task<IActionResult> Edit(AddNewTeamModel team, IFormFileCollection files)
         {
             if (!ModelState.IsValid)
             {
@@ -124,6 +140,19 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 team.Stadiums = await stadiumService.GetAllStadiums();
                 return View(team);
             }
+
+            byte[] picData = new byte[files.Count];
+            foreach (var file in files)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.CopyToAsync(ms);
+                    picData = ms.ToArray();
+                }
+            }
+
+            team.Picture = picData;
+
             await teamService.SaveChangesAsync(team);
             return RedirectToAction(nameof(AllTeams));
         }
@@ -136,6 +165,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 return View("Error404", new { area = "" });
             }
+            ViewBag.team = team.TeamName;
             team.Stadiums = await stadiumService.GetAllStadiums();
             return View(team);
         }
