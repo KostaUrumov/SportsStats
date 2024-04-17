@@ -13,10 +13,10 @@
     </script>
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Edit @ViewBag.team</h1>
 <div class="row">
     <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="" method="post">
+        <form id="Edit" asp-route-returnUrl="" method="post" enctype="multipart/form-data">
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">

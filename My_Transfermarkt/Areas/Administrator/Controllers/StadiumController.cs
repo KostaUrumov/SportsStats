@@ -66,6 +66,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View("Error404", new { area = "" });
             }
             model.Countries = await countryService.GetAllCuntries();
+            ViewBag.stadium = model.Name;
             return View(model);
         }
 

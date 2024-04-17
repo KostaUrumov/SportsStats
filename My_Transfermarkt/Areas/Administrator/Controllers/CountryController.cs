@@ -55,6 +55,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 return View("Error404", new { area = "" });
             }
+            ViewBag.country = model.Name.ToString();
             return View(model);
         }
 

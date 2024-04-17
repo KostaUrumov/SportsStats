@@ -48,6 +48,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 team.Stadiums = await stadiumService.GetAllStadiums();
                 return View(team);
             }
+            team.Picture = null;
             if (files != null)
             {
                 byte[] picData = new byte[files.Count];
@@ -64,7 +65,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             }
             
 
-            team.Picture = null;
+            
             await teamService.AddNewTeamAsync(team);
             return RedirectToAction(nameof(AllTeams));
         }
@@ -121,6 +122,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             result.Stadiums = await stadiumService.GetAllStadiums();
             result.Countries = await countryService.GetAllCuntries();
             result.Id = Id;
+            ViewBag.team = result.Name;
             return View(result);
         }
 
@@ -141,17 +143,24 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(team);
             }
 
-            byte[] picData = new byte[files.Count];
-            foreach (var file in files)
+            team.Picture = null;
+            if (files != null)
             {
-                using (MemoryStream ms = new MemoryStream())
+                byte[] picData = new byte[files.Count];
+                foreach (var file in files)
                 {
-                    file.CopyToAsync(ms);
-                    picData = ms.ToArray();
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        file.CopyToAsync(ms);
+                        picData = ms.ToArray();
+                    }
                 }
+                team.Picture = picData;
+
             }
 
-            team.Picture = picData;
+
+            
 
             await teamService.SaveChangesAsync(team);
             return RedirectToAction(nameof(AllTeams));
