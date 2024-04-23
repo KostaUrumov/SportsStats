@@ -12,6 +12,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         private readonly ICountryService countryService;
         private readonly IStadiumService stadiumService;
         private readonly ITeamService teamService;
+        
 
         public TeamController(
             ICountryService _country,
@@ -72,16 +73,16 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         public async Task<IActionResult> AllTeams(int pg =1)
         {
-            var result = await teamService.GetAllTeamsAvailable();
+            int totalTeams = teamService.TotalTeamNumber();
             const int pageSize = 9;
-            if (pg < 1) pg = 1;
+            var result = await teamService.GetTeams(pageSize, pg);
             int resCounts =  result.Count();
-            var pager = new Pager(resCounts, pg, pageSize);
-            int recSkip = (pg-1)* pageSize;
-            var data = result.Skip(recSkip).Take(pager.PageSize).ToList();
-            pager.TotalPages = resCounts/pageSize;
+            var pager = new Pager();
+            pager.TotalPages = (int)(Math.Ceiling((decimal)totalTeams/(decimal)pageSize));
+            pager.Startpage = 1;
             this.ViewBag.Pager = pager;
-            return View(data);
+            
+            return View(result.ToList());
         }
 
         [HttpGet]
@@ -143,9 +144,10 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(team);
             }
 
-            team.Picture = null;
-            if (files != null)
+            
+            if (files.Count != 0)
             {
+                team.Picture = null;
                 byte[] picData = new byte[files.Count];
                 foreach (var file in files)
                 {
@@ -156,7 +158,6 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                     }
                 }
                 team.Picture = picData;
-
             }
 
 

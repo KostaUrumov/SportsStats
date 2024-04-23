@@ -2,6 +2,15 @@
 @{
     ViewData["Title"] = "Login";
 }
+@if (ViewBag.comment != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.comment");
+        };
+    </script>
+    
+}
 
 <h1>@ViewData["Title"]</h1>
 <div class="row">

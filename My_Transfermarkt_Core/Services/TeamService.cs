@@ -288,7 +288,50 @@ namespace My_Transfermarkt_Core.Services
             return result;
          }
 
-       
+        public async Task<List<ShowTeamModelView>> GetTeams(int pageSize, int page)
+        {
+            List<ShowTeamModelView> teams = new List<ShowTeamModelView>();
+            int skip = pageSize * (page-1);
+            if (page == 1)
+            {
+                teams = await data
+                .Teams
+                .Select(x => new ShowTeamModelView()
+                {
+                    Country = x.Country.Name,
+                    Name = x.Name,
+                    Stadium = x.Stadium.Name,
+                    Picture = x.Logo,
+                    Id = x.Id
+                })
+                .Take(pageSize)
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+
+            }
+            else if (page != 1)
+            {
+                teams = await data
+                .Teams
+                .Select(x => new ShowTeamModelView()
+                {
+                    Country = x.Country.Name,
+                    Name = x.Name,
+                    Stadium = x.Stadium.Name,
+                    Picture = x.Logo,
+                    Id = x.Id
+                })
+                .Skip(skip)
+                .Take(pageSize)
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+            }
+            
+            return teams;
+
+        }
+
+
 
         /// <summary>
         /// Method checks if the team already exists in the database
@@ -328,6 +371,11 @@ namespace My_Transfermarkt_Core.Services
             team.StadiumId = model.StadiumId;
             team.Logo = model.Picture;
             await data.SaveChangesAsync();
+        }
+
+        public int TotalTeamNumber()
+        {
+            return data.Teams.Count();
         }
     }
 }

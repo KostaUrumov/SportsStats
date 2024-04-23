@@ -64,7 +64,8 @@ namespace My_Transfermarkt.Controllers
             await userService.RegisterNewUserAsync(model);
             await userService.AddToRole(model);
 
-            return RedirectToAction("Index", "Home");
+            ViewBag.comment = "Registered successfully.Please Log in again";
+            return RedirectToAction(nameof(Login));
         }
 
 

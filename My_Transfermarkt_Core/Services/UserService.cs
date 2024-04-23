@@ -54,8 +54,6 @@ namespace My_Transfermarkt_Core.Services
             {
                 await userManager.AddToRoleAsync((User)findUser, "User");
             }
-
-
             await data.SaveChangesAsync();
         }
        
@@ -244,13 +242,12 @@ namespace My_Transfermarkt_Core.Services
 
                 data.Add(newAgent);
                 await data.SaveChangesAsync();
-                await signInManager.SignInAsync(user, isPersistent: false);
+                
             }
             else
             {
                 
                 await data.SaveChangesAsync();
-                await signInManager.SignInAsync(user, isPersistent: false);
             }
 
             

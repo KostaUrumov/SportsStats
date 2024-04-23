@@ -23,17 +23,16 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "Agent, User")]
         public async Task<IActionResult> AllTeams(int pg = 1)
         {
-            
-            var listedTeams = await teamService.GetAllTeamsAvailable();
+
+            int totalTeams = teamService.TotalTeamNumber();
             const int pageSize = 9;
-            if (pg < 1) pg = 1;
-            int resCounts = listedTeams.Count();
-            var pager = new Pager(resCounts, pg, pageSize);
-            int recSkip = (pg - 1) * pageSize;
-            var data = listedTeams.Skip(recSkip).Take(pager.PageSize).ToList();
-            pager.TotalPages = resCounts / pageSize;
+            var result = await teamService.GetTeams(pageSize, pg);
+            int resCounts = result.Count();
+            var pager = new Pager();
+            pager.TotalPages = (int)(Math.Ceiling((decimal)totalTeams / (decimal)pageSize));
+            pager.Startpage = 1;
             this.ViewBag.Pager = pager;
-            return View(data);
+            return View(result.ToList());
         }
 
         [Authorize(Roles = "User")]

@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Administrator\Data\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="C:\Users\Kostadin\.nuget\packages\umbraco.sqlserverce\4.0.0.1\build\..\runtimes\win-x86\native\**" />
   </ItemGroup>
 
