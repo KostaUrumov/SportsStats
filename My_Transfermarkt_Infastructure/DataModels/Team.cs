@@ -31,5 +31,11 @@ namespace My_Transfermarkt_Infastructure.DataModels
 
         public ICollection<Match> Matches { get; set; } = new List<Match>();
 
+        [InverseProperty(nameof(Match.HomeTeam))]
+        public virtual ICollection<Match> HomeGames { get; set; } = new List<Match>();
+
+        [InverseProperty(nameof(Match.AwayTeam))]
+        public virtual ICollection<Match> AwayGames { get; set; } = new List<Match>();
+
     }
 }

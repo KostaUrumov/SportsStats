@@ -8,17 +8,24 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
     [Authorize(Roles = "Admin")]
     public class RefereeController : BaseController
     {
-        private readonly IRefereeService refereeController;
+        private readonly IRefereeService refService;
+        private readonly ICountryService countryService;
 
-        public RefereeController(IRefereeService _refereeController)
+        public RefereeController(
+            IRefereeService _refService,
+            ICountryService _cou)
         {
-            refereeController = _refereeController;
+            refService = _refService;
+            countryService = _cou;
         }
 
         [HttpGet]
-        public  IActionResult AddnewRef()
+        public async Task <IActionResult> AddnewRef()
         {
-            AddNewRefereeModel model = new AddNewRefereeModel();
+            AddNewRefereeModel model = new AddNewRefereeModel()
+            {
+                Countries = await countryService.GetAllCuntries()
+            };
             return View (model);
         }
     }

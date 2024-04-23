@@ -21,8 +21,6 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [Required]
         public DateTime EndDate { get; set; }
 
-        public ICollection<TournamentsTeams> Teams { get; set; } = new List<TournamentsTeams>();
-
         public ICollection<Referee> Referees { get; set; } = new List<Referee>();
         
     }
