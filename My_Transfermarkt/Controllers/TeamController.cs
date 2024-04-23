@@ -79,6 +79,5 @@ namespace My_Transfermarkt.Controllers
             return View(listedTeams);
         }
 
-
     }
 }

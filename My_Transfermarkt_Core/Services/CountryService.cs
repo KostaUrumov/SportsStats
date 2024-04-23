@@ -137,7 +137,7 @@ namespace My_Transfermarkt_Core.Services
         /// <returns>bool</returns>
         public async Task<bool> IsAlreadyCreated(AddNewCountryModel model)
         {
-            var found = await data.Countries.FirstOrDefaultAsync(x => x.Name == model.Name);
+            var found = await data.Countries.FirstOrDefaultAsync(x => x.Name == model.Name && x.ShortName == model.ShortName);
             if (found != null)
             {
                 for (int i = 0; i < found.Name.Length; i++)
