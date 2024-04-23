@@ -288,6 +288,13 @@ namespace My_Transfermarkt_Core.Services
             return result;
          }
 
+
+        /// <summary>
+        /// Method returns teams for pagination pourposes by selected page
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public async Task<List<ShowTeamModelView>> GetTeams(int pageSize, int page)
         {
             List<ShowTeamModelView> teams = new List<ShowTeamModelView>();
