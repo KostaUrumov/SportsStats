@@ -271,7 +271,7 @@ namespace My_Transfermarkt_Core.Services
 
             while(true) 
             {
-                if (result.Count() == 8)
+                if (result.Count == 8)
                 {
                     break;
                 }
