@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace My_Transfermarkt_Infastructure.DataModels
 {
@@ -13,5 +14,16 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public string Name { get; set; } = null!;
 
         public ICollection<TournamentsTeams> TeamsTournaments { get; set; } = new List<TournamentsTeams>();
+
+        [Required]
+        public DateTime StartDate { get; set; }
+
+        [Required]
+        public DateTime EndDate { get; set; }
+
+        public ICollection<TournamentsTeams> Teams { get; set; } = new List<TournamentsTeams>();
+
+        public ICollection<Referee> Referees { get; set; } = new List<Referee>();
+        
     }
 }

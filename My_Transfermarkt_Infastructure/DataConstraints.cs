@@ -59,5 +59,14 @@
             public const int MinTournamentName = 2;
             public const int MaxTournamentName = 100;
         }
+
+        public class Referee
+        {
+            public const int MinNameSymbols = 2;
+            public const int MaxNameSymbols = 100;
+
+            public const double MinRating = 0.1;
+            public const double Maxrating = 10.0;
+        }
     }
 }
