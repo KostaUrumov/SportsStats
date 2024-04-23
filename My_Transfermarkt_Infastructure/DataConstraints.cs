@@ -68,5 +68,11 @@
             public const double MinRating = 0.1;
             public const double Maxrating = 10.0;
         }
+
+        public class Match
+        {
+            public const int MinScore = 0;
+            public const int MaxScore = 500;
+        }
     }
 }

@@ -29,5 +29,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public Stadium? Stadium { get; set; }
         public ICollection<TeamsFootballers> TeamFootballers { get; set; } = new List<TeamsFootballers>();
 
+        public ICollection<Match> Matches { get; set; } = new List<Match>();
+
     }
 }

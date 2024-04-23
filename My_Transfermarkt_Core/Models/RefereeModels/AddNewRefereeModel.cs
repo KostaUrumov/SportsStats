@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using My_Transfermarkt_Infastructure;
+using My_Transfermarkt_Infastructure.DataModels;
+using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Infastructure.DataModels
+namespace My_Transfermarkt_Core.Models.RefereeModels
 {
-    public class Referee
+    public class AddNewRefereeModel
     {
         public int Id { get; set; }
 
@@ -24,10 +25,6 @@ namespace My_Transfermarkt_Infastructure.DataModels
 
         [Required]
         public int CountryID { get; set; }
-
-        [ForeignKey(nameof(CountryID))]
-        public Country Country { get; set; } = null!;
-
-        public ICollection<Match> Matches { get; set; } = new List<Match>();
+        public IEnumerable<Country> Countries { get; set; } = new List<Country>();
     }
 }

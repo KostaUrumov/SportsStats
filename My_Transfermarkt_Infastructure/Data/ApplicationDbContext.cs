@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt_Infastructure.Configuration;
 using My_Transfermarkt_Infastructure.DataModels;
@@ -25,6 +24,7 @@ namespace My_Transfermarkt.Data
             builder.ApplyConfiguration(new ApplicationTournamentConfiguration());
             builder.ApplyConfiguration(new ApplicationTeamConfiguration());
             builder.ApplyConfiguration(new ApplicationFootballerConfiguration());
+            builder.ApplyConfiguration(new ApplicationRefereesTournamentsConfiguration());
 
             base.OnModelCreating(builder);
         }
@@ -40,5 +40,9 @@ namespace My_Transfermarkt.Data
         public DbSet<My_Transfermarkt_Infastructure.DataModels.Stadium> Stadiums { get; set; } = null!;
         public DbSet<Team> Teams { get; set; } = null!;
         public DbSet<TeamsFootballers> TeamsFootballers { get; set; } = null!;
+        public DbSet<Referee> Referees { get; set; } = null!;
+
+        public DbSet<RefereesTournaments> RefereesTournaments { get; set; } = null!;
+        public DbSet<Match> Matches { get; set; } = null!;
     }
 }
