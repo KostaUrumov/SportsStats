@@ -49,6 +49,9 @@ namespace My_Transfermarkt.Controllers
             if (checkedEmail == true)
             {
                 ViewBag.Comment = "Email Already In Use";
+                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Agent);
+                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.User);
+                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Admin);
                 return View(model);
             }
 
@@ -57,6 +60,9 @@ namespace My_Transfermarkt.Controllers
             if (checkUsernameUsed == true)
             {
                 ViewBag.Comment = "Username Already In Use";
+                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Agent);
+                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.User);
+                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Admin);
                 return View(model);
             }
 
@@ -64,7 +70,6 @@ namespace My_Transfermarkt.Controllers
             await userService.RegisterNewUserAsync(model);
             await userService.AddToRole(model);
 
-            ViewBag.comment = "Registered successfully.Please Log in again";
             return RedirectToAction(nameof(Login));
         }
 

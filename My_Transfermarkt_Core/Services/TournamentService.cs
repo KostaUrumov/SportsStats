@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
+using My_Transfermarkt_Core.Models.MatchModels;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Core.Models.TournamentModels;
 using My_Transfermarkt_Infastructure.DataModels;
@@ -61,6 +62,22 @@ namespace My_Transfermarkt_Core.Services
         {
             var tournament = await data.Tournaments.FirstOrDefaultAsync(t=> t.Name ==  tournamentName);
             return tournament;
+        }
+
+        public async Task<List<ShowMatchModel>> FindMatchesInTournament(int tourneyId)
+        {
+            var result = await data
+                .Matches
+                .Where(x => x.TournamentId == tourneyId)
+                .Select(m => new ShowMatchModel
+                {
+                    AwayTeam = m.AwayTeam.Name,
+                    Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
+                    Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
+                    HomeTeam = m.HomeTeam.Name,
+                })
+                .ToListAsync();
+            return result;
         }
 
 

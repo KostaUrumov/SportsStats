@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.TournamentModels;
-using My_Transfermarkt_Core.Services;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -177,6 +176,20 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             var result = await tournamentService.GetDetails(model.Id);
             return View(result);
 
+        }
+
+        public async Task<IActionResult> Matches (int id)
+        {
+            var tournament = await tournamentService.FindTournament(id);
+
+            if (tournament == null)
+            {
+                return View("Error404", new { area = "" });
+            }
+            var result = await tournamentService.FindMatchesInTournament(id);
+            ViewBag.Tournament = tournament.Name;
+            ViewBag.Id = tournament.Id;
+            return View(result);
         }
 
     }

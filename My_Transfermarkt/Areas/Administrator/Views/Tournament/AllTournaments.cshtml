@@ -21,6 +21,7 @@
             <th scope="col">Name</th>
             <th scope="col">Add Teams</th>
             <th scope="col">Current Teams in</th>
+            <th scope="col">Matches</th>
             <th scope="col">Edit</th>
         </tr>
     </thead>
@@ -37,6 +38,9 @@
                 </td>
                 <td>
                     <a asp-controller="Tournament" asp-action="CurrentTeams" asp-route-id="@Model[i].Id" class="btn btn-info">Current teams in</a>
+                </td>
+                <td>
+                    <a asp-controller="Tournament" asp-action="Matches" asp-route-id="@Model[i].Id" class="btn btn-info">Matches</a>
                 </td>
                 <td>
                     <a asp-controller="Tournament" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-warning">Edit</a>
