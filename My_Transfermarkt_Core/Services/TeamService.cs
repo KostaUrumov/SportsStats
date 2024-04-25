@@ -247,6 +247,24 @@ namespace My_Transfermarkt_Core.Services
             
         }
 
+        public async Task<List<Team>> GetAllTeamsForTournament(int tournamentId)
+        {
+            var result = await data
+                .TournamentsTeams
+                .Where(x => x.TournamentId == tournamentId)
+                .Select(t => new Team
+                {
+                    Id = t.TeamId,
+                    StadiumId = t.Team.StadiumId,
+                    Name = t.Team.Name,
+                    CountryId = t.Team.CountryId,
+                    Logo = t.Team.Logo
+                })
+                .ToListAsync();
+
+            return result;
+        }
+
 
         /// <summary>
         /// Method randomly returns 8 teams in modified as ShowTeamModelView

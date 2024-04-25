@@ -11,15 +11,18 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         private readonly ITournamentService tournamentService;
         private readonly ITeamService teamService;
         private readonly IRefereeService refService;
+        private readonly IMatchService matchService;
 
         public MatchController(
             ITournamentService _tournamentService,
             ITeamService _team,
-            IRefereeService _refServ)
+            IRefereeService _refServ,
+            IMatchService _matchService)
         {
             tournamentService = _tournamentService;
             teamService = _team;
             refService = _refServ;
+            matchService = _matchService;
         }
 
         [HttpGet]
@@ -33,7 +36,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             AddNewMatchModel model = new AddNewMatchModel()
             {
                 TournamentId = tournament.Id,
-                Teams = await teamService.GetAllTeams(),
+                Teams = await teamService.GetAllTeamsForTournament(Id),
                 Referees = await refService.AllReferees()
             };
             ViewBag.Tournament = tournament.Name;
@@ -46,9 +49,21 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> AddNewMatch(int Id,AddNewMatchModel model)
         {
             model.TournamentId = Id;
-            return View();
+            var areTeamsDifferent = matchService.AreTeamsDifferent(model);
+            if (areTeamsDifferent == false)
+            {
+                ViewBag.comment = "Home and away teams are the same. Select different teams";
+                return View(model);
+            }
+            await matchService.AddNewMatch(model);
+            var result = await tournamentService.FindMatchesInTournament(Id);
+            return View("MatchesInTournament", result);
         }
 
+        public IActionResult MatchesInTournament (List<ShowMatchModel> result)
+        {
+            return View(result);
+        }
 
     }
 }

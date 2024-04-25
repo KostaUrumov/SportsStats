@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace My_Transfermarkt_Infastructure.DataModels
 {
@@ -22,6 +21,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public DateTime EndDate { get; set; }
 
         public ICollection<Referee> Referees { get; set; } = new List<Referee>();
+        
         
     }
 }

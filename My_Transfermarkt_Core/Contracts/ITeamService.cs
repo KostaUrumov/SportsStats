@@ -9,7 +9,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task AddNewTeamAsync(AddNewTeamModel model);
         Task SaveChangesAsync(AddNewTeamModel model);
         Task<List<ShowTeamModelView>> GetAllTeamsAvailable();
-
+        Task<List<Team>>  GetAllTeamsForTournament(int tournamentId);
         public int TotalTeamNumber();
         Task<List<ShowTeamModelView>> GetTeams(int pageSize, int page);
         Task<List<Team>> GetAllTeams();
