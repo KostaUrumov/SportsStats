@@ -3,11 +3,7 @@ using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.GroupModels;
 using My_Transfermarkt_Core.Models.TeamModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt_Core.Services
 {
@@ -18,6 +14,18 @@ namespace My_Transfermarkt_Core.Services
         public GroupService(ApplicationDbContext _data)
         {
             data = _data;
+        }
+
+        public async Task<string> FindGroup(int groupId)
+        {
+            var findGroup = await data.Groups.FirstAsync(x => x.Id == groupId);
+            return findGroup.Name;
+        }
+
+        public async Task<int> FindTournament(int groupId)
+        {
+            var findGroup = await data.Groups.FirstAsync(x => x.Id == groupId);
+            return (int)findGroup.TournamentID;
         }
 
         public async Task<List<ShowGroupViewModel>> GetAllGroupsForTournament(int tournamentId)

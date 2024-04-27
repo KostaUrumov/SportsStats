@@ -1,11 +1,10 @@
-﻿@using My_Transfermarkt_Core.Models.TournamentModels
-@model AddTeamsToTournament
+﻿@model AddTeamsToGroup
 @{
     ViewData["Title"] = "Result";
 }
 
 <div class="text-center">
-    <h3>Add teams to @ViewBag.Tournament </h3>
+    <h3>Add teams to @ViewBag.Tournament @ViewBag.Group </h3>
 </div>
 
 
@@ -16,10 +15,10 @@
 
             <div class="mb-3">
                 <label asp-for="@Model.SelectedTeams" class="form-label">Teams</label>
-                <select asp-for="@Model.SelectedTeams"  multiple class="form-control">
-                    @foreach (var stadium in Model.Teams)
+                <select asp-for="@Model.SelectedTeams" multiple class="form-control">
+                    @foreach (var team in Model.Teams)
                     {
-                      <option value="@stadium.Id">@stadium.Name</option>
+                        <option value="@team.Id">@team.Name</option>
                     }
                 </select>
             </div>
