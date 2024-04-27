@@ -20,15 +20,55 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             teamService = _team;
         }
 
-        [HttpGet]
         public IActionResult AddNewTournament()
         {
-            AddNewTournamentModel model = new AddNewTournamentModel();
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult AddGroupStageTournament()
+        {
+            AddNewGroupStageTournament model = new AddNewGroupStageTournament();
+            model.StartDate = DateTime.Now;
+            model.EndtDate = DateTime.Now;
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewTournament(AddNewTournamentModel model)
+        public async Task<IActionResult> AddGroupStageTournament(AddNewGroupStageTournament model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Comment = "Name Is not Valid";
+                return View(model);
+            }
+
+            var isTournamentAlreadyIn = await tournamentService.CheckIfTournamentIsIn(model.Name);
+            if (isTournamentAlreadyIn != null)
+            {
+                ViewBag.Comment = "Tournament is Already Created";
+                return View(model);
+            }
+
+            await tournamentService.AddNewTournamentAsync(model);
+
+
+            return RedirectToAction(nameof(AllTournaments));
+        }
+
+
+        [HttpGet]
+        public IActionResult AddNewSingleTournament()
+        {
+            AddNewSingleGroupTournamentModel model = new AddNewSingleGroupTournamentModel();
+            model.StartDate = DateTime.Now;
+            model.EndtDate = DateTime.Now;
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewSingleTournament(AddNewSingleGroupTournamentModel model)
         {
             if (!ModelState.IsValid)
             {

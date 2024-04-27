@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace My_Transfermarkt_Infastructure.Migrations
 {
-    public partial class One : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,7 +72,11 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GroupStageTournament_NumberOfTeams = table.Column<int>(type: "int", nullable: true),
+                    NumberOfGroups = table.Column<int>(type: "int", nullable: true),
+                    NumberOfTeams = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -225,6 +229,26 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TournamentID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Groups_Tournaments_TournamentID",
+                        column: x => x.TournamentID,
+                        principalTable: "Tournaments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Referees",
                 columns: table => new
                 {
@@ -343,7 +367,8 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     CountryId = table.Column<int>(type: "int", nullable: false),
                     Logo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     StadiumId = table.Column<int>(type: "int", nullable: true),
-                    FootballerId = table.Column<int>(type: "int", nullable: true)
+                    FootballerId = table.Column<int>(type: "int", nullable: true),
+                    GroupId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -358,6 +383,11 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         name: "FK_Teams_Footballers_FootballerId",
                         column: x => x.FootballerId,
                         principalTable: "Footballers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Teams_Groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Teams_Stadiums_StadiumId",
@@ -467,9 +497,9 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "2abf64a7-f677-4ecd-8127-f79bcb79a2ec", "Admin", "ADMIN" },
-                    { "2c93174e-3b0e-446f-86af-883d56fr7210", "ce8d7e98-8681-4fa5-8934-0e7761d44c69", "User", "USER" },
-                    { "4t67567e-5f7e-446f-88fa-441f56fr8700", "bcb1ec42-4527-4507-81b2-aaa05fd5f5dc", "Agent", "AGENT" }
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "fefcf500-1f65-4b67-9684-b8178bbcf5e8", "Admin", "ADMIN" },
+                    { "2c93174e-3b0e-446f-86af-883d56fr7210", "725bc47d-a504-4d14-884e-c70bbe691063", "User", "USER" },
+                    { "4t67567e-5f7e-446f-88fa-441f56fr8700", "422e8478-933f-4921-9cca-8ac9e49175a8", "Agent", "AGENT" }
                 });
 
             migrationBuilder.InsertData(
@@ -496,15 +526,15 @@ namespace My_Transfermarkt_Infastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Tournaments",
-                columns: new[] { "Id", "EndDate", "Name", "StartDate" },
+                columns: new[] { "Id", "Discriminator", "EndDate", "Name", "NumberOfTeams", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Champions League 23/24", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bundesliga 23/24", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Serie A 23/24", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Championship 23/24", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Parva Liga 23/24", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Premier League 23/24", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Champions League 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bundesliga 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Serie A 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Championship 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Parva Liga 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Premier League 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -512,9 +542,9 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 columns: new[] { "Id", "AgentId", "BirthDay", "CountryId", "CurrentMarketValue", "EndDateContract", "FirstName", "HighestValue", "HishestValueDate", "InternationalCaps", "IsRetired", "LastName", "Picture", "Position", "PreferedFoot", "StartDateContract", "TeamId" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2000, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 150000m, null, "Tsanko", 150000m, new DateTime(2024, 4, 23, 22, 36, 1, 501, DateTimeKind.Local).AddTicks(6816), 15, false, "Tsvetanov", null, 1, 1, null, null },
-                    { 2, null, new DateTime(1997, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 170000.23m, null, "Milen", 170000.23m, new DateTime(2024, 4, 23, 22, 36, 1, 501, DateTimeKind.Local).AddTicks(7022), 3, false, "Gamakov", null, 2, 1, null, null },
-                    { 3, null, new DateTime(1997, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 200000.23m, null, "Ivan", 200000.23m, new DateTime(2024, 4, 23, 22, 36, 1, 501, DateTimeKind.Local).AddTicks(7079), 11, false, "Petkov", null, 3, 1, null, null }
+                    { 1, null, new DateTime(2000, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 150000m, null, "Tsanko", 150000m, new DateTime(2024, 4, 26, 11, 35, 5, 988, DateTimeKind.Local).AddTicks(53), 15, false, "Tsvetanov", null, 1, 1, null, null },
+                    { 2, null, new DateTime(1997, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 170000.23m, null, "Milen", 170000.23m, new DateTime(2024, 4, 26, 11, 35, 5, 988, DateTimeKind.Local).AddTicks(180), 3, false, "Gamakov", null, 2, 1, null, null },
+                    { 3, null, new DateTime(1997, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 200000.23m, null, "Ivan", 200000.23m, new DateTime(2024, 4, 26, 11, 35, 5, 988, DateTimeKind.Local).AddTicks(204), 11, false, "Petkov", null, 3, 1, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -540,25 +570,25 @@ namespace My_Transfermarkt_Infastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Teams",
-                columns: new[] { "Id", "CountryId", "FootballerId", "Logo", "Name", "StadiumId" },
+                columns: new[] { "Id", "CountryId", "FootballerId", "GroupId", "Logo", "Name", "StadiumId" },
                 values: new object[,]
                 {
-                    { 1, 8, null, null, "Manchester United", 8 },
-                    { 2, 8, null, null, "Newcastle United", 2 },
-                    { 3, 14, null, null, "Hertha Berlin", 4 },
-                    { 4, 14, null, null, "Kolenz", 2 },
-                    { 5, 15, null, null, "AIK Solna", 7 },
-                    { 6, 8, null, null, "Lecester City", 1 },
-                    { 7, 8, null, null, "Liverpool", 1 },
-                    { 8, 14, null, null, "Stuttgart", 12 },
-                    { 9, 14, null, null, "Borissia Dortmund", 9 },
-                    { 12, 1, null, null, "Levski Sofia", 14 },
-                    { 14, 14, null, null, "Bochum", 5 },
-                    { 17, 14, null, null, "Bayern Munchen", 3 },
-                    { 31, 1, null, null, "Botev Plovdiv", 13 },
-                    { 51, 14, null, null, "Nuremberg", 11 },
-                    { 61, 14, null, null, "FC Magdeburg", 6 },
-                    { 82, 14, null, null, "BFC Dynamo", 4 }
+                    { 1, 8, null, null, null, "Manchester United", 8 },
+                    { 2, 8, null, null, null, "Newcastle United", 2 },
+                    { 3, 14, null, null, null, "Hertha Berlin", 4 },
+                    { 4, 14, null, null, null, "Kolenz", 2 },
+                    { 5, 15, null, null, null, "AIK Solna", 7 },
+                    { 6, 8, null, null, null, "Lecester City", 1 },
+                    { 7, 8, null, null, null, "Liverpool", 1 },
+                    { 8, 14, null, null, null, "Stuttgart", 12 },
+                    { 9, 14, null, null, null, "Borissia Dortmund", 9 },
+                    { 12, 1, null, null, null, "Levski Sofia", 14 },
+                    { 14, 14, null, null, null, "Bochum", 5 },
+                    { 17, 14, null, null, null, "Bayern Munchen", 3 },
+                    { 31, 1, null, null, null, "Botev Plovdiv", 13 },
+                    { 51, 14, null, null, null, "Nuremberg", 11 },
+                    { 61, 14, null, null, null, "FC Magdeburg", 6 },
+                    { 82, 14, null, null, null, "BFC Dynamo", 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -621,6 +651,11 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Groups_TournamentID",
+                table: "Groups",
+                column: "TournamentID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Matches_AwayTeamId",
                 table: "Matches",
                 column: "AwayTeamId");
@@ -674,6 +709,11 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 name: "IX_Teams_FootballerId",
                 table: "Teams",
                 column: "FootballerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teams_GroupId",
+                table: "Teams",
+                column: "GroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_StadiumId",
@@ -757,9 +797,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 name: "Referees");
 
             migrationBuilder.DropTable(
-                name: "Tournaments");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
@@ -772,7 +809,13 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 name: "Teams");
 
             migrationBuilder.DropTable(
+                name: "Groups");
+
+            migrationBuilder.DropTable(
                 name: "Stadiums");
+
+            migrationBuilder.DropTable(
+                name: "Tournaments");
 
             migrationBuilder.DropTable(
                 name: "Countries");

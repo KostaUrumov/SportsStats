@@ -12,8 +12,6 @@ namespace My_Transfermarkt_Infastructure.DataModels
             MinimumLength = DataConstraints.Tournament.MinTournamentName)]
         public string Name { get; set; } = null!;
 
-        public ICollection<TournamentsTeams> TeamsTournaments { get; set; } = new List<TournamentsTeams>();
-
         [Required]
         public DateTime StartDate { get; set; }
 
@@ -21,7 +19,8 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public DateTime EndDate { get; set; }
 
         public ICollection<Referee> Referees { get; set; } = new List<Referee>();
-        
-        
+        public ICollection<TournamentsTeams> TeamsTournaments { get; set; } = new List<TournamentsTeams>();
+
+
     }
 }

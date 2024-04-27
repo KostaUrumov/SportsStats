@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.TournamentModels
 {
-    public class AddNewTournamentModel
+    public class AddNewSingleGroupTournamentModel
     {
         [Required]
         [StringLength(maximumLength: DataConstraints.Tournament.MaxTournamentName,
@@ -11,5 +11,12 @@ namespace My_Transfermarkt_Core.Models.TournamentModels
             MinimumLength = DataConstraints.Tournament.MinTournamentName)]
         public string Name { get; set; } = null!;
 
+        [DataType(DataType.Date)]
+        public DateTime StartDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime EndtDate { get; set; }
+
+        public int NumberOfTeams { get; set; }
     }
 }

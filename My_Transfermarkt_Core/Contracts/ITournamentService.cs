@@ -13,7 +13,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task<TournamentViewModel> GetDetails(int tournamentId);
         Task<bool> IsTeamInTournament(int tournamentId, int teamId);
         Task<Tournament> CheckIfTournamentIsIn(string tournamentName);
-        Task AddNewTournamentAsync(AddNewTournamentModel model);
+        Task AddNewTournamentAsync(Object tournament);
         Task SaveChangesAsync(EditTournamentModel model);
         Task RemoveFromTournament(int tournamentiD, int teamId);
         Task<List<ShowMatchModel>> FindMatchesInTournament(int tourneyId);

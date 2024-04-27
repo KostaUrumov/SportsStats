@@ -23,14 +23,45 @@ namespace My_Transfermarkt_Core.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task AddNewTournamentAsync(AddNewTournamentModel model)
+        public async Task AddNewTournamentAsync(object tournamentModel)
         {
-            Tournament newTour = new Tournament()
+            if (tournamentModel.GetType() == typeof(AddNewSingleGroupTournamentModel))
             {
-                Name = model.Name,
-            };
-            data.Tournaments.Add(newTour);
+                var model = (AddNewSingleGroupTournamentModel)tournamentModel;
+                var tour = new SingleGroupTournament();
+                tour.Name = model.Name;
+                tour.StartDate = model.StartDate;
+                tour.EndDate = model.EndtDate;
+                tour.NumberOfTeams = model.NumberOfTeams;
+                data.AddRange(tour);
+            }
 
+            if (tournamentModel.GetType() == typeof(AddNewGroupStageTournament))
+            {
+                var model = (AddNewGroupStageTournament)tournamentModel;
+                var tour = new GroupStageTournament();
+                tour.Name = model.Name;
+                tour.StartDate = model.StartDate;
+                tour.EndDate = model.EndtDate;
+                tour.NumberOfTeams = model.NumberOfTeams;
+                tour.NumberOfGroups = model.NumberOfGroups;
+
+                
+                for (int i = 0; i < model.NumberOfGroups; i++)
+                {
+                    string groupLetter = Convert.ToChar(65 + i).ToString();
+                    Group group = new Group
+                    {
+                        Name = "Group " + groupLetter,
+                        Tournament = tour
+                    };
+                    
+                    tour.Groups.Add(group);
+                   
+                }
+                data.Groups.AddRange(tour.Groups);
+                data.AddRange(tour);
+            }
             await data.SaveChangesAsync();
         }
 
@@ -43,12 +74,12 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task AddTeamToTournament(int tournamentiD, int teamId)
         {
-            var tournament =await data.Tournaments.FirstOrDefaultAsync(t=> t.Id == tournamentiD);
+            var tournament = await data.Tournaments.FirstOrDefaultAsync(t => t.Id == tournamentiD);
             tournament.TeamsTournaments.Add(new TournamentsTeams
             {
                 TeamId = teamId,
             });
-            
+
             await data.SaveChangesAsync();
         }
 
@@ -60,7 +91,7 @@ namespace My_Transfermarkt_Core.Services
         /// <returns>Tournament</returns>
         public async Task<Tournament> CheckIfTournamentIsIn(string tournamentName)
         {
-            var tournament = await data.Tournaments.FirstOrDefaultAsync(t=> t.Name ==  tournamentName);
+            var tournament = await data.Tournaments.FirstOrDefaultAsync(t => t.Name == tournamentName);
             return tournament;
         }
 
@@ -120,14 +151,14 @@ namespace My_Transfermarkt_Core.Services
         {
             var result = await data
                 .Tournaments
-                .Where(t=> t.Id == tournamentId)
-                .Select(x=> new TournamentViewModel()
+                .Where(t => t.Id == tournamentId)
+                .Select(x => new TournamentViewModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Teams = x.TeamsTournaments
-                    .Where(t=> t.TournamentId == tournamentId)
-                    .Select (x=> new ShowTeamModelView()
+                    .Where(t => t.TournamentId == tournamentId)
+                    .Select(x => new ShowTeamModelView()
                     {
                         Name = x.Team.Name,
                         Id = x.Team.Id,
@@ -139,7 +170,7 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
 
             return result[0];
-                
+
         }
 
 
@@ -151,7 +182,7 @@ namespace My_Transfermarkt_Core.Services
         /// <returns>string</returns>
         public async Task<string> GetName(int id)
         {
-            var result =  await data
+            var result = await data
                 .Tournaments.Where(t => t.Id == id)
                 .ToArrayAsync();
 

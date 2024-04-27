@@ -34,6 +34,7 @@ builder.Services.AddScoped<ITournamentService, TournamentService>();
 builder.Services.AddScoped<IAgentService, AgentService>();
 builder.Services.AddScoped<IRefereeService, RefereeService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

@@ -15,7 +15,6 @@ namespace My_Transfermarkt_Infastructure.DataModels
 
         [ForeignKey(nameof(TournamentId))]
         public Tournament Tournament { get; set; } = null!;
-
         
         public int? RefereeId { get; set; }
 
