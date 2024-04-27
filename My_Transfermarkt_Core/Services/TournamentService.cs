@@ -131,13 +131,26 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task<List<ShowTournamentModel>> GetAllTournaments()
         {
-            return await data.Tournaments
+            var result =  await data.Tournaments
                 .Select(x => new ShowTournamentModel()
                 {
                     Name = x.Name,
                     Id = x.Id,
                 })
                 .ToListAsync();
+
+            for (int i =0; i< result.Count; i++)
+            {
+                foreach(var team in data.GroupStageTournaments)
+                {
+                    if (team.Id == result[i].Id)
+                    {
+                        result[i].isGroupTournament = true;
+                    }
+                }
+            }
+
+            return result;
         }
 
 

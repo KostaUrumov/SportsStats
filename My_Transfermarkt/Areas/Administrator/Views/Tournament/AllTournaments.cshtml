@@ -19,8 +19,8 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
-            <th scope="col">Groups</th>
             <th scope="col">Add Teams</th>
+            <th scope="col">Groups</th>
             <th scope="col">Current Teams in</th>
             <th scope="col">Matches</th>
             <th scope="col">Edit</th>
@@ -38,7 +38,15 @@
                     <a asp-controller="Tournament" asp-action="AddTeams" asp-route-id="@Model[i].Id" class="btn btn-primary">Add Teams</a>
                 </td>
                 <td>
-                    <a asp-controller="Group" asp-action="GetAllGroupsForTournament" asp-route-id="@Model[i].Id" class="btn btn-primary">Groups</a>
+                    @if(@Model[i].isGroupTournament == true)
+                    {
+                        <a asp-controller="Group" asp-action="GetAllGroupsForTournament" asp-route-id="@Model[i].Id" class="btn btn-primary">Groups</a>
+                    }
+                    else
+                    {
+                        <p>No Groups</p>
+                    }
+                       
                 </td>
                 <td>
                     <a asp-controller="Tournament" asp-action="CurrentTeams" asp-route-id="@Model[i].Id" class="btn btn-info">Current teams in</a>
