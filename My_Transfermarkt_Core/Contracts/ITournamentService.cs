@@ -17,5 +17,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task SaveChangesAsync(EditTournamentModel model);
         Task RemoveFromTournament(int tournamentiD, int teamId);
         Task<List<ShowMatchModel>> FindMatchesInTournament(int tourneyId);
+        Task <bool> IsItGroupStageTournament(int tourId);
+        Task RemoveFromGroup(int tournamentId, int teamId);
     }
 }

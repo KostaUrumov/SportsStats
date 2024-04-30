@@ -26,7 +26,8 @@ namespace My_Transfermarkt.Data
             builder.ApplyConfiguration(new ApplicationFootballerConfiguration());
             builder.ApplyConfiguration(new ApplicationRefereesTournamentsConfiguration());
             builder.ApplyConfiguration(new ApplicationMatchConfiguration());
-            
+            builder.ApplyConfiguration(new ApplicationGroupTeamsConfiguration());
+            builder.ApplyConfiguration(new ApplicationGroupsTournamentConfiguration());
 
             base.OnModelCreating(builder);
         }
@@ -37,6 +38,7 @@ namespace My_Transfermarkt.Data
         public DbSet<AgentsFootballers> AgentsFootballers { get; set; } = null!;
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Footballer> Footballers { get; set; } = null!;
+        public DbSet<GroupTeams> GroupsTeams { get; set; } = null!;
         public DbSet<Group> Groups { get; set; } = null!;
         public DbSet<GroupStageTournament> GroupStageTournaments { get; set; } = null!;
         public DbSet<Match> Matches { get; set; } = null!;
@@ -48,10 +50,8 @@ namespace My_Transfermarkt.Data
         public DbSet<TeamsFootballers> TeamsFootballers { get; set; } = null!;
         public DbSet<Tournament> Tournaments { get; set; } = null!;
         public DbSet<TournamentsTeams> TournamentsTeams { get; set; } = null!;
-        
-        
-       
-        
-        
+        public DbSet<GroupsTournament> GroupsTournaments { get; set; } = null!;
+
+
     }
 }

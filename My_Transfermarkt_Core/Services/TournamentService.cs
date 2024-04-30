@@ -33,7 +33,7 @@ namespace My_Transfermarkt_Core.Services
                 tour.StartDate = model.StartDate;
                 tour.EndDate = model.EndtDate;
                 tour.NumberOfTeams = model.NumberOfTeams;
-                data.AddRange(tour);
+                data.SingleGroupTournaments.Add(tour);
             }
 
             if (tournamentModel.GetType() == typeof(AddNewGroupStageTournament))
@@ -46,7 +46,7 @@ namespace My_Transfermarkt_Core.Services
                 tour.NumberOfTeams = model.NumberOfTeams;
                 tour.NumberOfGroups = model.NumberOfGroups;
 
-                
+
                 for (int i = 0; i < model.NumberOfGroups; i++)
                 {
                     string groupLetter = Convert.ToChar(65 + i).ToString();
@@ -55,12 +55,18 @@ namespace My_Transfermarkt_Core.Services
                         Name = "Group " + groupLetter,
                         Tournament = tour
                     };
-                    
-                    tour.Groups.Add(group);
                    
+                    GroupsTournament groupTournament = new GroupsTournament()
+                    {
+                        Group = group,
+                        Tournament = tour
+                    };
+                    tour.Groups.Add(groupTournament);
+                    data.Add(group);
+                    data.Add(groupTournament);
+
                 }
-                data.Groups.AddRange(tour.Groups);
-                data.AddRange(tour);
+                data.Add(tour);
             }
             await data.SaveChangesAsync();
         }
@@ -102,6 +108,7 @@ namespace My_Transfermarkt_Core.Services
                 .Where(x => x.TournamentId == tourneyId)
                 .Select(m => new ShowMatchModel
                 {
+                    TournamentId = tourneyId,
                     AwayTeam = m.AwayTeam.Name,
                     Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
                     Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
@@ -131,7 +138,7 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task<List<ShowTournamentModel>> GetAllTournaments()
         {
-            var result =  await data.Tournaments
+            var result = await data.Tournaments
                 .Select(x => new ShowTournamentModel()
                 {
                     Name = x.Name,
@@ -139,9 +146,9 @@ namespace My_Transfermarkt_Core.Services
                 })
                 .ToListAsync();
 
-            for (int i =0; i< result.Count; i++)
+            for (int i = 0; i < result.Count; i++)
             {
-                foreach(var team in data.GroupStageTournaments)
+                foreach (var team in data.GroupStageTournaments)
                 {
                     if (team.Id == result[i].Id)
                     {
@@ -202,6 +209,17 @@ namespace My_Transfermarkt_Core.Services
             return result[0].Name;
         }
 
+        public async Task<bool> IsItGroupStageTournament(int tourId)
+        {
+            var find = await data.GroupStageTournaments.FirstOrDefaultAsync(t => t.Id == tourId);
+            if (find == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
 
         /// <summary>
@@ -222,6 +240,23 @@ namespace My_Transfermarkt_Core.Services
             return true;
         }
 
+        public async Task RemoveFromGroup(int tournamentId, int teamId)
+        {
+            var findGroups = await data
+                .GroupsTournaments
+                .Where(x => x.TournamenId == tournamentId)
+                .ToListAsync();
+
+            foreach (var group in data.GroupsTeams)
+            {
+                if (group.TeamId == teamId)
+                {
+                    data.Remove(group);
+                }
+            }
+            await data.SaveChangesAsync();
+        }
+
 
 
         /// <summary>
@@ -233,6 +268,8 @@ namespace My_Transfermarkt_Core.Services
         public async Task RemoveFromTournament(int tournamentiD, int teamId)
         {
             var removeTeam = await data.TournamentsTeams.FirstAsync(i => i.TournamentId == tournamentiD && i.TeamId == teamId);
+            var teamDelete = await data.Teams.FirstAsync(t => t.Id == teamId);
+            
             data.Remove(removeTeam);
             await data.SaveChangesAsync();
         }

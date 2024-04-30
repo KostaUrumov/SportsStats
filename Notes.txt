@@ -1,4 +1,3 @@
-Groups are possible to be added and seen in  the admin area.
 Next steps:
 1. Make it possible to edit participating teams. 
 2. Add Matches to the group and tournament.

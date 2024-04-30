@@ -24,13 +24,13 @@ namespace My_Transfermarkt_Core.Services
         public async Task SignFootballerToMe(string userId, int footballerId)
         {
             var findFootballer = await data.Footballers.FirstOrDefaultAsync(x => x.Id == footballerId);
-            var findUser = await data.Agents.FirstOrDefaultAsync(x=> x.Id == userId);
+            var findUser = await data.Agents.FirstOrDefaultAsync(x => x.Id == userId);
             findFootballer.AgentId = findUser.Id;
             findUser.AgentFootballers.Add(new AgentsFootballers
             {
                 FootballerId = footballerId,
             });
-           
+
             await data.SaveChangesAsync();
         }
     }

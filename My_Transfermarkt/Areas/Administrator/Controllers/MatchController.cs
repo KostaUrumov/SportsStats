@@ -62,6 +62,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         public IActionResult MatchesInTournament (List<ShowMatchModel> result)
         {
+            ViewBag.Id = result[0].TournamentId;
             return View(result);
         }
 

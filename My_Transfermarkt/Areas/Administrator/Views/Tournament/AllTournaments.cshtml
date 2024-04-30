@@ -20,6 +20,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Add Teams</th>
+            <th scope="col">Remove Teams</th>
             <th scope="col">Groups</th>
             <th scope="col">Current Teams in</th>
             <th scope="col">Matches</th>
@@ -36,6 +37,9 @@
                 <td>@Model[i].Name</td>
                 <td>
                     <a asp-controller="Tournament" asp-action="AddTeams" asp-route-id="@Model[i].Id" class="btn btn-primary">Add Teams</a>
+                </td>
+                 <td>
+                    <a asp-controller="Tournament" asp-action="RemoveTeams" asp-route-id="@Model[i].Id" class="btn btn-danger">Remove Teams</a>
                 </td>
                 <td>
                     @if(@Model[i].isGroupTournament == true)

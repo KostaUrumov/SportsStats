@@ -12,8 +12,8 @@ using My_Transfermarkt.Data;
 namespace My_Transfermarkt_Infastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240426083507_initial")]
-    partial class initial
+    [Migration("20240430121010_againFirstMIgration")]
+    partial class againFirstMIgration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,21 +54,21 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "fefcf500-1f65-4b67-9684-b8178bbcf5e8",
+                            ConcurrencyStamp = "9f0b9a09-3fee-47d3-8518-a7f6d630fb67",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c93174e-3b0e-446f-86af-883d56fr7210",
-                            ConcurrencyStamp = "725bc47d-a504-4d14-884e-c70bbe691063",
+                            ConcurrencyStamp = "b9b6eff1-d6ef-4902-b862-384160867cab",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "4t67567e-5f7e-446f-88fa-441f56fr8700",
-                            ConcurrencyStamp = "422e8478-933f-4921-9cca-8ac9e49175a8",
+                            ConcurrencyStamp = "4287ad68-f437-4ee2-b55c-81a3098abda0",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -404,7 +404,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                             CurrentMarketValue = 150000m,
                             FirstName = "Tsanko",
                             HighestValue = 150000m,
-                            HishestValueDate = new DateTime(2024, 4, 26, 11, 35, 5, 988, DateTimeKind.Local).AddTicks(53),
+                            HishestValueDate = new DateTime(2024, 4, 30, 12, 10, 9, 860, DateTimeKind.Local).AddTicks(4145),
                             InternationalCaps = 15,
                             IsRetired = false,
                             LastName = "Tsvetanov",
@@ -419,7 +419,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                             CurrentMarketValue = 170000.23m,
                             FirstName = "Milen",
                             HighestValue = 170000.23m,
-                            HishestValueDate = new DateTime(2024, 4, 26, 11, 35, 5, 988, DateTimeKind.Local).AddTicks(180),
+                            HishestValueDate = new DateTime(2024, 4, 30, 12, 10, 9, 860, DateTimeKind.Local).AddTicks(4197),
                             InternationalCaps = 3,
                             IsRetired = false,
                             LastName = "Gamakov",
@@ -434,7 +434,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                             CurrentMarketValue = 200000.23m,
                             FirstName = "Ivan",
                             HighestValue = 200000.23m,
-                            HishestValueDate = new DateTime(2024, 4, 26, 11, 35, 5, 988, DateTimeKind.Local).AddTicks(204),
+                            HishestValueDate = new DateTime(2024, 4, 30, 12, 10, 9, 860, DateTimeKind.Local).AddTicks(4212),
                             InternationalCaps = 11,
                             IsRetired = false,
                             LastName = "Petkov",
@@ -464,6 +464,36 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.HasIndex("TournamentID");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.GroupsTournament", b =>
+                {
+                    b.Property<int>("TournamenId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TournamenId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("GroupsTournaments");
+                });
+
+            modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.GroupTeams", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GroupId", "TeamId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("GroupsTeams");
                 });
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Match", b =>
@@ -721,9 +751,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.Property<int?>("FootballerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("int");
-
                     b.Property<byte[]>("Logo")
                         .HasColumnType("varbinary(max)");
 
@@ -740,8 +767,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.HasIndex("CountryId");
 
                     b.HasIndex("FootballerId");
-
-                    b.HasIndex("GroupId");
 
                     b.HasIndex("StadiumId");
 
@@ -1186,6 +1211,44 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.Navigation("Tournament");
                 });
 
+            modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.GroupsTournament", b =>
+                {
+                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.Tournament", "Tournament")
+                        .WithMany()
+                        .HasForeignKey("TournamenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Tournament");
+                });
+
+            modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.GroupTeams", b =>
+                {
+                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.Group", "Tournament")
+                        .WithMany("Teams")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Team");
+
+                    b.Navigation("Tournament");
+                });
+
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Match", b =>
                 {
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Team", "AwayTeam")
@@ -1279,10 +1342,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Footballer", null)
                         .WithMany("TeamsPlayed")
                         .HasForeignKey("FootballerId");
-
-                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.Group", null)
-                        .WithMany("Teams")
-                        .HasForeignKey("GroupId");
 
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Stadium", "Stadium")
                         .WithMany()

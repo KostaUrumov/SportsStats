@@ -9,6 +9,6 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [Required]
         public int NumberOfGroups { get; set; }
         
-        public ICollection<Group> Groups = new List<Group>();
+        public ICollection<GroupsTournament> Groups = new List<GroupsTournament>();
     }
 }

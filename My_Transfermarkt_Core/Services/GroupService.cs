@@ -3,11 +3,7 @@ using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.GroupModels;
 using My_Transfermarkt_Core.Models.TeamModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt_Core.Services
 {
@@ -20,25 +16,83 @@ namespace My_Transfermarkt_Core.Services
             data = _data;
         }
 
+        public async Task AddTeamsToGroup(int groupId, int[] teams)
+        {
+            var group = await data.Groups.FirstAsync(g=> g.Id == groupId);
+            
+            for (int i = 0; i < teams.Length; i++)
+            {
+                var team = await data.Teams.FirstOrDefaultAsync(t=> t.Id == teams[i]);
+
+                GroupTeams groupTeam = new GroupTeams()
+                {
+                    TeamId = team.Id,
+                    GroupId = groupId
+
+                };
+                
+                data.Add(groupTeam);
+                group.Teams.Add(groupTeam);
+            }
+            
+            await data.SaveChangesAsync();
+        }
+
+        public async Task<int> FindGroup(int tournamentId, int teamId)
+        {
+            int number = 0;
+            var tournament = await data
+                .GroupStageTournaments
+                .Where(t=> t.Id == tournamentId)
+                .ToListAsync();
+            var findGroup = await data.GroupsTeams.FirstOrDefaultAsync(x => x.TeamId == teamId && x.Tournament.Id == tournamentId);
+            return number;
+        }
+
+        public async Task<int> FindTournament(int groupId)
+        {
+            var group = await data.Groups.FirstAsync(g=> g.Id == groupId);
+            return (int)group.TournamentID;
+            
+        }
+
         public async Task<List<ShowGroupViewModel>> GetAllGroupsForTournament(int tournamentId)
         {
             List<ShowGroupViewModel> groups = await data
-                .Groups
-                .Where(x=> x.TournamentID == tournamentId)
+                .GroupsTournaments
+                .Where(x=> x.TournamenId == tournamentId)
                 .Select(g=> new ShowGroupViewModel
                 {
-                    Name = g.Name,
-                    Id = g.Id,
-                    Teams = (ICollection<Models.TeamModels.ShowTeamModelView>)g.Teams
+                    TournamentName = g.Tournament.Name,
+                    Name = g.Group.Name,
+                    Id = g.GroupId,
+                    Teams = (ICollection<Models.TeamModels.ShowTeamModelView>)g.Group.Teams
                     .Select(x=> new ShowTeamModelView
                     {
-                        Name = x.Name
+                        Name = x.Team.Name,
                     })
                 })
                 .OrderBy(x => x.Name)
                 .ToListAsync();
             return groups;
-        } 
+        }
+
+        public async Task<bool> IsTeamInThisGroup(int groupId, int teamId)
+        {
+            var group = await data.Groups.FindAsync(groupId);
+            if (group.Teams.Count == 0)
+            {
+                return false;
+            }
+            foreach (var item in group.Teams)
+            {
+                if (item.TeamId == teamId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
 

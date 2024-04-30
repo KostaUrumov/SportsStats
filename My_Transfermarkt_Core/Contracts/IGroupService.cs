@@ -5,5 +5,9 @@ namespace My_Transfermarkt_Core.Contracts
     public interface IGroupService
     {
         Task<List<ShowGroupViewModel>> GetAllGroupsForTournament(int tournamentId);
+        Task<int> FindTournament(int groupId);
+        Task AddTeamsToGroup(int groupId, int[] teams);
+        Task<bool> IsTeamInThisGroup(int groupId, int teamId);
+        Task<int> FindGroup(int tournamentId, int teamId);
     }
 }

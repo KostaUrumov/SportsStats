@@ -4,7 +4,7 @@
 }
 
 <div class="text-center">
-    <h3>Referees</h3>
+    <h3>Groups in @ViewBag.Torunament</h3>
 </div>
 @if (Model.Count == 0)
 {
@@ -12,7 +12,7 @@
         <p></p>
         <p></p>
         <p></p>
-        <h5>Nog roups for this tournament</h5>
+        <h5>No groups for this tournament</h5>
     </div>
 }
 else
@@ -26,7 +26,8 @@ else
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Teams</th>
-                
+                <th scope="col">Add/change teams</th>
+                <th scope="col">Edit</th>
             </tr>
         </thead>
 
@@ -54,6 +55,9 @@ else
                             }
                         }
 
+                    </td>
+                    <td>
+                        <a asp-controller="Group" asp-action="AddTeamsToGroup" asp-route-id="@Model[i].Id" class="btn btn-success">Add teams</a>
                     </td>
                     <td>
                         <a asp-controller="Group" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-warning">Edit</a>
