@@ -15,6 +15,12 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [ForeignKey(nameof(TournamentID))]
         public Tournament Tournament { get; set; } = null!;
 
+        [Required]
+        public int NumberOfRounds { get; set; }
+
+        [Required]
+        public int TeamsNumber { get; set; }
+
         public ICollection<GroupTeams> Teams { get; set; } = new List<GroupTeams>();
     }
 }

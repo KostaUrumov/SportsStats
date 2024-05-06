@@ -6,5 +6,8 @@ namespace My_Transfermarkt_Infastructure.DataModels
     {
         [Required]
         public int NumberOfTeams { get; set; }
+
+        [Required]
+        public int Rounds { get; set; }
     }
 }

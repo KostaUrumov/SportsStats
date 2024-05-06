@@ -16,7 +16,6 @@ namespace My_Transfermarkt_Core.Models.TournamentModels
 
         [DataType(DataType.Date)]
         public DateTime EndtDate { get; set; }
-
         public int NumberOfTeams { get; set; }
     }
 }

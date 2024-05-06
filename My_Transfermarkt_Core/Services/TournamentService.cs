@@ -27,12 +27,15 @@ namespace My_Transfermarkt_Core.Services
         {
             if (tournamentModel.GetType() == typeof(AddNewSingleGroupTournamentModel))
             {
+                
                 var model = (AddNewSingleGroupTournamentModel)tournamentModel;
+                
                 var tour = new SingleGroupTournament();
                 tour.Name = model.Name;
                 tour.StartDate = model.StartDate;
                 tour.EndDate = model.EndtDate;
                 tour.NumberOfTeams = model.NumberOfTeams;
+                tour.Rounds = (model.NumberOfTeams - 1) * 2;
                 data.SingleGroupTournaments.Add(tour);
             }
 
@@ -53,7 +56,9 @@ namespace My_Transfermarkt_Core.Services
                     Group group = new Group
                     {
                         Name = "Group " + groupLetter,
-                        Tournament = tour
+                        Tournament = tour,
+                        NumberOfRounds = model.RoundsPerGroup,
+                        TeamsNumber = model.TeamsNumberInGroup
                     };
                    
                     GroupsTournament groupTournament = new GroupsTournament()
@@ -247,13 +252,18 @@ namespace My_Transfermarkt_Core.Services
                 .Where(x => x.TournamenId == tournamentId)
                 .ToListAsync();
 
-            foreach (var group in data.GroupsTeams)
+            var findTournaments = await data
+                .TournamentsTeams
+                .FirstAsync(t => t.TournamentId == tournamentId && t.TeamId == teamId);
+
+            var resultTodelete = await data.GroupsTeams
+                .FirstOrDefaultAsync(g => g.Group.TournamentID == tournamentId);
+            if (resultTodelete == null)
             {
-                if (group.TeamId == teamId)
-                {
-                    data.Remove(group);
-                }
+                return;
             }
+            data.Remove(resultTodelete);
+            
             await data.SaveChangesAsync();
         }
 

@@ -45,7 +45,7 @@ namespace My_Transfermarkt_Core.Services
                 .GroupStageTournaments
                 .Where(t=> t.Id == tournamentId)
                 .ToListAsync();
-            var findGroup = await data.GroupsTeams.FirstOrDefaultAsync(x => x.TeamId == teamId && x.Tournament.Id == tournamentId);
+            var findGroup = await data.GroupsTeams.FirstOrDefaultAsync(x => x.TeamId == teamId && x.Group.TournamentID == tournamentId);
             return number;
         }
 

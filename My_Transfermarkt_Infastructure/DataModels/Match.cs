@@ -15,7 +15,13 @@ namespace My_Transfermarkt_Infastructure.DataModels
 
         [ForeignKey(nameof(TournamentId))]
         public Tournament Tournament { get; set; } = null!;
+
         
+        public int? GroupId { get; set; }
+
+        [ForeignKey(nameof(GroupId))]
+        public Group? Group { get; set; }
+
         public int? RefereeId { get; set; }
 
         [ForeignKey(nameof(RefereeId))]
@@ -25,13 +31,16 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public int HomeTeamId { get; set; }
 
         [ForeignKey(nameof(HomeTeamId))]
-        public virtual  Team HomeTeam { get; set; } = null!;
+        public virtual Team HomeTeam { get; set; } = null!;
+
+        [Required]
+        public int Round { get; set; }
 
         [Required]
         public int AwayTeamId { get; set; }
 
         [ForeignKey(nameof(AwayTeamId))]
-        public virtual  Team AwayTeam { get; set; } = null!;
+        public virtual Team AwayTeam { get; set; } = null!;
 
         [Range(DataConstraints.Match.MinScore,DataConstraints.Match.MaxScore)]
         public int? HomeScore { get; set; }

@@ -16,6 +16,6 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public int GroupId { get; set; }
 
         [ForeignKey(nameof(GroupId))]
-        public Group Tournament { get; set; } = null!;
+        public Group Group { get; set; } = null!;
     }
 }
