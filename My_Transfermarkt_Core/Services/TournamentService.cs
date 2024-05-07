@@ -147,6 +147,26 @@ namespace My_Transfermarkt_Core.Services
             return tournament;
         }
 
+        public async Task<List<ShowMatchModel>> FindMatchesInGroup(int groupId)
+        {
+            var result = await data
+                .Matches
+                .Where(x => x.GroupId == groupId)
+                .Select(m => new ShowMatchModel
+                {
+                    GroupId = groupId,
+                    TournamentId = m.TournamentId,
+                    AwayTeam = m.AwayTeam.Name,
+                    Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
+                    Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
+                    HomeTeam = m.HomeTeam.Name,
+                    GroupName = m.Group.Name
+                })
+                .ToListAsync();
+
+            return result;
+        }
+
         public async Task<List<ShowMatchModel>> FindMatchesInTournament(int tourneyId)
         {
             var result = await data

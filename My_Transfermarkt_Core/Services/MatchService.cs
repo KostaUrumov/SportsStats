@@ -16,6 +16,8 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task AddNewMatch(AddNewMatchModel model)
         {
+            
+
             Match match = new Match()
             {
                 HomeTeamId = model.HomeTeamId,
@@ -27,6 +29,10 @@ namespace My_Transfermarkt_Core.Services
                 RefereeId = model.RefereeId,
                 Round = model.Round,
             };
+            if (model.GroupId != null)
+            {
+                match.GroupId = model.GroupId;
+            }
             data.AddRange(match);
             await data.SaveChangesAsync();
         }

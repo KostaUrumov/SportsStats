@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.GroupModels;
 using My_Transfermarkt_Core.Models.MatchModels;
+using My_Transfermarkt_Core.Services;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -13,17 +14,20 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         private readonly ITeamService teamService;
         private readonly ITournamentService tournamentService;
         private readonly IRefereeService refereeService;
+        private readonly IMatchService matchService;
 
         public GroupController(
             IGroupService _groupService,
             ITeamService _teamService,
             ITournamentService _tournamentService,
-            IRefereeService _refereeService)
+            IRefereeService _refereeService,
+            IMatchService _matchService)
         {
             groupService = _groupService;
             teamService = _teamService;
             tournamentService = _tournamentService;
             refereeService = _refereeService;
+            matchService = _matchService;
         }
 
         public async Task<IActionResult> GetAllGroupsForTournament(int id)
@@ -86,13 +90,41 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         {
             AddNewMatchModel model = new AddNewMatchModel()
             {
-                TournamentId = await tournamentService.FindTournamentIdByGroup(Id),
                 Teams = await teamService.GetTeamsByGroupId(Id),
                 Referees = await refereeService.AllReferees(),
                 Rounds = await groupService.AddRounds(Id)
             };
 
             return View(model); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewMatch(int Id, AddNewMatchModel model)
+        {
+            model.GroupId = Id;
+            model.TournamentId = await tournamentService.FindTournamentIdByGroup(Id);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (matchService.AreTeamsDifferent(model) == false)
+            {
+                ViewBag.comment = "Home and away teams are the same. Select different teams";
+                return View(model);
+            }
+            await matchService.AddNewMatch(model);
+            var result = await tournamentService.FindMatchesInGroup(Id);
+            ViewBag.Id = result[0].GroupId;
+            var tour = await tournamentService.FindTournament(result[0].TournamentId);
+            ViewBag.Tournament = tour.Name;
+            return View("AllMatches", result);
+            
+        }
+
+        public async Task<IActionResult> AllMatches(List<ShowMatchModel> result)
+        {
+            return View(result);
         }
 
     }

@@ -19,6 +19,8 @@ namespace My_Transfermarkt_Core.Models.MatchModels
 
         public List<int> Rounds { get; set; } = new List<int>();
 
+        public int? GroupId { get; set; }
+
         [Required]
         public int TournamentId { get; set; }
         public int? HomeScore { get; set; }

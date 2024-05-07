@@ -23,5 +23,7 @@ namespace My_Transfermarkt_Core.Contracts
         public bool TotalTeamsAreCorrect(int numberOfTeams);
         public Task<List<int>> AddRounds(int tournamentId);
         public Task<int> FindTournamentIdByGroup(int groupId);
+        Task<List<ShowMatchModel>> FindMatchesInGroup(int groupId);
+        
     }
 }

@@ -7,5 +7,7 @@
         public string AwayTeam { get; set; } = null!;
         public string Result { get; set; } = null!;
         public string Date { get; set; } = null!;
+        public int? GroupId { get; set; }
+        public string? GroupName { get; set; }
     }
 }

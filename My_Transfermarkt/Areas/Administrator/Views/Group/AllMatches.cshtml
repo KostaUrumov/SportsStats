@@ -14,7 +14,7 @@
         <p></p>
         <p></p>
         <h5>Nothing found</h5>
-        <a class="" asp-area="Administrator" asp-controller="Match" asp-action="AddNewMatch" asp-route-id="@ViewBag.Id">Add new Match</a>
+        <a class="" asp-area="Administrator" asp-controller="Group" asp-action="AddNewMatch" asp-route-id="@ViewBag.Id">Add new Match</a>
 
     </div>
 }
@@ -25,7 +25,7 @@ else
 
 
     <div class="text-center">
-        <a class="" asp-area="Administrator" asp-controller="Match" asp-action="AddNewMatch" asp-route-id="@ViewBag.Id">Add new Match</a>
+        <a class="" asp-area="Administrator" asp-controller="Group" asp-action="AddNewMatch" asp-route-id="@ViewBag.Id">Add new Match</a>
     </div>
 
 
@@ -36,6 +36,7 @@ else
                 <th scope="col">HomeTeam</th>
                 <th scope="col">Results</th>
                 <th scope="col">AwayTeam</th>
+                <th scope="col">Group</th>
                 <th scope="col">Date</th>
             </tr>
         </thead>
@@ -49,7 +50,7 @@ else
                     <td>@Model[i].HomeTeam</td>
                     <td>@Model[i].Result</td>
                     <td>@Model[i].AwayTeam</td>
-                    
+                    <td>@Model[i].GroupName</td>
                     <td>@Model[i].Date</td>
 
                 </tr>
