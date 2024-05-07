@@ -176,6 +176,12 @@ namespace My_Transfermarkt_Core.Services
             return result;
         }
 
+        public async Task<int> FindTournamentIdByGroup(int groupId)
+        {
+            var res = await data.GroupsTournaments.FirstOrDefaultAsync(x => x.GroupId == groupId);
+            return res.TournamenId;
+        }
+
 
 
         /// <summary>

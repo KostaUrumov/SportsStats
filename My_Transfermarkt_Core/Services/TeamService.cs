@@ -356,6 +356,23 @@ namespace My_Transfermarkt_Core.Services
 
         }
 
+        public async Task<List<Team>> GetTeamsByGroupId(int groupId)
+        {
+            List<Team> teams = await
+                data
+                .GroupsTeams
+                .Where(x => x.GroupId == groupId)
+                .Select(t => new Team()
+                {
+                    Id = t.Team.Id,
+                    Name = t.Team.Name
+                })
+                .ToListAsync();
+
+            return teams;
+
+        }
+
 
 
         /// <summary>

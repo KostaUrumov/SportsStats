@@ -27,15 +27,15 @@ namespace My_Transfermarkt_Infastructure.DataModels
 
         [ForeignKey(nameof(StadiumId))]
         public Stadium? Stadium { get; set; }
-        public ICollection<TeamsFootballers> TeamFootballers { get; set; } = new List<TeamsFootballers>();
-
-        public ICollection<Match> Matches { get; set; } = new List<Match>();
-
+        
         [InverseProperty(nameof(Match.HomeTeam))]
         public virtual ICollection<Match> HomeGames { get; set; } = new List<Match>();
 
         [InverseProperty(nameof(Match.AwayTeam))]
         public virtual ICollection<Match> AwayGames { get; set; } = new List<Match>();
+
+        public ICollection<TeamsFootballers> TeamFootballers { get; set; } = new List<TeamsFootballers>();
+        public ICollection<Match> Matches { get; set; } = new List<Match>();
 
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.GroupModels;
+using My_Transfermarkt_Core.Models.MatchModels;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -11,15 +12,18 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         private readonly IGroupService groupService;
         private readonly ITeamService teamService;
         private readonly ITournamentService tournamentService;
+        private readonly IRefereeService refereeService;
 
         public GroupController(
             IGroupService _groupService,
             ITeamService _teamService,
-            ITournamentService _tournamentService)
+            ITournamentService _tournamentService,
+            IRefereeService _refereeService)
         {
             groupService = _groupService;
             teamService = _teamService;
             tournamentService = _tournamentService;
+            refereeService = _refereeService;
         }
 
         public async Task<IActionResult> GetAllGroupsForTournament(int id)
@@ -75,6 +79,20 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public  IActionResult Result(List<ShowGroupViewModel> model)
         {
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddNewMatch(int Id)
+        {
+            AddNewMatchModel model = new AddNewMatchModel()
+            {
+                TournamentId = await tournamentService.FindTournamentIdByGroup(Id),
+                Teams = await teamService.GetTeamsByGroupId(Id),
+                Referees = await refereeService.AllReferees(),
+                Rounds = await groupService.AddRounds(Id)
+            };
+
+            return View(model); 
         }
 
     }

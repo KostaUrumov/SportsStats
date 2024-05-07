@@ -17,9 +17,22 @@ namespace My_Transfermarkt_Core.Services
             data = _data;
         }
 
+        public async Task<List<int>> AddRounds(int groupId)
+        {
+            List<int> rounds = new List<int>();
+
+            var group = await data.Groups.FirstOrDefaultAsync(x => x.Id == groupId);
+            for (int i = 0; i < group.NumberOfRounds; i++)
+            {
+                rounds.Add(i + 1);
+            }
+            return rounds;
+        }
+
         public async Task AddTeamsToGroup(int groupId, int[] teams)
         {
             var group = await data.Groups.FirstAsync(g=> g.Id == groupId);
+            List<GroupTeams> newGroupTeams = new List<GroupTeams>();
             
             for (int i = 0; i < teams.Length; i++)
             {
@@ -31,11 +44,11 @@ namespace My_Transfermarkt_Core.Services
                     GroupId = groupId
 
                 };
+                newGroupTeams.Add(groupTeam);
                 
-                data.Add(groupTeam);
-                group.Teams.Add(groupTeam);
             }
-            
+            group.Teams = newGroupTeams;
+            data.AddRange(newGroupTeams);
             await data.SaveChangesAsync();
         }
 
