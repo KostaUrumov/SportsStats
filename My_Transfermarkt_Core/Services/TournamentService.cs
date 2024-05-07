@@ -76,6 +76,24 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
+        public async Task<List<int>> AddRounds(int tournamentId)
+        {
+            List<int> roundBNumber = new List<int>();
+            var findTournament = await data.Tournaments.FirstOrDefaultAsync(x => x.Id == tournamentId);
+            if (findTournament.GetType() == typeof(SingleGroupTournament))
+            {
+                var tour = (SingleGroupTournament)findTournament;
+                for (int i = 0; i < tour.Rounds; i++)
+                {
+                    roundBNumber.Add(i + 1);
+                }
+            }
+            
+            
+
+            return roundBNumber;
+        }
+
 
         /// <summary>
         /// Method adds team into tournament

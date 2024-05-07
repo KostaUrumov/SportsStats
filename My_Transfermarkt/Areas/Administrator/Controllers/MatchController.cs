@@ -37,7 +37,8 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 TournamentId = tournament.Id,
                 Teams = await teamService.GetAllTeamsForTournament(Id),
-                Referees = await refService.AllReferees()
+                Referees = await refService.AllReferees(),
+                Rounds = await tournamentService.AddRounds(tournament.Id)
             };
             ViewBag.Tournament = tournament.Name;
             ViewBag.Id = tournament.Id;

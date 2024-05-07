@@ -21,5 +21,6 @@ namespace My_Transfermarkt_Core.Contracts
         Task RemoveFromGroup(int tournamentId, int teamId);
         public bool AreDatesCorrect(Object tournament);
         public bool TotalTeamsAreCorrect(int numberOfTeams);
+        public Task<List<int>> AddRounds(int tournamentId);
     }
 }

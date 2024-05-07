@@ -15,6 +15,11 @@ namespace My_Transfermarkt_Core.Models.MatchModels
         public int AwayTeamId { get; set; }
 
         [Required]
+        public int Round { get; set; }
+
+        public List<int> Rounds { get; set; } = new List<int>();
+
+        [Required]
         public int TournamentId { get; set; }
         public int? HomeScore { get; set; }
         public int? AwayScore { get; set; }

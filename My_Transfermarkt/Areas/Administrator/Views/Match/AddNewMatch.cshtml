@@ -17,6 +17,20 @@
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="@Model.Round" class="form-label">Home team</label>
+                <select asp-for="@Model.Round" class="form-control">
+                    <option value=>--Select Round--</option>
+                    @foreach (var round in Model.Rounds)
+                    {
+                        <option value="@round">@round</option>
+                    }
+                </select>
+            </div>
+            <p></p>
+            <p></p>
+
             <div class="mb-3">
                 <label asp-for="@Model.HomeTeamId" class="form-label">Home team</label>
                 <select asp-for="@Model.HomeTeamId" class="form-control">
