@@ -3,6 +3,7 @@ using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.GroupModels;
 using My_Transfermarkt_Core.Models.TeamModels;
+using My_Transfermarkt_Core.Models.TournamentModels;
 using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt_Core.Services
@@ -92,6 +93,26 @@ namespace My_Transfermarkt_Core.Services
                 }
             }
             return false;
+        }
+
+        public bool NumberOfGroupsAreCorrect(AddNewGroupStageTournament model)
+        {
+            if (model.NumberOfGroups < 2 || model.NumberOfGroups > 25)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool TeamsInGroupAreCorrect(int numberTeams)
+        {
+            if (numberTeams < 2 || numberTeams > 12)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

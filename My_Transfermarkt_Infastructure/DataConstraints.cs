@@ -74,5 +74,24 @@
             public const int MinScore = 0;
             public const int MaxScore = 500;
         }
+
+        public class Group
+        {
+            public const int MinNumTeams = 2;
+            public const int MaxNumTeams = 12;
+
+            public const int MinNumOfRounds = 1;
+            public const int MaxNumberOfRounds = 50;
+        }
+
+        public class GroupStageTournament
+        {
+            public const int MinGroupsNumber = 2;
+            public const int MaxGroupsNumber = 25;
+
+            public const int MinNumberOfTeams = 4;
+            public const int MaxNumberOfTeams = 100;
+
+        }
     }
 }

@@ -19,5 +19,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task<List<ShowMatchModel>> FindMatchesInTournament(int tourneyId);
         Task <bool> IsItGroupStageTournament(int tourId);
         Task RemoveFromGroup(int tournamentId, int teamId);
+        public bool AreDatesCorrect(Object tournament);
+        public bool TotalTeamsAreCorrect(int numberOfTeams);
     }
 }

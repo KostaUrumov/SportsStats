@@ -40,9 +40,33 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> AddGroupStageTournament(AddNewGroupStageTournament model)
         {
+            if (groupService.NumberOfGroupsAreCorrect(model) == false)
+            {
+                ViewBag.Comment = "Groups must be between 2 and 25 ";
+                return View(model);
+            }
+
+            if (groupService.TeamsInGroupAreCorrect(model.TeamsNumberInGroup) == false)
+            {
+                ViewBag.Comment = "Teams per Group must be between 2 and 12 ";
+                return View(model);
+            }
+
+            if (tournamentService.TotalTeamsAreCorrect(model.NumberOfTeams) == false)
+            {
+                ViewBag.Comment = "Teams in tournament must be between 4 and 100 ";
+                return View(model);
+            }
+
             if (!ModelState.IsValid)
             {
-                ViewBag.Comment = "Name Is not Valid";
+                
+                return View(model);
+            }
+
+            if (tournamentService.AreDatesCorrect(model) == false)
+            {
+                ViewBag.Comment = "Dates are not correctly set";
                 return View(model);
             }
 
@@ -73,9 +97,21 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewSingleTournament(AddNewSingleGroupTournamentModel model)
         {
+            if (tournamentService.TotalTeamsAreCorrect(model.NumberOfTeams) == false)
+            {
+                ViewBag.Comment = "Teams in tournament must be between 4 and 100 ";
+                return View(model);
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.Comment = "Name Is not Valid";
+                return View(model);
+            }
+
+            if (tournamentService.AreDatesCorrect(model) == false)
+            {
+                ViewBag.Comment = "Dates are not correctly set";
                 return View(model);
             }
 

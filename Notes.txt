@@ -1,3 +1,4 @@
 Next steps:
-1.Add Matches to the group and tournament.
-2.Standings of a group and a single group tournaments.
+1.Validations when adding new entities.
+2.Add Matches to the group and tournament.
+3.Standings of a group and a single group tournaments.

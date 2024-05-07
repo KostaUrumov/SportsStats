@@ -94,6 +94,29 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
+        public bool AreDatesCorrect(object tournament)
+        {
+            if (tournament.GetType() == typeof(AddNewSingleGroupTournamentModel))
+            {
+
+                var model = (AddNewSingleGroupTournamentModel)tournament;
+                if (model.EndtDate <= model.StartDate)
+                {
+                    return false;
+                }
+            }
+            else if(tournament.GetType() == typeof(AddNewGroupStageTournament))
+            {
+                var model = (AddNewGroupStageTournament)tournament;
+                if (model.EndtDate <= model.StartDate)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
 
         /// <summary>
         /// method checks if tournament is in the database searched by name and returns it
@@ -299,6 +322,16 @@ namespace My_Transfermarkt_Core.Services
 
             findTourneyToUpdate.Name = model.Name;
             await data.SaveChangesAsync();
+        }
+
+        public bool TotalTeamsAreCorrect(int numberOfTeams)
+        {
+            if (numberOfTeams < 2 || numberOfTeams > 100)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

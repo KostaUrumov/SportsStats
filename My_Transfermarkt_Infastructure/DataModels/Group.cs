@@ -16,9 +16,11 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public Tournament Tournament { get; set; } = null!;
 
         [Required]
+        [Range(DataConstraints.Group.MinNumOfRounds, DataConstraints.Group.MaxNumberOfRounds)]
         public int NumberOfRounds { get; set; }
 
         [Required]
+        [Range(DataConstraints.Group.MinNumTeams, DataConstraints.Group.MaxNumTeams)]
         public int TeamsNumber { get; set; }
 
         public ICollection<GroupTeams> Teams { get; set; } = new List<GroupTeams>();
