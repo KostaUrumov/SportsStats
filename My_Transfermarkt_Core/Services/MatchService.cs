@@ -24,7 +24,8 @@ namespace My_Transfermarkt_Core.Services
                 AwayScore = model.AwayScore,
                 MatchDate = model.Date,
                 TournamentId = model.TournamentId,
-                RefereeId = model.RefereeId
+                RefereeId = model.RefereeId,
+                Round = model.Round,
             };
             data.AddRange(match);
             await data.SaveChangesAsync();
