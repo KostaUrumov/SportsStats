@@ -78,6 +78,7 @@ namespace My_Transfermarkt_Core.Services
                 .Select(g=> new ShowGroupViewModel
                 {
                     TournamentName = g.Tournament.Name,
+                    TournamentId = g.Tournament.Id,
                     Name = g.Group.Name,
                     Id = g.GroupId,
                     Teams = (ICollection<Models.TeamModels.ShowTeamModelView>)g.Group.Teams
@@ -88,6 +89,17 @@ namespace My_Transfermarkt_Core.Services
                 })
                 .OrderBy(x => x.Name)
                 .ToListAsync();
+
+            for (int i = 0; i < groups.Count; i++)
+            {
+                foreach (var match in data.Matches)
+                {
+                    if (groups[i].Id == match.GroupId)
+                    {
+                        groups[i].AreThereAnyMatches = true;
+                    }
+                }
+            }
             return groups;
         }
 

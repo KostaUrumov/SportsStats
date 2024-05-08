@@ -27,7 +27,8 @@ else
                 <th scope="col">Name</th>
                 <th scope="col">Teams</th>
                 <th scope="col">Add teams</th>
-                <th scope="col">Add macthes</th>
+                <th scope="col">Add match</th>
+                <th scope="col">Matches</th>
                 <th scope="col">Edit</th>
             </tr>
         </thead>
@@ -63,6 +64,18 @@ else
                     <td>
                         <a asp-controller="Group" asp-action="AddNewMatch" asp-route-id="@Model[i].Id" class="btn btn-success">Add new match</a>
                     </td>
+                    @if (Model[i].AreThereAnyMatches == true)
+                    {
+                        <td>
+                            <a asp-controller="Group" asp-action="MatchesInGroup" asp-route-groupId="@Model[i].Id" class="btn btn-success">matches in this group</a>
+                        </td>
+
+                    }
+                    else
+                    {
+                      <td>No Matches in this group</td>   
+                    }
+
                     <td>
                         <a asp-controller="Group" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-warning">Edit</a>
                     </td>

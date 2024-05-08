@@ -127,5 +127,20 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             return View(result);
         }
 
+        public async Task<IActionResult> MatchesInGroup(int groupId)
+        {
+            
+            var result = await tournamentService.FindMatchesInGroup(groupId);
+            
+            if (result.Count == 0)
+            {
+                return View("Error404");
+            }
+            ViewBag.Id = groupId;
+            var tour = await tournamentService.FindTournament(result[0].TournamentId);
+            ViewBag.Tournament = tour.Name;
+            return View("AllMatches", result);
+        }
+
     }
 }

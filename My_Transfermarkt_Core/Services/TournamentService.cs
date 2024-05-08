@@ -175,11 +175,14 @@ namespace My_Transfermarkt_Core.Services
                 .Select(m => new ShowMatchModel
                 {
                     TournamentId = tourneyId,
+                    GroupName = m.Group.Name,
                     AwayTeam = m.AwayTeam.Name,
                     Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
                     Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
                     HomeTeam = m.HomeTeam.Name,
                 })
+                .OrderBy(x=> x.GroupName)
+                .ThenBy(x => x.Date)
                 .ToListAsync();
             return result;
         }
