@@ -34,6 +34,7 @@
                 <th scope="col">AwayTeam</th>
                 <th scope="col">Group</th>
                 <th scope="col">Date</th>
+                <th scope="col">Round</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -58,6 +59,7 @@
                     }
 
                     <td>@Model[i].Date</td>
+                    <td>@Model[i].Round</td>
                     <td>
                         <a asp-controller="Match" asp-action="Edit" asp-route-Id="@Model[i].Id" class="btn btn-danger">Edit</a>
                     </td>
@@ -86,6 +88,7 @@ else
                 <th scope="col">Results</th>
                 <th scope="col">AwayTeam</th>
                 <th scope="col">Date</th>
+                <th scope="col">Round</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -99,9 +102,10 @@ else
                     <td>@Model[i].HomeTeam</td>
                     <td>@Model[i].Result</td>
                     <td>@Model[i].AwayTeam</td>
-                    
+
 
                     <td>@Model[i].Date</td>
+                    <td>@Model[i].Round</td>
                     <td>
                         <a asp-controller="Match" asp-action="Edit" asp-route-Id="@Model[i].Id" class="btn btn-danger">Edit</a>
                     </td>

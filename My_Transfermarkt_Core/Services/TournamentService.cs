@@ -182,6 +182,7 @@ namespace My_Transfermarkt_Core.Services
                     Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
                     Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
                     HomeTeam = m.HomeTeam.Name,
+                    Round = m.Round
                 })
                 .OrderBy(x=> x.GroupName)
                 .ToListAsync();
