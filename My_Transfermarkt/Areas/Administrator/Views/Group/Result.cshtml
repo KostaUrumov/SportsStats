@@ -62,7 +62,7 @@ else
                         <a asp-controller="Group" asp-action="AddTeamsToGroup" asp-route-id="@Model[i].Id" class="btn btn-success">Add teams</a>
                     </td>
                     <td>
-                        <a asp-controller="Group" asp-action="AddNewMatch" asp-route-id="@Model[i].Id" class="btn btn-success">Add new match</a>
+                        <a asp-controller="Match" asp-action="AddNewMatch" asp-route-GroupId="@Model[i].Id" asp-route-Id="@Model[i].TournamentId" class="btn btn-success">Add new match</a>
                     </td>
                     @if (Model[i].AreThereAnyMatches == true)
                     {

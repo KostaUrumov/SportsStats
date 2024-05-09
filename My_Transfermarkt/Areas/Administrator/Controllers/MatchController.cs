@@ -30,27 +30,41 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddNewMatch(int Id)
+        public async Task<IActionResult> AddNewMatch(int Id, int GroupId)
         {
-            var tournament = await tournamentService.FindTournament(Id);
-            if (await tournamentService.IsItGroupStageTournament(Id) == true)
+            AddNewMatchModel model = new AddNewMatchModel();
+            
+            if (GroupId != 0)
             {
-                TempData["id"] = Id;
-                RedirectToAction("GetAllGroupsForTournament", "Group");
+                model.GroupId = GroupId;
+                Id = await groupService.FindTournament(GroupId);
+                model.Rounds = await groupService.AddRounds(GroupId);
+                model.Teams = await teamService.GetTeamsByGroupId(GroupId);
+                TempData["groupId"] = GroupId;
             }
+            var tournament = await tournamentService.FindTournament(Id);
+            
             if (tournament == null)
             {
                 return View("Error404", new { area = "" });
             }
-            AddNewMatchModel model = new AddNewMatchModel()
+
+            model.TournamentId = tournament.Id;
+            if (model.Teams.Count() == 0)
             {
-                TournamentId = tournament.Id,
-                Teams = await teamService.GetAllTeamsForTournament(Id),
-                Referees = await refService.AllReferees(),
-                Rounds = await tournamentService.AddRounds(tournament.Id)
-            };
+                model.Teams = await teamService.GetAllTeamsForTournament(Id);
+            }
+            
+            model.Referees = await refService.AllReferees();
+            if (model.Rounds.Count == 0)
+            {
+                model.Rounds = await tournamentService.AddRounds(tournament.Id);
+            }
+            
+
             ViewBag.Tournament = tournament.Name;
             ViewBag.Id = tournament.Id;
+            ViewBag.Group = model.GroupId;
             model.Date = DateTime.Today;
             return View(model);
         }
@@ -58,12 +72,23 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewMatch(int Id,AddNewMatchModel model)
         {
+            if (TempData["id"] != null)
+            {
+                model.GroupId = (int)TempData["id"];
+                TempData.Remove("id");
+            }
+
             model.TournamentId = Id;
             if (matchService.AreTeamsDifferent(model) == false)
             {
                 ViewBag.comment = "Home and away teams are the same. Select different teams";
                 model.Teams = await teamService.GetAllTeamsForTournament(Id);
                 model.Referees = await refService.AllReferees();
+                if (model.GroupId != null)
+                {
+                    model.Rounds = await groupService.AddRounds((int)model.GroupId);
+                    return View(model);
+                }
                 model.Rounds = await tournamentService.AddRounds(Id);
 
                 return View(model);
@@ -75,18 +100,26 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 model.Teams = await teamService.GetAllTeamsForTournament(Id);
                 model.Referees = await refService.AllReferees();
                 model.Rounds = await tournamentService.AddRounds(Id);
+                if (model.GroupId != null)
+                {
+                    model.Rounds = await groupService.AddRounds((int)model.GroupId);
+                    return View(model);
+                }
                 return View(model);
             }
-
             await matchService.AddNewMatch(model);
-            var result = await tournamentService.FindMatchesInTournament(Id);
-            return View("MatchesInTournament", result);
-        }
+            if (model.GroupId != null)
+            {
+                ViewBag.Id = model.GroupId;
+                var tour = await tournamentService.FindTournament(model.TournamentId);
+                ViewBag.Tournament = tour.Name;
+                TempData["groupId"] = model.GroupId;
+                return RedirectToAction("MatchesInGroup", "Group");
 
-        public IActionResult MatchesInTournament (List<ShowMatchModel> result)
-        {
-            ViewBag.Id = result[0].TournamentId;
-            return View(result);
+            }
+            
+            TempData["Id"] = Id;
+            return RedirectToAction("Matches", "Tournament");
         }
 
         [HttpGet]

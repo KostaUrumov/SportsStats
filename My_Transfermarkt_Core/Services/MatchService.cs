@@ -17,8 +17,6 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task AddNewMatch(AddNewMatchModel model)
         {
-
-
             Match match = new Match()
             {
                 HomeTeamId = model.HomeTeamId,

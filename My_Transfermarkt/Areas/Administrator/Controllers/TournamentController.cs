@@ -276,6 +276,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             if (TempData["Id"] != null)
             {
                 Id = (int)TempData["Id"];
+                TempData.Remove("Id");
             }
             var tournament = await tournamentService.FindTournament(Id);
 
