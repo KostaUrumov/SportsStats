@@ -33,6 +33,11 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> AddNewMatch(int Id)
         {
             var tournament = await tournamentService.FindTournament(Id);
+            if (await tournamentService.IsItGroupStageTournament(Id) == true)
+            {
+                TempData["id"] = Id;
+                RedirectToAction("GetAllGroupsForTournament", "Group");
+            }
             if (tournament == null)
             {
                 return View("Error404", new { area = "" });
@@ -54,12 +59,25 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> AddNewMatch(int Id,AddNewMatchModel model)
         {
             model.TournamentId = Id;
-            var areTeamsDifferent = matchService.AreTeamsDifferent(model);
-            if (areTeamsDifferent == false)
+            if (matchService.AreTeamsDifferent(model) == false)
             {
                 ViewBag.comment = "Home and away teams are the same. Select different teams";
+                model.Teams = await teamService.GetAllTeamsForTournament(Id);
+                model.Referees = await refService.AllReferees();
+                model.Rounds = await tournamentService.AddRounds(Id);
+
                 return View(model);
             }
+
+            if (await matchService.CheckIfMatchExists(model, Id) == true)
+            {
+                ViewBag.comment = "Same match is already in the tournament";
+                model.Teams = await teamService.GetAllTeamsForTournament(Id);
+                model.Referees = await refService.AllReferees();
+                model.Rounds = await tournamentService.AddRounds(Id);
+                return View(model);
+            }
+
             await matchService.AddNewMatch(model);
             var result = await tournamentService.FindMatchesInTournament(Id);
             return View("MatchesInTournament", result);
@@ -100,19 +118,62 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(AddNewMatchModel model)
         {
+            var findMatch = await matchService.FindMatch(model.Id);
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var areTeamsDifferent = matchService.AreTeamsDifferent(model);
-            if (areTeamsDifferent == false)
+            if(await matchService.CheckIfMatchExists(model, findMatch.TournamentId) == true)
+            {
+                ViewBag.comment = "Same match is already in the tournament";
+                if (findMatch.GroupId != null)
+                {
+                    model.Rounds = await groupService.AddRounds((int)findMatch.GroupId);
+                }
+                else
+                {
+                    model.Rounds = await tournamentService.AddRounds(findMatch.TournamentId);
+                }
+                model.TournamentId = findMatch.TournamentId;
+                model.Teams = await teamService.GetAllTeamsForTournament(findMatch.TournamentId);
+                model.Referees = await refService.AllReferees();
+                model.RefereeId = findMatch.RefereeId;
+                model.HomeTeamId = findMatch.HomeTeamId;
+                model.AwayTeamId = findMatch.AwayTeamId;
+                model.HomeScore = findMatch.HomeScore;
+                model.AwayScore = findMatch.AwayScore;
+                model.Round = findMatch.Round;
+                model.Date = findMatch.MatchDate;
+                return View(model);
+            }
+
+            
+            if (matchService.AreTeamsDifferent(model) == false)
             {
                 ViewBag.comment = "Home and away teams are the same. Select different teams";
+                if (findMatch.GroupId != null)
+                {
+                    model.Rounds = await groupService.AddRounds((int)findMatch.GroupId);
+                }
+                else
+                {
+                    model.Rounds = await tournamentService.AddRounds(findMatch.TournamentId);
+                }
+                model.TournamentId = findMatch.TournamentId;
+                model.Teams = await teamService.GetAllTeamsForTournament(findMatch.TournamentId);
+                model.Referees = await refService.AllReferees();
+                model.RefereeId = findMatch.RefereeId;
+                model.HomeTeamId = findMatch.HomeTeamId;
+                model.AwayTeamId = findMatch.AwayTeamId;
+                model.HomeScore = findMatch.HomeScore;
+                model.AwayScore = findMatch.AwayScore;
+                model.Round = findMatch.Round;
+                model.Date = findMatch.MatchDate;
                 return View(model);
             }
             await matchService.SaveChanges(model);
-            var findMatch = await matchService.FindMatch(model.Id);
+            
             if (findMatch.GroupId != null)
             {
                 TempData["groupId"] = findMatch.GroupId;

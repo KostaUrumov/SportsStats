@@ -50,6 +50,27 @@ namespace My_Transfermarkt_Core.Services
             return true;
         }
 
+        public async Task<bool> CheckIfMatchExists(AddNewMatchModel model, int tourneyId)
+        {
+            var findMatch = await data.Matches
+                .FirstOrDefaultAsync(x =>
+                x.HomeTeamId == model.HomeTeamId &&
+                x.AwayTeamId == model.AwayTeamId &&
+                x.TournamentId == tourneyId &&
+                x.Round == model.Round);
+            if (findMatch != null)
+            {
+                if (findMatch.Id == model.Id)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            return false;
+                
+        }
+
         public async Task<Match> FindMatch(int matchId)
         {
             return await data.Matches.FirstAsync(x => x.Id == matchId);

@@ -32,6 +32,10 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         public async Task<IActionResult> GetAllGroupsForTournament(int id)
         {
+            if (TempData["id"] != null)
+            {
+                id = (int)TempData["id"];
+            }
             var tournamentGroups = await groupService.GetAllGroupsForTournament(id);
             ViewBag.Torunament = tournamentGroups[0].TournamentName;
             return View(nameof(Result), tournamentGroups);
