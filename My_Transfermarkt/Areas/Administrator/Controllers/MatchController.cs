@@ -50,7 +50,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             }
 
             model.TournamentId = tournament.Id;
-            if (model.Teams.Count() == 0)
+            if (model.Teams.Count() == 0 && GroupId==0)
             {
                 model.Teams = await teamService.GetAllTeamsForTournament(Id);
             }
@@ -130,13 +130,18 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             if (match.GroupId != null)
             {
                 model.Rounds = await groupService.AddRounds((int)match.GroupId);
+                model.Teams = await teamService.GetTeamsByGroupId((int)match.GroupId);
             }
             else
             {
                 model.Rounds = await tournamentService.AddRounds(match.TournamentId);
             }
             model.TournamentId = match.TournamentId;
-            model.Teams = await teamService.GetAllTeamsForTournament(match.TournamentId);
+            if (model.Teams.Count() == 0 && model.GroupId == 0)
+            {
+                model.Teams = await teamService.GetAllTeamsForTournament(match.TournamentId);
+            }
+            
             model.Referees = await refService.AllReferees();
             model.RefereeId = match.RefereeId;
             model.HomeTeamId = match.HomeTeamId;
