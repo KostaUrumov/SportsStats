@@ -55,6 +55,24 @@ namespace My_Transfermarkt_Core.Services
             return await data.Matches.FirstAsync(x => x.Id == matchId);
         }
 
+        public async Task<bool> IsTeamAssignedToMatch(int teamId, int tourneyId)
+        {
+            var matches = await data
+                .Matches
+                .Where(x => x.HomeTeamId == teamId || x.AwayTeamId == teamId)
+                .ToListAsync();
+            foreach (var match in matches)
+            {
+                if (match.TournamentId == tourneyId)
+                {
+                    return true;
+                }
+            }
+            
+
+            return false;
+        }
+
         public async Task SaveChanges(AddNewMatchModel model)
         {
             var findmatch = await data.Matches.FirstAsync(x => x.Id == model.Id);

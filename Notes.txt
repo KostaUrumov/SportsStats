@@ -1,3 +1,5 @@
 Next steps:
-1.Edit match (change result, team etc). If we try to remove a team from a tournament should not be possible if team has a match already.
-2.Standings of a group and a single group tournaments.
+1. Validation on team count in group and total in tournament.
+2. Add more buttons on pages to ease the navigation in the app.
+3. View results by round in Group and tournament
+4. Standings of a group and a single group tournaments.

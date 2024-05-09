@@ -9,5 +9,6 @@ namespace My_Transfermarkt_Core.Contracts
         Task AddNewMatch(AddNewMatchModel model);
         Task<Match> FindMatch(int matchId);
         Task SaveChanges(AddNewMatchModel model);
+        Task<bool> IsTeamAssignedToMatch(int teamId, int tourneyId);
     }
 }

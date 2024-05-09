@@ -12,15 +12,18 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         private readonly ITournamentService tournamentService;
         private readonly ITeamService teamService;
         private readonly IGroupService groupService;
+        private readonly IMatchService matchService;
 
         public TournamentController(
             ITournamentService _service,
             ITeamService _team,
-            IGroupService _group)
+            IGroupService _group,
+            IMatchService _matchService)
         {
             tournamentService = _service;
             teamService = _team;
-            groupService = _group;  
+            groupService = _group; 
+            matchService = _matchService;
         }
 
         public IActionResult AddNewTournament()
@@ -238,8 +241,14 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             int[] teams = new int[model.SelectedTeams.Count()];
             for (int i = 0; i < teams.Length; i++)
             {
+                if (await matchService.IsTeamAssignedToMatch(model.SelectedTeams[i], tournament.Id) == true)
+                {
+                    continue;
+                }
+
                 if (await tournamentService.IsItGroupStageTournament(Id) == true)
                 {
+                    
                     await tournamentService.RemoveFromGroup(Id, model.SelectedTeams[i]);
                 }
                 await tournamentService.RemoveFromTournament(Id, model.SelectedTeams[i]);
