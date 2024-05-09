@@ -153,7 +153,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 {
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        file.CopyToAsync(ms);
+                        await file.CopyToAsync(ms);
                         picData = ms.ToArray();
                     }
                 }

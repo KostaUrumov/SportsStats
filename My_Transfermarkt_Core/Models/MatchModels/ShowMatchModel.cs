@@ -2,6 +2,7 @@
 {
     public class ShowMatchModel
     {
+        public int Id { get; set; }
         public int TournamentId { get; set; }
         public string HomeTeam { get; set; } = null!;
         public string AwayTeam { get; set; } = null!;

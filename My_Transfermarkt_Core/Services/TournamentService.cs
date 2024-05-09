@@ -154,6 +154,7 @@ namespace My_Transfermarkt_Core.Services
                 .Where(x => x.GroupId == groupId)
                 .Select(m => new ShowMatchModel
                 {
+                    Id = m.Id,
                     GroupId = groupId,
                     TournamentId = m.TournamentId,
                     AwayTeam = m.AwayTeam.Name,
@@ -174,6 +175,7 @@ namespace My_Transfermarkt_Core.Services
                 .Where(x => x.TournamentId == tourneyId)
                 .Select(m => new ShowMatchModel
                 {
+                    Id = m.Id,
                     TournamentId = tourneyId,
                     GroupName = m.Group.Name,
                     AwayTeam = m.AwayTeam.Name,
@@ -182,7 +184,6 @@ namespace My_Transfermarkt_Core.Services
                     HomeTeam = m.HomeTeam.Name,
                 })
                 .OrderBy(x=> x.GroupName)
-                .ThenBy(x => x.Date)
                 .ToListAsync();
             return result;
         }

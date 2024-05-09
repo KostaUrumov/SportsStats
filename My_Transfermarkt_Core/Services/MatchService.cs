@@ -1,4 +1,5 @@
-﻿using My_Transfermarkt.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.MatchModels;
 using My_Transfermarkt_Infastructure.DataModels;
@@ -16,7 +17,7 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task AddNewMatch(AddNewMatchModel model)
         {
-            
+
 
             Match match = new Match()
             {
@@ -39,12 +40,32 @@ namespace My_Transfermarkt_Core.Services
 
         public bool AreTeamsDifferent(AddNewMatchModel model)
         {
-            if (model.HomeTeamId == model.AwayTeamId)
+
+            var mod = (AddNewMatchModel)model;
+            if (mod.HomeTeamId == mod.AwayTeamId)
             {
                 return false;
             }
 
             return true;
+        }
+
+        public async Task<Match> FindMatch(int matchId)
+        {
+            return await data.Matches.FirstAsync(x => x.Id == matchId);
+        }
+
+        public async Task SaveChanges(AddNewMatchModel model)
+        {
+            var findmatch = await data.Matches.FirstAsync(x => x.Id == model.Id);
+            findmatch.RefereeId = model.RefereeId;
+            findmatch.Round = model.Round;
+            findmatch.HomeScore = model.HomeScore;
+            findmatch.AwayScore = model.AwayScore;
+            findmatch.HomeTeamId = model.HomeTeamId;
+            findmatch.AwayTeamId = model.AwayTeamId;
+
+            await data.SaveChangesAsync();
         }
     }
 }

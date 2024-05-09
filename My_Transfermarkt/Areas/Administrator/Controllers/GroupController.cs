@@ -94,7 +94,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 Referees = await refereeService.AllReferees(),
                 Rounds = await groupService.AddRounds(Id)
             };
-
+            model.Date = DateTime.Today;
             return View(model); 
         }
 
@@ -122,14 +122,18 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             
         }
 
-        public async Task<IActionResult> AllMatches(List<ShowMatchModel> result)
+        public IActionResult AllMatches(List<ShowMatchModel> result)
         {
             return View(result);
         }
 
         public async Task<IActionResult> MatchesInGroup(int groupId)
         {
-            
+            if (TempData["groupId"] != null)
+            {
+                groupId = (int)TempData["groupId"];
+            }
+
             var result = await tournamentService.FindMatchesInGroup(groupId);
             
             if (result.Count == 0)

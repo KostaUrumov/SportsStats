@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.MatchModels
 {
-    public class AddNewMatchModel
+    public class EditMatchModel
     {
-        public int Id { get; set; }
-
         [DataType(DataType.DateTime)]
         public DateTime Date { get; set; }
 
@@ -31,5 +29,6 @@ namespace My_Transfermarkt_Core.Models.MatchModels
 
         public IEnumerable<Referee> Referees { get; set; } = new List<Referee>();
         public IEnumerable<Team> Teams { get; set; } = new List<Team>();
+
     }
 }

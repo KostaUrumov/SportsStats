@@ -264,6 +264,10 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         public async Task<IActionResult> Matches (int Id)
         {
+            if (TempData["Id"] != null)
+            {
+                Id = (int)TempData["Id"];
+            }
             var tournament = await tournamentService.FindTournament(Id);
 
             if (tournament == null)

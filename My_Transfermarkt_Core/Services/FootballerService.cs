@@ -468,7 +468,7 @@ namespace My_Transfermarkt_Core.Services
         public async Task RetireFromFootball(int footballerId)
         {
             var findPlayer = await data.Footballers
-                .FirstOrDefaultAsync(f => f.Id == footballerId);
+                .FirstAsync(f => f.Id == footballerId);
             findPlayer.IsRetired = true;
             await data.SaveChangesAsync();
         }
@@ -482,7 +482,7 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task SaveChangesAsync(AddNewFootallerModel footballer)
         {
-            if (footballer.CurrentMarketValue.Contains("."))
+            if (footballer.CurrentMarketValue.Contains('.'))
             {
                 footballer.CurrentMarketValue = footballer.CurrentMarketValue.Replace(".", ",");
             }
