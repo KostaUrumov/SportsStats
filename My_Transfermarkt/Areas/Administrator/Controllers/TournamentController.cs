@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.MatchModels;
 using My_Transfermarkt_Core.Models.TournamentModels;
+using My_Transfermarkt_Infastructure.DataModels;
+using System.Xml.Linq;
+using Umbraco.Core.Composing;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -134,18 +137,41 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            
             var findTournament = await tournamentService.FindTournament(id);
             if (findTournament == null)
             {
                 return View("Error404", new { area = "" });
             }
-            EditTournamentModel model = new EditTournamentModel()
+            if (findTournament.GetType() == typeof(GroupStageTournament))
             {
-                Name = findTournament.Name,
-                Id = findTournament.Id
-            };
+                GroupStageTournament stageTournament = (GroupStageTournament)findTournament;
+                EditTournamentModel model = new EditTournamentModel()
+                {
+                    Name = stageTournament.Name,
+                    Id = stageTournament.Id,
+                    NumberOfTeams = stageTournament.NumberOfTeams,
+                    StartDate = stageTournament.StartDate,
+                    EndtDate = stageTournament.EndDate,
+                    Groups = stageTournament.NumberOfGroups,
+                    Rounds = (int)await groupService.FindGroup(stageTournament.Id, null)
+                };
+                return View(model);
+            }
+            else
+            {
+                SingleGroupTournament tour = (SingleGroupTournament)findTournament;
+                EditTournamentModel model = new EditTournamentModel()
+                {
+                    Name = tour.Name,
+                    Id = tour.Id,
+                    NumberOfTeams = tour.NumberOfTeams,
+                    StartDate = tour.StartDate,
+                    EndtDate = tour.EndDate,
+                };
+                return View(model);
+            }
 
-            return View(model);
         }
 
         [HttpPost]
@@ -162,9 +188,19 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             if (isTournamentAlreadyIn != null)
             {
                 var find = await tournamentService.FindTournament(model.Id);
-                model.Name = find.Name;
+                if (find == null)
+                {
+                    return View("Error404", new { area = "" });
+                }
+                var competition = (Tournament)find;
+                model.Name = competition.Name;
                 ViewBag.Comment = "Tournament is Already Created";
                 return View(model);
+            }
+
+            if (model.Groups > 0)
+            {
+                await groupService.RemoveAllGroups(model.Id);
             }
 
             await tournamentService.SaveChangesAsync(model);
@@ -193,12 +229,20 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> AddTeams(int Id, AddTeamsToTournament model)
         {
             var tournament = await tournamentService.FindTournament(Id);
-            model.Id = tournament.Id;
 
             if (tournament == null)
             {
                 return View("Error404", new { area = "" });
             }
+            var competition = (Tournament)tournament;
+
+            model.Id = competition.Id;
+
+            if (tournament == null)
+            {
+                return View("Error404", new { area = "" });
+            }
+            
             int[] teams = new int[model.SelectedTeams.Count()];
             for (int i = 0; i < teams.Length; i++)
             {
@@ -213,7 +257,9 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                     return View("Error404", new { area = "" });
                 }
                 teams[i] = model.SelectedTeams[i];
+               
                 await tournamentService.AddTeamToTournament(Id, model.SelectedTeams[i]);
+                
             }
 
             return RedirectToAction("CurrentTeams", model);
@@ -238,10 +284,12 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 return View("Error404", new { area = "" });
             }
+            var competition = (Tournament)tournament;
+
             int[] teams = new int[model.SelectedTeams.Count()];
             for (int i = 0; i < teams.Length; i++)
             {
-                if (await matchService.IsTeamAssignedToMatch(model.SelectedTeams[i], tournament.Id) == true)
+                if (await matchService.IsTeamAssignedToMatch(model.SelectedTeams[i], competition.Id) == true)
                 {
                     continue;
                 }
@@ -285,8 +333,15 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View("Error404", new { area = "" });
             }
             var result = await tournamentService.FindMatchesInTournament(Id);
-            ViewBag.Tournament = tournament.Name;
-            ViewBag.Id = tournament.Id;
+
+            if (tournament == null)
+            {
+                return View("Error404", new { area = "" });
+            }
+            var competition = (Tournament)tournament;
+
+            ViewBag.Tournament = competition.Name;
+            ViewBag.Id = competition.Id;
             return View("ResultMatches", result);
         }
 

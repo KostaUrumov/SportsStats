@@ -31,58 +31,77 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task AddTeamsToGroup(int groupId, int[] teams)
         {
-            var group = await data.Groups.FirstAsync(g=> g.Id == groupId);
+            var group = await data.Groups.FirstAsync(g => g.Id == groupId);
             List<GroupTeams> newGroupTeams = new List<GroupTeams>();
-            
-            for (int i = 0; i < teams.Length; i++)
+            var teamsInGroup = await data
+                .GroupsTeams
+                .Where(t => t.GroupId == group.Id)
+                .ToListAsync();
+            if (teamsInGroup.Count < group.TeamsNumber)
             {
-                var team = await data.Teams.FirstOrDefaultAsync(t=> t.Id == teams[i]);
-
-                GroupTeams groupTeam = new GroupTeams()
+                for (int i = 0; i < teams.Length; i++)
                 {
-                    TeamId = team.Id,
-                    GroupId = groupId
+                    var team = await data.Teams.FirstOrDefaultAsync(t => t.Id == teams[i]);
 
-                };
-                newGroupTeams.Add(groupTeam);
-                
+                    GroupTeams groupTeam = new GroupTeams()
+                    {
+                        TeamId = team.Id,
+                        GroupId = groupId
+
+                    };
+                    newGroupTeams.Add(groupTeam);
+                    data.AddRange(newGroupTeams);
+                }
             }
-            group.Teams = newGroupTeams;
-            data.AddRange(newGroupTeams);
+            
             await data.SaveChangesAsync();
         }
 
-        public async Task<int> FindGroup(int tournamentId, int teamId)
+        public async Task<int?> FindGroup(int tournamentId, int? teamId)
         {
-            int number = 0;
+            if (teamId == null)
+            {
+                var group = await data
+                    .Groups
+                    .FirstOrDefaultAsync(x => x.TournamentID == tournamentId);
+                if (group == null)
+                {
+                    return null;
+                }
+                return group.NumberOfRounds;
+            }
             var tournament = await data
                 .GroupStageTournaments
-                .Where(t=> t.Id == tournamentId)
+                .Where(t => t.Id == tournamentId)
                 .ToListAsync();
             var findGroup = await data.GroupsTeams.FirstOrDefaultAsync(x => x.TeamId == teamId && x.Group.TournamentID == tournamentId);
-            return number;
+            if (findGroup == null)
+            {
+                return null;
+            }
+            return findGroup.GroupId;
         }
 
         public async Task<int> FindTournament(int groupId)
         {
-            var group = await data.Groups.FirstAsync(g=> g.Id == groupId);
+            var group = await data.Groups.FirstAsync(g => g.Id == groupId);
             return (int)group.TournamentID;
-            
+
         }
 
         public async Task<List<ShowGroupViewModel>> GetAllGroupsForTournament(int tournamentId)
         {
             List<ShowGroupViewModel> groups = await data
                 .GroupsTournaments
-                .Where(x=> x.TournamenId == tournamentId)
-                .Select(g=> new ShowGroupViewModel
+                .Where(x => x.TournamenId == tournamentId)
+                .Select(g => new ShowGroupViewModel
                 {
                     TournamentName = g.Tournament.Name,
                     TournamentId = g.Tournament.Id,
                     Name = g.Group.Name,
                     Id = g.GroupId,
                     Teams = (ICollection<Models.TeamModels.ShowTeamModelView>)g.Group.Teams
-                    .Select(x=> new ShowTeamModelView
+                    .Select(x => new ShowTeamModelView
                     {
                         Name = x.Team.Name,
                     })
@@ -128,6 +147,17 @@ namespace My_Transfermarkt_Core.Services
             }
 
             return true;
+        }
+
+        public async Task RemoveAllGroups(int tournamentId)
+        {
+            var groups = await 
+                data.GroupsTournaments
+                .Where(x=> x.TournamenId == tournamentId)
+                .ToListAsync();
+
+            data.RemoveRange(groups);
+            await data.SaveChangesAsync();
         }
 
         public bool TeamsInGroupAreCorrect(int numberTeams)

@@ -12,5 +12,18 @@ namespace My_Transfermarkt_Core.Models.TournamentModels
         public string Name { get; set; } = null!;
 
         public int Id { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime StartDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime EndtDate { get; set; }
+
+        [Required]
+        public int NumberOfTeams { get; set; }
+
+        public int Rounds { get; set; }
+
+        public int Groups { get; set; }
     }
 }

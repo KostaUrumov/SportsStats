@@ -9,7 +9,7 @@
         public string Result { get; set; } = null!;
         public string Date { get; set; } = null!;
         public int? GroupId { get; set; }
-        public string? GroupName { get; set; }
+        public string GroupName { get; set; }
         public  int Round { get; set; }
     }
 }

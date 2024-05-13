@@ -76,10 +76,14 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        public async Task<List<int>> AddRounds(int tournamentId)
+        public async Task<List<int>?> AddRounds(int tournamentId)
         {
             List<int> roundBNumber = new List<int>();
             var findTournament = await data.Tournaments.FirstOrDefaultAsync(x => x.Id == tournamentId);
+            if (findTournament == null)
+            {
+                return null;
+            }
             if (findTournament.GetType() == typeof(SingleGroupTournament))
             {
                 var tour = (SingleGroupTournament)findTournament;
@@ -103,11 +107,41 @@ namespace My_Transfermarkt_Core.Services
         /// <returns></returns>
         public async Task AddTeamToTournament(int tournamentiD, int teamId)
         {
-            var tournament = await data.Tournaments.FirstOrDefaultAsync(t => t.Id == tournamentiD);
-            tournament.TeamsTournaments.Add(new TournamentsTeams
+            var tournament = await data.SingleGroupTournaments.FirstOrDefaultAsync(t => t.Id == tournamentiD);
+            if (tournament != null)
             {
-                TeamId = teamId,
-            });
+                var results = await data
+                    .TournamentsTeams
+                    .Where(x=> x.TournamentId ==tournament.Id)
+                    .ToListAsync();
+
+                if (tournament.NumberOfTeams >results.Count)
+                {
+                    tournament.TeamsTournaments.Add(new TournamentsTeams
+                    {
+                        TeamId = teamId,
+                    });
+                }
+
+            }
+            var tournamentGroup = await data.GroupStageTournaments.FirstOrDefaultAsync(t => t.Id == tournamentiD);
+
+            if (tournamentGroup != null)
+            {
+                var countAllTeamsIn = await data
+                     .TournamentsTeams
+                     .Where(x => x.TournamentId == tournamentGroup.Id)
+                     .ToListAsync();
+                if (countAllTeamsIn.Count < tournamentGroup.NumberOfTeams)
+                {
+                    tournamentGroup.TeamsTournaments.Add(new TournamentsTeams
+                    {
+                        TeamId = teamId,
+                    });
+                }
+                    
+
+            }
 
             await data.SaveChangesAsync();
         }
@@ -141,9 +175,13 @@ namespace My_Transfermarkt_Core.Services
         /// </summary>
         /// <param name="tournamentName"></param>
         /// <returns>Tournament</returns>
-        public async Task<Tournament> CheckIfTournamentIsIn(string tournamentName)
+        public async Task<Tournament?> CheckIfTournamentIsIn(string tournamentName)
         {
             var tournament = await data.Tournaments.FirstOrDefaultAsync(t => t.Name == tournamentName);
+            if (tournament == null)
+            {
+                return null;
+            }
             return tournament;
         }
 
@@ -152,6 +190,7 @@ namespace My_Transfermarkt_Core.Services
             var result = await data
                 .Matches
                 .Where(x => x.GroupId == groupId)
+                .OrderBy(x=>x.MatchDate)
                 .Select(m => new ShowMatchModel
                 {
                     Id = m.Id,
@@ -170,13 +209,17 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task<List<ShowMatchModel>> FindMatchesInTournament(int tourneyId)
         {
-            var result = await data
+            var findTour = await data.GroupStageTournaments.FirstOrDefaultAsync(x => x.Id == tourneyId);
+            if (findTour != null)
+            {
+                var resul = await data
                 .Matches
-                .Where(x => x.TournamentId == tourneyId)
+                .Where(x => x.TournamentId == findTour.Id)
                 .Select(m => new ShowMatchModel
                 {
                     Id = m.Id,
                     TournamentId = tourneyId,
+                    GroupId = m.GroupId,
                     GroupName = m.Group.Name,
                     AwayTeam = m.AwayTeam.Name,
                     Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
@@ -184,7 +227,27 @@ namespace My_Transfermarkt_Core.Services
                     HomeTeam = m.HomeTeam.Name,
                     Round = m.Round
                 })
-                .OrderBy(x=> x.GroupName)
+                .ToListAsync();
+
+                return resul;
+
+            }
+
+            var result = await data
+                .Matches
+                .Where(x => x.TournamentId == tourneyId)
+                .Select(m => new ShowMatchModel
+                {
+                    Id = m.Id,
+                    TournamentId = tourneyId,
+                    GroupId = m.GroupId,
+                    GroupName = m.Group.Name,
+                    AwayTeam = m.AwayTeam.Name,
+                    Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
+                    Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
+                    HomeTeam = m.HomeTeam.Name,
+                    Round = m.Round
+                })
                 .ToListAsync();
             return result;
         }
@@ -195,15 +258,23 @@ namespace My_Transfermarkt_Core.Services
         /// </summary>
         /// <param name="toiurnamentId"></param>
         /// <returns></returns>
-        public async Task<Tournament> FindTournament(int toiurnamentId)
+        public async Task<object?> FindTournament(int toiurnamentId)
         {
             var result = await data.Tournaments.FirstOrDefaultAsync(t => t.Id == toiurnamentId);
+            if (result == null)
+            {
+                return null;
+            }
             return result;
         }
 
-        public async Task<int> FindTournamentIdByGroup(int groupId)
+        public async Task<int?> FindTournamentIdByGroup(int groupId)
         {
             var res = await data.GroupsTournaments.FirstOrDefaultAsync(x => x.GroupId == groupId);
+            if (res == null)
+            {
+                return null;
+            }
             return res.TournamenId;
         }
 
@@ -369,8 +440,49 @@ namespace My_Transfermarkt_Core.Services
                  .Tournaments
                  .FirstAsync(t => t.Id == model.Id);
 
-            findTourneyToUpdate.Name = model.Name;
-            await data.SaveChangesAsync();
+            if (findTourneyToUpdate.GetType() == typeof(SingleGroupTournament))
+            {
+                var tour = (SingleGroupTournament)findTourneyToUpdate;
+                tour.Name = model.Name;
+                tour.StartDate = model.StartDate;
+                tour.EndDate = model.EndtDate;
+                tour.NumberOfTeams = model.NumberOfTeams;
+                tour.Rounds = (model.NumberOfTeams - 1) * 2;
+
+            }
+
+            if(findTourneyToUpdate.GetType() == typeof(GroupStageTournament))
+            {
+                var tour = (GroupStageTournament)findTourneyToUpdate;
+                tour.Name = model.Name;
+                tour.StartDate = model.StartDate;
+                tour.EndDate = model.EndtDate;
+                tour.NumberOfTeams = model.NumberOfTeams;
+                for (int i = 0; i < model.Groups; i++)
+                {
+                    string groupLetter = Convert.ToChar(65 + i).ToString();
+                    Group group = new Group
+                    {
+                        Name = "Group " + groupLetter,
+                        Tournament = tour,
+                        NumberOfRounds = model.Rounds,
+                        TeamsNumber = model.NumberOfTeams
+                    };
+
+                    GroupsTournament groupTournament = new GroupsTournament()
+                    {
+                        Group = group,
+                        Tournament = tour
+                    };
+                    tour.Groups.Add(groupTournament);
+                    data.Add(group);
+                    data.Add(groupTournament);
+
+                }
+
+            }
+
+                await data.SaveChangesAsync();
         }
 
         public bool TotalTeamsAreCorrect(int numberOfTeams)

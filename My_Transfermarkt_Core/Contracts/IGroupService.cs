@@ -9,9 +9,10 @@ namespace My_Transfermarkt_Core.Contracts
         Task<int> FindTournament(int groupId);
         Task AddTeamsToGroup(int groupId, int[] teams);
         Task<bool> IsTeamInThisGroup(int groupId, int teamId);
-        Task<int> FindGroup(int tournamentId, int teamId);
+        Task<int?> FindGroup(int tournamentId, int? teamId);
         public bool NumberOfGroupsAreCorrect(AddNewGroupStageTournament model);
         public bool TeamsInGroupAreCorrect(int numberTeams);
         Task<List<int>> AddRounds(int groupId);
+        Task RemoveAllGroups(int tournamentId);
     }
 }

@@ -13,18 +13,101 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+@if (Model.Groups > 0)
+{
+    <div class="row">
+
+        <div class="col-md-4">
+            <form id="registerForm" asp-route-returnUrl="" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating">
+                    <input asp-for="@Model.Name" class="form-control" autocomplete="" aria-required="true" />
+                    <label asp-for="@Model.Name"></label>
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <p></p>
+                <p></p>
+                <div class="form-floating">
+                    <input asp-for="@Model.StartDate" class="form-control" autocomplete="" aria-required="true" />
+                    <label asp-for="@Model.StartDate">End Date</label>
+                    <span asp-validation-for="@Model.StartDate" class="text-danger"></span>
+                </div>
+
+                <p></p>
+                <p></p>
+                <div class="form-floating">
+                    <input asp-for="@Model.EndtDate" class="form-control" autocomplete="" aria-required="true" />
+                    <label asp-for="@Model.EndtDate">Start date</label>
+                    <span asp-validation-for="@Model.EndtDate" class="text-danger"></span>
+                </div>
+                <p></p>
+                <p></p>
+                <div class="form-floating">
+                    <input asp-for="@Model.NumberOfTeams" class="form-control" autocomplete="" aria-required="true" />
+                    <label asp-for="@Model.NumberOfTeams">Teams</label>
+                    <span asp-validation-for="@Model.NumberOfTeams" class="text-danger"></span>
+                </div>
+                <p></p>
+                <p></p>
+                <div class="form-floating">
+                    <input asp-for="@Model.Groups" class="form-control" autocomplete="" aria-required="true" />
+                    <label asp-for="@Model.Groups">Groups</label>
+                    <span asp-validation-for="@Model.Groups" class="text-danger"></span>
+                </div>
+                <p></p>
+                <p></p>
+                <div class="form-floating">
+                    <input asp-for="@Model.Rounds" class="form-control" autocomplete="" aria-required="true" />
+                    <label asp-for="@Model.Rounds">Rounds in group</label>
+                    <span asp-validation-for="@Model.Rounds" class="text-danger"></span>
+                </div>
+                <p></p>
+                <p></p>
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Edit</button>
+            </form>
+        </div>
+    </div>
+    @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }
+    return;
+
+}
 
 <div class="row">
 
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="" method="post">
-            <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
-                <input asp-for="@Model.Name" class="form-control" autocomplete="username" aria-required="true" />
+                <input asp-for="@Model.Name" class="form-control" autocomplete="" aria-required="true" />
                 <label asp-for="@Model.Name"></label>
                 <span asp-validation-for="@Model.Name" class="text-danger"></span>
             </div>
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.StartDate" class="form-control" autocomplete="" aria-required="true" />
+                <label asp-for="@Model.StartDate"></label>
+                <span asp-validation-for="@Model.StartDate" class="text-danger"></span>
+            </div>
+            
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.EndtDate" class="form-control" autocomplete="" aria-required="true" />
+                <label asp-for="@Model.EndtDate"></label>
+                <span asp-validation-for="@Model.EndtDate" class="text-danger"></span>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="form-floating">
+                <input asp-for="@Model.NumberOfTeams" class="form-control" autocomplete="" aria-required="true" />
+                <label asp-for="@Model.NumberOfTeams"></label>
+                <span asp-validation-for="@Model.NumberOfTeams" class="text-danger"></span>
+            </div>
+            <p></p>
+            <p></p>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Edit</button>
         </form>
     </div>

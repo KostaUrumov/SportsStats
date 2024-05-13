@@ -1,6 +1,4 @@
 Next steps:
-1. Fix if same teams can be assigned to different groups in same tournament.
-2. Validation on team count in group and total in tournament.
-3. Add more buttons on pages to ease the navigation in the app.
-4. View results by round in Group and tournament
-5. Standings of a group and a single group tournaments.
+1. Make possible save changes on edit a tournament (views are done).
+2. View results by round in Group and tournament
+3. Standings of a group and a single group tournaments.

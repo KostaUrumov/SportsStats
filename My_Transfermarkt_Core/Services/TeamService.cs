@@ -112,10 +112,7 @@ namespace My_Transfermarkt_Core.Services
                     
                 })
                 .ToListAsync();
-            if (retutnModel.Count() == 0)
-            {
-                return null;
-            }
+            
             return retutnModel[0];
         }
 
@@ -178,7 +175,7 @@ namespace My_Transfermarkt_Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns>AddNewTeamModel</returns>
-        public async Task<AddNewTeamModel> FindTeamToBeEdited(int id)
+        public async Task<AddNewTeamModel?> FindTeamToBeEdited(int id)
         {
             var find = await data.Teams.FirstOrDefaultAsync(t => t.Id == id);
             if (find == null)
@@ -249,7 +246,8 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task<List<Team>> GetAllTeamsForTournament(int tournamentId)
         {
-            var result = await data
+            
+            var teamsInTournament = await data
                 .TournamentsTeams
                 .Where(x => x.TournamentId == tournamentId)
                 .Select(t => new Team
@@ -261,6 +259,29 @@ namespace My_Transfermarkt_Core.Services
                     Logo = t.Team.Logo
                 })
                 .ToListAsync();
+            var teamsWithGroups = await
+                 data
+                 .GroupsTeams
+                 .Where(x=> x.Group.TournamentID == tournamentId)
+                 .Select(t => new Team
+                 {
+                     Id = t.TeamId,
+                     StadiumId = t.Team.StadiumId,
+                     Name = t.Team.Name,
+                     CountryId = t.Team.CountryId,
+                     Logo = t.Team.Logo
+                 })
+                .ToListAsync();
+            List<Team> result = new List<Team>();
+
+            foreach (var tourneyTeam in teamsInTournament)
+            {
+                if (teamsWithGroups.Any(x => x.Id == tourneyTeam.Id))
+                {
+                    continue;
+                }
+                result.Add(tourneyTeam);
+            }
 
             return result;
         }
@@ -397,6 +418,22 @@ namespace My_Transfermarkt_Core.Services
 
             return true;
 
+        }
+
+        public async Task RemoveFromGroup(int teamId, int groupId)
+        {
+            var group = await data.Groups.FirstAsync(g => g.Id == groupId);
+            var toRemove = await data
+                .GroupsTeams
+                .FirstOrDefaultAsync(x => x.GroupId == groupId && x.TeamId == teamId);
+            if (toRemove == null)
+            {
+                return;
+            }
+            group.Teams.Remove(toRemove);
+
+            data.Remove(toRemove);
+            await data.SaveChangesAsync();
         }
 
 

@@ -3,6 +3,8 @@ using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.MatchModels;
 using My_Transfermarkt_Infastructure.DataModels;
+using static My_Transfermarkt_Infastructure.DataConstraints;
+using Match = My_Transfermarkt_Infastructure.DataModels.Match;
 
 namespace My_Transfermarkt_Core.Services
 {
@@ -90,6 +92,19 @@ namespace My_Transfermarkt_Core.Services
             
 
             return false;
+        }
+
+        public async Task<bool> IsTeamAssignedToMatchInGroup(int teamdId, int groupId)
+        {
+            var match = await data
+            .Matches
+            .FirstOrDefaultAsync(x => (x.HomeTeamId == teamdId || x.AwayTeamId == teamdId) && x.GroupId == groupId);
+            if (match == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public async Task SaveChanges(AddNewMatchModel model)

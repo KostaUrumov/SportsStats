@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.GroupModels;
 using My_Transfermarkt_Core.Models.MatchModels;
+using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -31,7 +32,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         public async Task<IActionResult> GetAllGroupsForTournament(int id)
         {
-            
+
             var tournamentGroups = await groupService.GetAllGroupsForTournament(id);
             ViewBag.Torunament = tournamentGroups[0].TournamentName;
             return View(nameof(Result), tournamentGroups);
@@ -41,7 +42,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> AddTeamsToGroup(int id)
         {
             var tournamentId = await groupService.FindTournament(id);
-            AddTeamsToGroupModel model = new AddTeamsToGroupModel()
+            ActionForTeamsInGroup model = new ActionForTeamsInGroup()
             {
                 Teams = await teamService.GetAllTeamsForTournament(tournamentId)
             };
@@ -49,35 +50,80 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddTeamsToGroup(AddTeamsToGroupModel model)
+        public async Task<IActionResult> AddTeamsToGroup(ActionForTeamsInGroup model)
         {
             var tournamentId = await groupService.FindTournament(model.Id);
             if (!ModelState.IsValid)
             {
-               
+
                 model.Teams = await teamService.GetAllTeamsForTournament(tournamentId);
                 return View(model);
             }
-            
-            int[] teams = new int[model.SelectedTeams.Length];
-            for (int i = 0; i < teams.Length; i++)
+
+            if (model.SelectedTeams != null)
             {
-                var team = await teamService.FindTeam(model.SelectedTeams[i]);
-                var isTeamIn = await groupService.IsTeamInThisGroup(model.Id, team.Id);
-                if (isTeamIn == true)
+                int[] teams = new int[model.SelectedTeams.Length];
+                for (int i = 0; i < teams.Length; i++)
                 {
-                    continue;
+                    var team = await teamService.FindTeam(model.SelectedTeams[i]);
+                    var isTeamIn = await groupService.IsTeamInThisGroup(model.Id, team.Id);
+                    if (isTeamIn == true)
+                    {
+                        continue;
+                    }
+                    if (team == null)
+                    {
+                        return View("Error404", new { area = "" });
+                    }
+                    teams[i] = model.SelectedTeams[i];
                 }
-                if (team == null)
-                {
-                    return View("Error404", new { area = "" });
-                }
-                teams[i] = model.SelectedTeams[i];
+                await groupService.AddTeamsToGroup(model.Id, teams);
             }
-            await groupService.AddTeamsToGroup(model.Id,teams);
+            
             var tournamentGroups = await groupService.GetAllGroupsForTournament(tournamentId);
             ViewBag.Torunament = tournamentGroups[0].TournamentName;
             return View(nameof(Result), tournamentGroups);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ReamoveTeamsFromGroup(int id)
+        {
+            ActionForTeamsInGroup model = new ActionForTeamsInGroup()
+            {
+                Teams = await teamService.GetTeamsByGroupId(id)
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReamoveTeamsFromGroup(ActionForTeamsInGroup model)
+        {
+            var tournamentId = await groupService.FindTournament(model.Id);
+            if (!ModelState.IsValid)
+            {
+
+                model.Teams = await teamService.GetTeamsByGroupId(model.Id);
+                return View(model);
+            }
+            if (model.SelectedTeams != null)
+            {
+                int[] teams = new int[model.SelectedTeams.Length];
+                for (int i = 0; i < teams.Length; i++)
+                {
+                    var team = await teamService.FindTeam(model.SelectedTeams[i]);
+                    if (await matchService.IsTeamAssignedToMatchInGroup(team.Id, model.Id) == true)
+                    {
+                        continue;
+                    }
+                    await teamService.RemoveFromGroup(team.Id, model.Id);
+
+                }
+            }
+            var tournamentGroups = await groupService.GetAllGroupsForTournament(tournamentId);
+            ViewBag.Torunament = tournamentGroups[0].TournamentName;
+            return View(nameof(Result), tournamentGroups);
+
+
         }
 
         public  IActionResult Result(List<ShowGroupViewModel> model)
@@ -107,7 +153,12 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             }
             ViewBag.Id = groupId;
             var tour = await tournamentService.FindTournament(result[0].TournamentId);
-            ViewBag.Tournament = tour.Name;
+            if (tour == null)
+            {
+                return View("Error404", new { area = "" });
+            }
+            Tournament res = (Tournament)tour;
+            ViewBag.Tournament = res.Name;
             return View("AllMatches", result);
         }
 

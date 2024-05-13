@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.MatchModels;
 using My_Transfermarkt_Core.Services;
+using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -43,13 +44,18 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 TempData["groupId"] = GroupId;
             }
             var tournament = await tournamentService.FindTournament(Id);
+            if (tournament == null)
+            {
+                return View("Error404", new { area = "" });
+            }
+            var tour = (Tournament)tournament;
             
             if (tournament == null)
             {
                 return View("Error404", new { area = "" });
             }
 
-            model.TournamentId = tournament.Id;
+            model.TournamentId = tour.Id;
             if (model.Teams.Count() == 0 && GroupId==0)
             {
                 model.Teams = await teamService.GetAllTeamsForTournament(Id);
@@ -58,14 +64,15 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             model.Referees = await refService.AllReferees();
             if (model.Rounds.Count == 0)
             {
-                model.Rounds = await tournamentService.AddRounds(tournament.Id);
+                model.Rounds = await tournamentService.AddRounds(tour.Id);
             }
             
 
-            ViewBag.Tournament = tournament.Name;
-            ViewBag.Id = tournament.Id;
+            ViewBag.Tournament = tour.Name;
+            ViewBag.Id = tour.Id;
             ViewBag.Group = model.GroupId;
             model.Date = DateTime.Today;
+            TempData["id"] = GroupId;
             return View(model);
         }
 
@@ -112,7 +119,12 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 ViewBag.Id = model.GroupId;
                 var tour = await tournamentService.FindTournament(model.TournamentId);
-                ViewBag.Tournament = tour.Name;
+                if (tour == null)
+                {
+                   return View("Error404", new { area = "" });
+                }
+                var competition = (Tournament)tour;
+                ViewBag.Tournament = competition.Name;
                 TempData["groupId"] = model.GroupId;
                 return RedirectToAction("MatchesInGroup", "Group");
 
