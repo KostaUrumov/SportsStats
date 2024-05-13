@@ -4,6 +4,7 @@ using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.GeneralModels;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Infastructure.DataModels;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace My_Transfermarkt_Core.Services
@@ -226,7 +227,7 @@ namespace My_Transfermarkt_Core.Services
         /// Metchod returns all available teams in ShowTeamModelView
         /// </summary>
         /// <returns>List<ShowTeamModelView></returns>
-        public async Task<List<ShowTeamModelView>> GetAllTeamsAvailable()
+        public async Task<List<ShowTeamModelView>> GetAllTeamsAvailable(int tournamentId)
         {
             List<ShowTeamModelView> teams = await data
                 .Teams
@@ -240,7 +241,22 @@ namespace My_Transfermarkt_Core.Services
                 })
                 .OrderBy(x => x.Name)
                 .ToListAsync();
-            return teams;
+
+            var list = await data
+                .TournamentsTeams
+                .Where(x=> x.TournamentId == tournamentId)
+                .ToListAsync();
+
+            List<ShowTeamModelView> listedModels = new List<ShowTeamModelView>(); 
+            foreach (var model in teams)
+            {
+                if (list.Any(x => x.TeamId == model.Id))
+                {
+                    continue;
+                }
+                listedModels.Add(model);
+            }
+            return listedModels;
             
         }
 

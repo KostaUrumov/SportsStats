@@ -219,7 +219,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             AddTeamsToTournament model = new AddTeamsToTournament()
             {
                 Id = Id,
-                Teams = await teamService.GetAllTeamsAvailable()
+                Teams = await teamService.GetAllTeamsAvailable(Id)
             };
             ViewBag.Tournament = await tournamentService.GetName(Id);
             return View(model);

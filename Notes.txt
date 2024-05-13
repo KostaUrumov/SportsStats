@@ -1,4 +1,4 @@
 Next steps:
-1. Make possible save changes on edit a tournament (views are done).
+1. Adjust when add tournaments those whom are in not to appear as possibilities.
 2. View results by round in Group and tournament
 3. Standings of a group and a single group tournaments.
