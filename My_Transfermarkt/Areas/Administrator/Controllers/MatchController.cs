@@ -149,7 +149,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 model.Rounds = await tournamentService.AddRounds(match.TournamentId);
             }
             model.TournamentId = match.TournamentId;
-            if (model.Teams.Count() == 0 && model.GroupId == 0)
+            if (model.Teams.Count() == 0 && model.GroupId == null)
             {
                 model.Teams = await teamService.GetAllTeamsForTournament(match.TournamentId);
             }
