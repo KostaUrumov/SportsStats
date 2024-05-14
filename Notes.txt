@@ -1,3 +1,3 @@
 Next steps:
-1. Details for group
+1. Details for group will include standings and all matches, details for a single group will include standings and possibilities to check matches by round and extract the classification after the given round
 2. Standings of a group and a single group tournaments.
