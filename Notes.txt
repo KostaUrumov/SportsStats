@@ -1,3 +1,3 @@
 Next steps:
-1. View results by round in Group and tournament
+1. Details for group
 2. Standings of a group and a single group tournaments.

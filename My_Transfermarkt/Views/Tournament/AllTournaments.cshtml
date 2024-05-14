@@ -14,6 +14,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Current Teams in</th>
+            <th scope="col">Groups / Matches</th>
         </tr>
     </thead>
 
@@ -28,7 +29,18 @@
                 <td>
                     <a asp-controller="Tournament" asp-action="CurrentTeams" asp-route-id="@Model[i].Id" class="btn btn-info">Current teams in</a>
                 </td>
+                <td>
+                    @if (@Model[i].isGroupTournament == true)
+                    {
+                        <a asp-controller="Group" asp-action="GetAllGroupsForTournament" asp-route-id="@Model[i].Id" class="btn btn-primary">Groups</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Tournament" asp-action="Matches" asp-route-Id="@Model[i].Id" class="btn btn-info">Matches</a>
+                    }
+                </td>
+                
             </tr>
         </tbody>
     }
-</table>
+</table>    

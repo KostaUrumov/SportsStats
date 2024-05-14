@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Infastructure.Enums;
 using System.Security.Claims;
-using Umbraco.Core;
 
 namespace My_Transfermarkt.Controllers
 {
@@ -83,6 +81,10 @@ namespace My_Transfermarkt.Controllers
         public async Task<IActionResult> MyFootballers()
         {
             var agentId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (agentId == null)
+            {
+                return View();
+            }
             var result = await footballerService.MyFootballers(agentId);
             return View(result);
         }

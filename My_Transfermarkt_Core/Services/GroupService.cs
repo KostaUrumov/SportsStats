@@ -104,6 +104,7 @@ namespace My_Transfermarkt_Core.Services
                     .Select(x => new ShowTeamModelView
                     {
                         Name = x.Team.Name,
+                        Picture = x.Team.Logo
                     })
                 })
                 .OrderBy(x => x.Name)
