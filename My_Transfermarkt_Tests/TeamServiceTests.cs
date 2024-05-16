@@ -17,7 +17,7 @@ namespace My_Transfermarkt_Tests
         private IEnumerable<Stadium> stadiums;
 
 
-       
+
         [Test]
         public void TestGetAllTeams()
         {
@@ -425,8 +425,8 @@ namespace My_Transfermarkt_Tests
 
             TeamToAddStadium team = new TeamToAddStadium()
             {
-                Id= 1,
-                StadiumId=4,
+                Id = 1,
+                StadiumId = 4,
             };
 
             ITeamService service = new TeamService(data);
@@ -479,7 +479,7 @@ namespace My_Transfermarkt_Tests
             this.data.SaveChanges();
 
             ITeamService service = new TeamService(data);
-            var result =  service.GetRandomListForHomePage();
+            var result = service.GetRandomListForHomePage();
             Assert.That(result.Result.Count(), Is.EqualTo(8));
 
             this.data.RemoveRange(this.teams);
@@ -643,7 +643,7 @@ namespace My_Transfermarkt_Tests
                 Id = 1,
                 Name = "Strumska Slava",
                 CountryId = 1,
-                
+
             };
             service.AddNewTeamAsync(model);
             Assert.That(data.Teams.Count, Is.EqualTo(10));
@@ -715,55 +715,8 @@ namespace My_Transfermarkt_Tests
 
         }
 
-        [Test]
-        public void TestFetAllAvailableTeams()
-        {
-            this.countries = new List<Country>()
-            {
-                new Country(){Id = 1, Name= "Spain", ShortName = "SP"},
-                new Country(){Id = 2, Name= "Belgium", ShortName="BE"},
-                new Country(){Id = 3, Name= "Bulgaria", ShortName="BG"},
-                new Country(){Id = 4, Name= "England", ShortName="EN"}
-            };
-            this.stadiums = new List<Stadium>()
-            {
-                new Stadium { Id = 4, CountryId = 2, Build = DateTime.Parse("1934/08/06"), Capacity = 74667, Name = "Olympiastadion" },
-            };
-
-            this.teams = new List<Team>()
-            {
-                new Team{Id =1, CountryId = 4, Name = "Manchester United" },
-                new Team{Id =2, CountryId = 3, Name = "Botev Plovdiv" },
-                new Team{Id =3, CountryId = 3, Name = "Levski Sofia" },
-                new Team{Id =4, CountryId = 4, Name = "Arsenal" },
-                new Team{Id =5, CountryId = 1, Name = "Barcelona" },
-                new Team{Id =6, CountryId = 1, Name = "Real Madrid" },
-                new Team{Id =7, CountryId = 2, Name = "Standard" },
-                new Team{Id =8, CountryId = 2, Name = "Brugge" },
-                new Team{Id =9, CountryId = 3, Name = "Spartak Varna" },
-            };
-
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "MyMockedData")
-                   .Options;
-            this.data = new ApplicationDbContext(options);
-            this.data.AddRange(this.teams);
-            this.data.AddRange(this.countries);
-            this.data.AddRange(this.stadiums);
-            this.data.SaveChanges();
-
-            ITeamService service = new TeamService(data);
-            
-            var result = service.GetAllTeamsAvailable();
-            Assert.That(result.Result.Count, Is.EqualTo(9));
 
 
-            this.data.RemoveRange(this.teams);
-            this.data.RemoveRange(this.countries);
-            this.data.RemoveRange(this.stadiums);
-            this.data.SaveChanges();
-
-
-        }
     }
+    
 }

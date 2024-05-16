@@ -123,6 +123,70 @@ namespace My_Transfermarkt_Core.Services
             return groups;
         }
 
+        public async Task<List<DetailsGroupModel>> GetDetails(int groupId)
+        {
+            List<DetailsGroupModel> listed = await data
+                .GroupsTeams
+                .Where(x => x.GroupId == groupId)
+                .Select(x => new DetailsGroupModel
+                {
+                    Team = x.Team,
+                    TeamName = x.Team.Name,
+                    Picture = x.Team.Logo
+                })
+                .ToListAsync();
+
+            
+            for (int i = 0;i < listed.Count;i++) 
+            {
+                foreach (var match in data.Matches)
+                {
+                    if (match.GroupId == groupId && match.HomeTeamId == listed[i].Team.Id)
+                    {
+                        if (match.HomeScore != null && match.AwayScore!= null)
+                        {
+                            listed[i].GoalsFor += (int)match.HomeScore;
+                            listed[i].GoalsAgainst += (int)match.AwayScore;
+                            if (match.HomeScore > match.AwayScore)
+                            {
+                                listed[i].Points += 3;
+                            }
+
+                            if (match.HomeScore > match.AwayScore)
+                            {
+                                listed[i].Points += 1;
+                            }
+                        }
+                        
+                    }
+
+                    if (match.GroupId == groupId && match.AwayTeamId == listed[i].Team.Id)
+                    {
+                        if (match.AwayScore != null && match.HomeScore != null)
+                        {
+                            listed[i].GoalsFor += (int)match.AwayScore;
+                            listed[i].GoalsAgainst += (int)match.HomeScore;
+                            if (match.AwayScore > match.HomeScore)
+                            {
+                                listed[i].Points += 3;
+                            }
+
+                            if (match.AwayScore > match.HomeScore)
+                            {
+                                listed[i].Points += 1;
+                            }
+                        }
+                    }
+                }
+
+            }
+            
+            var sortedList = listed.OrderByDescending(x => x.Points).ToList();
+            return sortedList;
+
+            
+        }
+
         public async Task<bool> IsTeamInThisGroup(int groupId, int teamId)
         {
             var group = await data.Groups.FindAsync(groupId);

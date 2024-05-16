@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
+using My_Transfermarkt_Core.Models.GroupModels;
 using My_Transfermarkt_Core.Services;
 
 namespace My_Transfermarkt.Controllers
@@ -18,6 +19,12 @@ namespace My_Transfermarkt.Controllers
             var tournamentGroups = await groupService.GetAllGroupsForTournament(id);
             ViewBag.Torunament = tournamentGroups[0].TournamentName;
             return View(tournamentGroups);
+        }
+
+        public async Task<IActionResult> Details(int groupId)
+        {
+            var result = await groupService.GetDetails(groupId);
+            return View(result);
         }
     }
 }

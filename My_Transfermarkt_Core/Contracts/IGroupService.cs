@@ -14,5 +14,6 @@ namespace My_Transfermarkt_Core.Contracts
         public bool TeamsInGroupAreCorrect(int numberTeams);
         Task<List<int>> AddRounds(int groupId);
         Task RemoveAllGroups(int tournamentId);
+        Task<List<DetailsGroupModel>> GetDetails(int groupId);
     }
 }
