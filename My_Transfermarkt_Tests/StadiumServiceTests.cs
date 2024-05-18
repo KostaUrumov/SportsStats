@@ -11,9 +11,9 @@ namespace My_Transfermarkt_Tests
     [TestFixture]
     public class StadiumServiceTests
     {
-        private ICollection<Stadium> stadiums;
-        private ApplicationDbContext data;
-        private IEnumerable<Country> countries;
+        private ICollection<Stadium>? stadiums;
+        private ApplicationDbContext? data;
+        private IEnumerable<Country>? countries;
 
 
 

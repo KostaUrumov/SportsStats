@@ -45,7 +45,7 @@ namespace My_Transfermarkt_Core.Services
             return true;
         }
 
-        public async Task<AddNewRefereeModel> FindReferee(int refereeId)
+        public async Task<AddNewRefereeModel?> FindReferee(int refereeId)
         {
             var referee = await data
                 .Referees

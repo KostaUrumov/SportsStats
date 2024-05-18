@@ -25,12 +25,15 @@ namespace My_Transfermarkt_Core.Services
         {
             var findFootballer = await data.Footballers.FirstOrDefaultAsync(x => x.Id == footballerId);
             var findUser = await data.Agents.FirstOrDefaultAsync(x => x.Id == userId);
-            findFootballer.AgentId = findUser.Id;
-            findUser.AgentFootballers.Add(new AgentsFootballers
+            if (findUser != null && findFootballer != null) 
             {
-                FootballerId = footballerId,
-            });
+                findFootballer.AgentId = findUser.Id;
+                findUser.AgentFootballers.Add(new AgentsFootballers
+                {
+                    FootballerId = footballerId,
+                });
 
+            }
             await data.SaveChangesAsync();
         }
     }

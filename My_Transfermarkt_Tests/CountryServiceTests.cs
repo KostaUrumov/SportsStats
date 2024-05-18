@@ -11,8 +11,8 @@ namespace My_Transfermarkt_Tests
     [TestFixture]
     public class CountryServiceTests
     {
-        private IEnumerable<Country> countries;
-        private ApplicationDbContext data;
+        private IEnumerable<Country>? countries;
+        private ApplicationDbContext? data;
 
         [Test]
         public void TestFindByNameCorrectly()

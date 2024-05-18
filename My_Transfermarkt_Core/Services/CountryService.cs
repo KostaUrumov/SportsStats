@@ -83,7 +83,7 @@ namespace My_Transfermarkt_Core.Services
         /// </summary>
         /// <param name="Id"></param>
         /// <returns>AddNewCountryModel</returns>
-        public async Task<AddNewCountryModel> FindCountry(int Id)
+        public async Task<AddNewCountryModel?> FindCountry(int Id)
         {
             var result =  await data
                 .Countries

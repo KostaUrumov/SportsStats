@@ -93,7 +93,7 @@ namespace My_Transfermarkt_Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns>AddNewStadiumModel</returns>
-        public async Task<AddNewStadiumModel> FindToEdit(int id)
+        public async Task<AddNewStadiumModel?> FindToEdit(int id)
         {
             var result = await data.Stadiums
                 .FirstOrDefaultAsync(x => x.Id == id);

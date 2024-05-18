@@ -201,7 +201,7 @@ namespace My_Transfermarkt_Core.Services
         /// <param name="id"></param>
         /// <returns>AddNewFootallerModel</returns>
 
-        public async Task<AddNewFootallerModel> FindFootballer(int id)
+        public async Task<AddNewFootallerModel?> FindFootballer(int id)
         {
             List<AddNewFootallerModel> result = await data.Footballers
                 .Where(x => x.Id == id)
