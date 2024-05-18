@@ -1,4 +1,5 @@
 ﻿using My_Transfermarkt_Core.Models.MatchModels;
+using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Core.Models.TournamentModels;
 using My_Transfermarkt_Infastructure.DataModels;
 
@@ -24,5 +25,6 @@ namespace My_Transfermarkt_Core.Contracts
         public Task<List<int>?> AddRounds(int tournamentId);
         public Task<int?> FindTournamentIdByGroup(int groupId);
         Task<List<ShowMatchModel>> FindMatchesInGroup(int groupId);
+        Task<List<StandingsViewModel>> StandongsInTournament(int tourId);
     }
 }

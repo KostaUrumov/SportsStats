@@ -493,6 +493,70 @@ namespace My_Transfermarkt_Core.Services
                 await data.SaveChangesAsync();
         }
 
+        public async Task<List<StandingsViewModel>> StandongsInTournament(int tourId)
+        {
+            List<StandingsViewModel> listed = await data
+                .TournamentsTeams
+                .Where(x => x.TournamentId == tourId)
+                .Select(x => new StandingsViewModel
+                {
+                    Team = x.Team,
+                    TeamName = x.Team.Name,
+                    Picture = x.Team.Logo
+                })
+                .ToListAsync();
+
+
+            for (int i = 0; i < listed.Count; i++)
+            {
+                foreach (var match in data.Matches)
+                {
+                    if (match.TournamentId == tourId && match.HomeTeamId == listed[i].Team.Id)
+                    {
+                        if (match.HomeScore != null && match.AwayScore != null)
+                        {
+                            listed[i].GoalsFor += (int)match.HomeScore;
+                            listed[i].GoalsAgainst += (int)match.AwayScore;
+                            if (match.HomeScore > match.AwayScore)
+                            {
+                                listed[i].Points += 3;
+                            }
+
+                            if (match.HomeScore == match.AwayScore)
+                            {
+                                listed[i].Points += 1;
+                            }
+                        }
+
+                    }
+
+                    if (match.TournamentId == tourId && match.AwayTeamId == listed[i].Team.Id)
+                    {
+                        if (match.AwayScore != null && match.HomeScore != null)
+                        {
+                            listed[i].GoalsFor += (int)match.AwayScore;
+                            listed[i].GoalsAgainst += (int)match.HomeScore;
+                            if (match.AwayScore > match.HomeScore)
+                            {
+                                listed[i].Points += 3;
+                            }
+
+                            if (match.AwayScore == match.HomeScore)
+                            {
+                                listed[i].Points += 1;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            var sortedList = listed.OrderByDescending(x => x.Points).ToList();
+            return sortedList;
+
+
+        }
+
         public bool TotalTeamsAreCorrect(int numberOfTeams)
         {
             if (numberOfTeams < 2 || numberOfTeams > 100)

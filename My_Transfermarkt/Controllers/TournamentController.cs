@@ -73,5 +73,11 @@ namespace My_Transfermarkt.Controllers
             return View(result);
         }
 
+        public async Task<IActionResult> Standings(int Id)
+        {
+            var result = await tournamentService.StandongsInTournament(Id);
+            return View(result);
+        }
+
     }
 }

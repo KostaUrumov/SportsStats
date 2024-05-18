@@ -1,12 +1,12 @@
 ﻿using My_Transfermarkt_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Core.Models.GroupModels
+namespace My_Transfermarkt_Core.Models.TeamModels
 {
-    public class DetailsGroupModel
+    public class StandingsViewModel
     {
         public Team Team { get; set; } = null!;
         public string TeamName { get; set; } = null!;
-        public byte[]? Picture { get; set; }
+        public byte[] Picture { get; set; } = null!;
 
         public int GoalsFor { get; set;}
 

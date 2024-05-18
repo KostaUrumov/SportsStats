@@ -1,4 +1,5 @@
 ﻿using My_Transfermarkt_Core.Models.GroupModels;
+using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Core.Models.TournamentModels;
 
 namespace My_Transfermarkt_Core.Contracts
@@ -14,6 +15,6 @@ namespace My_Transfermarkt_Core.Contracts
         public bool TeamsInGroupAreCorrect(int numberTeams);
         Task<List<int>> AddRounds(int groupId);
         Task RemoveAllGroups(int tournamentId);
-        Task<List<DetailsGroupModel>> GetDetails(int groupId);
+        Task<List<StandingsViewModel>> GetDetails(int groupId);
     }
 }

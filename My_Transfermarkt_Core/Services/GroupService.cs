@@ -123,12 +123,12 @@ namespace My_Transfermarkt_Core.Services
             return groups;
         }
 
-        public async Task<List<DetailsGroupModel>> GetDetails(int groupId)
+        public async Task<List<StandingsViewModel>> GetDetails(int groupId)
         {
-            List<DetailsGroupModel> listed = await data
+            List<StandingsViewModel> listed = await data
                 .GroupsTeams
                 .Where(x => x.GroupId == groupId)
-                .Select(x => new DetailsGroupModel
+                .Select(x => new StandingsViewModel
                 {
                     Team = x.Team,
                     TeamName = x.Team.Name,
