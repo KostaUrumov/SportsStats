@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
+using My_Transfermarkt_Core.Models.MatchModels;
 using My_Transfermarkt_Core.Models.TournamentModels;
+using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt.Controllers
 {
@@ -40,5 +42,36 @@ namespace My_Transfermarkt.Controllers
             return View(result);
 
         }
+
+        public async Task<IActionResult> Matches(int Id)
+        {
+            if (TempData["Id"] != null)
+            {
+                Id = (int)TempData["Id"];
+                TempData.Remove("Id");
+            }
+            var tournament = await tournamentService.FindTournament(Id);
+
+            if (tournament == null)
+            {
+                return View("Error404", new { area = "" });
+            }
+            var result = await tournamentService.FindMatchesInTournament(Id);
+
+            if (tournament == null)
+            {
+                return View("Error404", new { area = "" });
+            }
+            var competition = (Tournament)tournament;
+
+            ViewBag.Tournament = competition.Name;
+            ViewBag.Id = competition.Id;
+            return View("ResultMatches", result);
+        }
+        public IActionResult ResultMatches(List<ShowMatchModel> result)
+        {
+            return View(result);
+        }
+
     }
 }

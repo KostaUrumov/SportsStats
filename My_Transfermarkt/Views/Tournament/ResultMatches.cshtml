@@ -1,0 +1,94 @@
+﻿@using My_Transfermarkt_Core.Models.MatchModels
+@model List<ShowMatchModel>
+@{
+    ViewData["Title"] = "Matches";
+}
+
+<div class="text-center">
+    <h3>Matches in @ViewBag.Tournament</h3>
+</div>
+@if (Model.Count == 0)
+{
+    <div class="text-center">
+        <p></p>
+        <p></p>
+        <p></p>
+        <h5>Nothing found</h5>
+    </div>
+    return;
+}
+@if(Model.Count != 0 && Model[0].GroupName != null)
+{
+   
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">HomeTeam</th>
+                <th scope="col">Results</th>
+                <th scope="col">AwayTeam</th>
+                <th scope="col">Group</th>
+                <th scope="col">Date</th>
+                <th scope="col">Round</th>
+            </tr>
+        </thead>
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            
+            <tbody>
+                <tr>
+                    <td><img src="data:image;base64,@System.Convert.ToBase64String(Model[i].HomeLogo)" width="25" height="25" /> @Model[i].HomeTeam</td>
+                    <td>@Model[i].Result</td>
+                    <td><img src="data:image;base64,@System.Convert.ToBase64String(Model[i].HomeLogo)" width="25" height="25" /> @Model[i].AwayTeam</td>
+                    @if (Model[i].GroupName != null)
+                    {
+                        <td>@Model[i].GroupName</td>
+
+                    }
+                    else
+                    {
+                        <td>No Group</td>
+                    }
+
+                    <td>@Model[i].Date</td>
+                    <td>@Model[i].Round</td>
+                </tr>
+            
+            </tbody>
+        }
+    </table>
+
+    
+}
+
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">HomeTeam</th>
+                <th scope="col">Results</th>
+                <th scope="col">AwayTeam</th>
+                <th scope="col">Date</th>
+                <th scope="col">Round</th>
+            </tr>
+        </thead>
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            
+            <tbody>
+                <tr>
+                    <td><img src="data:image;base64,@System.Convert.ToBase64String(Model[i].HomeLogo)" width="25" height="25" /> @Model[i].HomeTeam</td>
+                    <td>@Model[i].Result</td>
+                    <td><img src="data:image;base64,@System.Convert.ToBase64String(Model[i].AwayLogo)" width="25" height="25" /> @Model[i].AwayTeam</td>
+                    <td>@Model[i].Date</td>
+                    <td>@Model[i].Round</td>
+                    
+                    
+                </tr>
+            </tbody>
+        }
+    </table>
+}

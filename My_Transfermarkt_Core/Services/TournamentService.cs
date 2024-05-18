@@ -200,8 +200,12 @@ namespace My_Transfermarkt_Core.Services
                     Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
                     Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
                     HomeTeam = m.HomeTeam.Name,
-                    GroupName = m.Group.Name
+                    GroupName = m.Group.Name,
+                    Round = m.Round,
+                    HomeLogo = m.HomeTeam.Logo,
+                    AwayLogo = m.AwayTeam.Logo
                 })
+                .OrderBy(x=> x.Round)
                 .ToListAsync();
 
             return result;
@@ -225,7 +229,9 @@ namespace My_Transfermarkt_Core.Services
                     Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
                     Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
                     HomeTeam = m.HomeTeam.Name,
-                    Round = m.Round
+                    Round = m.Round,
+                    HomeLogo = m.HomeTeam.Logo,
+                    AwayLogo = m.AwayTeam.Logo
                 })
                 .ToListAsync();
 
@@ -246,7 +252,9 @@ namespace My_Transfermarkt_Core.Services
                     Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
                     Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
                     HomeTeam = m.HomeTeam.Name,
-                    Round = m.Round
+                    Round = m.Round,
+                    HomeLogo = m.HomeTeam.Logo,
+                    AwayLogo = m.AwayTeam.Logo
                 })
                 .ToListAsync();
             return result;
