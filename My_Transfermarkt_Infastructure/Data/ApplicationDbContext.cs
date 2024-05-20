@@ -21,9 +21,6 @@ namespace My_Transfermarkt.Data
             builder.ApplyConfiguration(new ApplicationIdentityRoleConfiguration());
             builder.ApplyConfiguration(new ApplicationCountryConfiguration());
             builder.ApplyConfiguration(new ApplicationStadiumConfiguration());
-            builder.ApplyConfiguration(new ApplicationSingleGroupTournamentConfiguration());
-            builder.ApplyConfiguration(new ApplicationTeamConfiguration());
-            builder.ApplyConfiguration(new ApplicationFootballerConfiguration());
             builder.ApplyConfiguration(new ApplicationRefereesTournamentsConfiguration());
             builder.ApplyConfiguration(new ApplicationMatchConfiguration());
             builder.ApplyConfiguration(new ApplicationGroupTeamsConfiguration());
@@ -45,7 +42,7 @@ namespace My_Transfermarkt.Data
         public DbSet<Referee> Referees { get; set; } = null!;
         public DbSet<RefereesTournaments> RefereesTournaments { get; set; } = null!;
         public DbSet<SingleGroupTournament> SingleGroupTournaments { get; set; } = null!;
-        public DbSet<My_Transfermarkt_Infastructure.DataModels.Stadium> Stadiums { get; set; } = null!;
+        public DbSet<Stadium> Stadiums { get; set; } = null!;
         public DbSet<Team> Teams { get; set; } = null!;
         public DbSet<TeamsFootballers> TeamsFootballers { get; set; } = null!;
         public DbSet<Tournament> Tournaments { get; set; } = null!;

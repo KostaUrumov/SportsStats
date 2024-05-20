@@ -10,7 +10,7 @@ namespace My_Transfermarkt_Core.Contracts
         bool AreDtaesCorrect(AddNewFootallerModel model);
         Task<List<ShowFootballerModel>> MyFootballers(string userId);
         Task SaveChangesAsync(AddNewFootallerModel footballer);
-        Task<AddNewFootallerModel> FindFootballer(int id);
+        Task<AddNewFootallerModel?> FindFootballer(int id);
         Task SignToClub(SignFootballerToATeam model);
         Task Release(int Id);
         Task AddPictureToFootballer(byte[]pictureData, int Id);

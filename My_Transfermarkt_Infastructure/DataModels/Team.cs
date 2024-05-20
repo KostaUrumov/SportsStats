@@ -19,14 +19,14 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [ForeignKey(nameof(CountryId))]
         public Country Country { get; set; } = null!;
 
-        
-        public byte[]? Logo { get; set; }
+        [Required]
+        public byte[] Logo { get; set; } = null!;
 
         
         public int? StadiumId { get; set; }
 
         [ForeignKey(nameof(StadiumId))]
-        public Stadium? Stadium { get; set; }
+        public Stadium Stadium { get; set; } = null!;
         
         [InverseProperty(nameof(Match.HomeTeam))]
         public virtual ICollection<Match> HomeGames { get; set; } = new List<Match>();

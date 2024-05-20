@@ -1,11 +1,19 @@
 ﻿@model List<StandingsViewModel>
 
+<div class="text-center">
+    <h3>Standings of @ViewBag.Tournament</h3>
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
             <th scope="col">Position</th>
             <th scope="col">Name</th>
-            <th scope="col">Goal difference</th>
+            <th scope="col">Matches</th>
+            <th scope="col">Goals </th>
+            <th scope="col">+/-</th>
+            <th scope="col">Wins</th>
+            <th scope="col">Draws</th>
+            <th scope="col">Losses</th>
             <th scope="col">Points</th>
         </tr>
     </thead>
@@ -16,16 +24,21 @@
         <tbody>
             <tr>
                 <th scope="row">@number</th>
-                @if (Model[i].Picture != null)
+                <td><img src="data:image;base64,@System.Convert.ToBase64String(Model[i].Picture)" width="25" height="25" /> @Model[i].TeamName </td>
+                <td>@Model[i].Matches</td>
+                <td>@Model[i].GoalsFor:@Model[i].GoalsAgainst</td>
+                @if (@Model[i].PlusMinusGoals > 0)
                 {
-                    <td><img src="data:image;base64,@System.Convert.ToBase64String(Model[i].Picture)" width="25" height="25" /> @Model[i].TeamName </td>
+                    <td>+@Model[i].PlusMinusGoals</td>
                 }
                 else
                 {
-                    <td>@Model[i].TeamName </td>
+                    <td>@Model[i].PlusMinusGoals</td>
                 }
-                
-                <td>@Model[i].GoalsFor:@Model[i].GoalsAgainst</td>
+                <p></p>
+                <td>@Model[i].Wins</td>
+                <td>@Model[i].Draws</td>
+                <td>@Model[i].Losses</td>
                 <td>@Model[i].Points</td>
             </tr>
         </tbody>

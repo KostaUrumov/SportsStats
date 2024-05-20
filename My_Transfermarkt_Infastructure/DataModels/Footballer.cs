@@ -30,7 +30,8 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [ForeignKey(nameof(CountryId))]
         public Country Country { get; set; } = null!;
 
-        public string? AgentId { get; set; }
+        [Required]
+        public string AgentId { get; set; } = null!;
 
         [ForeignKey(nameof(AgentId))]
         public Agent? Agent { get; set; }
@@ -52,8 +53,8 @@ namespace My_Transfermarkt_Infastructure.DataModels
 
         public ICollection<Team> TeamsPlayed { get; set; } = new List<Team>();
 
-        
-        public byte[]? Picture { get; set; }
+        [Required]
+        public byte[] Picture { get; set; } = null!;
 
         [Required]
         [Range(DataConstraints.Footballer.MinValue, double.MaxValue)]

@@ -139,7 +139,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         public async Task<IActionResult> MatchesInGroup(int groupId)
         {
-            if (TempData["groupId"] != null)
+            if (TempData["groupId"] is not null)
             {
                 groupId = (int)TempData["groupId"];
                 TempData.Remove("groupId");

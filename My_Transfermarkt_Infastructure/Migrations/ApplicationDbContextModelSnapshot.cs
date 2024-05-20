@@ -52,21 +52,21 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "a0768951-6f5a-4e04-a17c-136ad18f053a",
+                            ConcurrencyStamp = "949feae4-8ce7-4b2b-ab4d-b657e1cec94b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c93174e-3b0e-446f-86af-883d56fr7210",
-                            ConcurrencyStamp = "77db76ec-9ea3-499e-8429-bc5bff5b4638",
+                            ConcurrencyStamp = "c898284d-ebb7-4469-b1ae-fa27b3e18913",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "4t67567e-5f7e-446f-88fa-441f56fr8700",
-                            ConcurrencyStamp = "06b9d403-3f7a-46fa-ac0e-79e13f12fb38",
+                            ConcurrencyStamp = "ceb63880-73ab-4299-a1f0-861174b77fc2",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -330,6 +330,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AgentId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("BirthDay")
@@ -339,7 +340,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("CurrentMarketValue")
-                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("EndDateContract")
@@ -351,7 +351,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .HasColumnType("nvarchar(45)");
 
                     b.Property<decimal>("HighestValue")
-                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("HishestValueDate")
@@ -369,6 +368,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .HasColumnType("nvarchar(45)");
 
                     b.Property<byte[]>("Picture")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Position")
@@ -392,53 +392,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("Footballers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BirthDay = new DateTime(2000, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CountryId = 1,
-                            CurrentMarketValue = 150000m,
-                            FirstName = "Tsanko",
-                            HighestValue = 150000m,
-                            HishestValueDate = new DateTime(2024, 5, 5, 7, 29, 30, 521, DateTimeKind.Local).AddTicks(1788),
-                            InternationalCaps = 15,
-                            IsRetired = false,
-                            LastName = "Tsvetanov",
-                            Position = 1,
-                            PreferedFoot = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BirthDay = new DateTime(1997, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CountryId = 1,
-                            CurrentMarketValue = 170000.23m,
-                            FirstName = "Milen",
-                            HighestValue = 170000.23m,
-                            HishestValueDate = new DateTime(2024, 5, 5, 7, 29, 30, 521, DateTimeKind.Local).AddTicks(1823),
-                            InternationalCaps = 3,
-                            IsRetired = false,
-                            LastName = "Gamakov",
-                            Position = 2,
-                            PreferedFoot = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BirthDay = new DateTime(1997, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CountryId = 1,
-                            CurrentMarketValue = 200000.23m,
-                            FirstName = "Ivan",
-                            HighestValue = 200000.23m,
-                            HishestValueDate = new DateTime(2024, 5, 5, 7, 29, 30, 521, DateTimeKind.Local).AddTicks(1832),
-                            InternationalCaps = 11,
-                            IsRetired = false,
-                            LastName = "Petkov",
-                            Position = 3,
-                            PreferedFoot = 1
-                        });
                 });
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Group", b =>
@@ -459,8 +412,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.Property<int>("TeamsNumber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TournamentID")
-                        .IsRequired()
+                    b.Property<int>("TournamentID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -764,6 +716,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Logo")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
@@ -772,6 +725,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("StadiumId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -783,120 +737,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     b.HasIndex("StadiumId");
 
                     b.ToTable("Teams");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CountryId = 8,
-                            Name = "Manchester United",
-                            StadiumId = 8
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CountryId = 8,
-                            Name = "Newcastle United",
-                            StadiumId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CountryId = 14,
-                            Name = "Hertha Berlin",
-                            StadiumId = 4
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CountryId = 14,
-                            Name = "Kolenz",
-                            StadiumId = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CountryId = 15,
-                            Name = "AIK Solna",
-                            StadiumId = 7
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CountryId = 8,
-                            Name = "Lecester City",
-                            StadiumId = 1
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CountryId = 8,
-                            Name = "Liverpool",
-                            StadiumId = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CountryId = 14,
-                            Name = "Stuttgart",
-                            StadiumId = 12
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CountryId = 14,
-                            Name = "Borissia Dortmund",
-                            StadiumId = 9
-                        },
-                        new
-                        {
-                            Id = 12,
-                            CountryId = 1,
-                            Name = "Levski Sofia",
-                            StadiumId = 14
-                        },
-                        new
-                        {
-                            Id = 14,
-                            CountryId = 14,
-                            Name = "Bochum",
-                            StadiumId = 5
-                        },
-                        new
-                        {
-                            Id = 17,
-                            CountryId = 14,
-                            Name = "Bayern Munchen",
-                            StadiumId = 3
-                        },
-                        new
-                        {
-                            Id = 31,
-                            CountryId = 1,
-                            Name = "Botev Plovdiv",
-                            StadiumId = 13
-                        },
-                        new
-                        {
-                            Id = 51,
-                            CountryId = 14,
-                            Name = "Nuremberg",
-                            StadiumId = 11
-                        },
-                        new
-                        {
-                            Id = 61,
-                            CountryId = 14,
-                            Name = "FC Magdeburg",
-                            StadiumId = 6
-                        },
-                        new
-                        {
-                            Id = 82,
-                            CountryId = 14,
-                            Name = "BFC Dynamo",
-                            StadiumId = 4
-                        });
                 });
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.TeamsFootballers", b =>
@@ -1059,62 +899,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("SingleGroupTournament");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Champions League 23/24",
-                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfTeams = 0,
-                            Rounds = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Bundesliga 23/24",
-                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfTeams = 0,
-                            Rounds = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Serie A 23/24",
-                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfTeams = 0,
-                            Rounds = 0
-                        },
-                        new
-                        {
-                            Id = 4,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Championship 23/24",
-                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfTeams = 0,
-                            Rounds = 0
-                        },
-                        new
-                        {
-                            Id = 5,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Parva Liga 23/24",
-                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfTeams = 0,
-                            Rounds = 0
-                        },
-                        new
-                        {
-                            Id = 7,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Premier League 23/24",
-                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumberOfTeams = 0,
-                            Rounds = 0
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1202,7 +986,9 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 {
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Agent", "Agent")
                         .WithMany()
-                        .HasForeignKey("AgentId");
+                        .HasForeignKey("AgentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Country", "Country")
                         .WithMany()
@@ -1253,7 +1039,7 @@ namespace My_Transfermarkt_Infastructure.Migrations
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.GroupTeams", b =>
                 {
-                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.Group", "Tournament")
+                    b.HasOne("My_Transfermarkt_Infastructure.DataModels.Group", "Group")
                         .WithMany("Teams")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1265,9 +1051,9 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Team");
+                    b.Navigation("Group");
 
-                    b.Navigation("Tournament");
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("My_Transfermarkt_Infastructure.DataModels.Match", b =>
@@ -1372,7 +1158,9 @@ namespace My_Transfermarkt_Infastructure.Migrations
 
                     b.HasOne("My_Transfermarkt_Infastructure.DataModels.Stadium", "Stadium")
                         .WithMany()
-                        .HasForeignKey("StadiumId");
+                        .HasForeignKey("StadiumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country");
 

@@ -4,6 +4,9 @@ using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.MatchModels;
 using My_Transfermarkt_Core.Models.TournamentModels;
 using My_Transfermarkt_Infastructure.DataModels;
+using Umbraco.Core.Composing;
+using static My_Transfermarkt_Infastructure.DataConstraints;
+using Tournament = My_Transfermarkt_Infastructure.DataModels.Tournament;
 
 namespace My_Transfermarkt.Controllers
 {
@@ -75,7 +78,15 @@ namespace My_Transfermarkt.Controllers
 
         public async Task<IActionResult> Standings(int Id)
         {
+            var tournament = await tournamentService.FindTournament(Id);
+            if (tournament != null)
+            {
+                var competition = (Tournament)tournament;
+                ViewBag.Tournament = competition.Name;
+            }
+            
             var result = await tournamentService.StandongsInTournament(Id);
+            
             return View(result);
         }
 

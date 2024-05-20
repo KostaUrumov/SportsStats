@@ -12,7 +12,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         private readonly ICountryService countryService;
         private readonly IStadiumService stadiumService;
         private readonly ITeamService teamService;
-        
+
 
         public TeamController(
             ICountryService _country,
@@ -49,44 +49,38 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 team.Stadiums = await stadiumService.GetAllStadiums();
                 return View(team);
             }
-            team.Picture = null;
-            if (files != null)
+
+            byte[] picData = new byte[files.Count];
+            foreach (var file in files)
             {
-                byte[] picData = new byte[files.Count];
-                foreach (var file in files)
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        file.CopyToAsync(ms);
-                        picData = ms.ToArray();
-                    }
+                    await file.CopyToAsync(ms);
+                    picData = ms.ToArray();
                 }
-                team.Picture = picData;
-
             }
-            
+            team.Picture = picData;
 
-            
             await teamService.AddNewTeamAsync(team);
             return RedirectToAction(nameof(AllTeams));
         }
 
-        public async Task<IActionResult> AllTeams(int pg =1)
+        public async Task<IActionResult> AllTeams(int pg = 1)
         {
             int totalTeams = teamService.TotalTeamNumber();
             const int pageSize = 9;
             var result = await teamService.GetTeams(pageSize, pg);
-            int resCounts =  result.Count();
+            int resCounts = result.Count();
             var pager = new Pager();
-            pager.TotalPages = (int)(Math.Ceiling((decimal)totalTeams/(decimal)pageSize));
+            pager.TotalPages = (int)(Math.Ceiling((decimal)totalTeams / (decimal)pageSize));
             pager.Startpage = 1;
             this.ViewBag.Pager = pager;
-            
+
             return View(result.ToList());
         }
 
         [HttpGet]
-        public async Task <IActionResult> UploadLogo(int Id)
+        public async Task<IActionResult> UploadLogo(int Id)
         {
             var result = await teamService.FindTeamToBeEdited(Id);
             if (result == null)
@@ -144,24 +138,20 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(team);
             }
 
-            
-            if (files.Count != 0)
+            byte[] picData = new byte[files.Count];
+            foreach (var file in files)
             {
-                team.Picture = null;
-                byte[] picData = new byte[files.Count];
-                foreach (var file in files)
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        await file.CopyToAsync(ms);
-                        picData = ms.ToArray();
-                    }
+                    await file.CopyToAsync(ms);
+                    picData = ms.ToArray();
                 }
-                team.Picture = picData;
             }
+            team.Picture = picData;
 
 
-            
+
+
 
             await teamService.SaveChangesAsync(team);
             return RedirectToAction(nameof(AllTeams));
@@ -191,7 +181,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             return RedirectToAction(nameof(AllTeams));
         }
 
-        
+
     }
 
 }

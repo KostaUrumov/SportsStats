@@ -64,6 +64,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             model.Referees = await refService.AllReferees();
             if (model.Rounds.Count == 0)
             {
+
                 model.Rounds = await tournamentService.AddRounds(tour.Id);
             }
             
@@ -72,7 +73,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             ViewBag.Id = tour.Id;
             ViewBag.Group = model.GroupId;
             model.Date = DateTime.Today;
-            TempData["id"] = GroupId;
+            
             return View(model);
         }
 

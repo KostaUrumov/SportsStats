@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.DependencyInjection;
 using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt_Infastructure.Configuration

@@ -8,7 +8,7 @@ namespace My_Transfermarkt_Core.Contracts
     {
         Task AddCountryAsync(AddNewCountryModel model);
         Task<List<DisplayCountryModel>> AllCountriesAsync();
-        Task<AddNewCountryModel> FindCountry(int Id);
+        Task<AddNewCountryModel?> FindCountry(int Id);
         Task SaveChangesAsync(AddNewCountryModel model);
         Task<IEnumerable<Country>> GetAllCuntries();
         Task<bool> IsAlreadyCreated(AddNewCountryModel model);

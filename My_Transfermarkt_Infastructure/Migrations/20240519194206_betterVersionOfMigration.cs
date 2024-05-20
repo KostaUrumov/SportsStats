@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace My_Transfermarkt_Infastructure.Migrations
 {
-    public partial class againFirstMIgration : Migration
+    public partial class betterVersionOfMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -76,7 +76,8 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GroupStageTournament_NumberOfTeams = table.Column<int>(type: "int", nullable: true),
                     NumberOfGroups = table.Column<int>(type: "int", nullable: true),
-                    NumberOfTeams = table.Column<int>(type: "int", nullable: true)
+                    NumberOfTeams = table.Column<int>(type: "int", nullable: true),
+                    Rounds = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -235,7 +236,9 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TournamentID = table.Column<int>(type: "int", nullable: false)
+                    TournamentID = table.Column<int>(type: "int", nullable: false),
+                    NumberOfRounds = table.Column<int>(type: "int", nullable: false),
+                    TeamsNumber = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -352,14 +355,14 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     LastName = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
                     BirthDay = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false),
-                    AgentId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AgentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Position = table.Column<int>(type: "int", nullable: false),
                     PreferedFoot = table.Column<int>(type: "int", nullable: false),
                     InternationalCaps = table.Column<int>(type: "int", nullable: false),
                     TeamId = table.Column<int>(type: "int", nullable: true),
-                    Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    CurrentMarketValue = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    HighestValue = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    CurrentMarketValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    HighestValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     HishestValueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartDateContract = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDateContract = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -372,7 +375,8 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         name: "FK_Footballers_Agents_AgentId",
                         column: x => x.AgentId,
                         principalTable: "Agents",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Footballers_Countries_CountryId",
                         column: x => x.CountryId,
@@ -389,8 +393,8 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false),
-                    Logo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    StadiumId = table.Column<int>(type: "int", nullable: true),
+                    Logo = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    StadiumId = table.Column<int>(type: "int", nullable: false),
                     FootballerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -411,7 +415,8 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         name: "FK_Teams_Stadiums_StadiumId",
                         column: x => x.StadiumId,
                         principalTable: "Stadiums",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -446,8 +451,10 @@ namespace My_Transfermarkt_Infastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MatchDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TournamentId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: true),
                     RefereeId = table.Column<int>(type: "int", nullable: true),
                     HomeTeamId = table.Column<int>(type: "int", nullable: false),
+                    Round = table.Column<int>(type: "int", nullable: false),
                     AwayTeamId = table.Column<int>(type: "int", nullable: false),
                     HomeScore = table.Column<int>(type: "int", nullable: true),
                     AwayScore = table.Column<int>(type: "int", nullable: true),
@@ -456,6 +463,11 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Matches", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Matches_Groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Matches_Referees_RefereeId",
                         column: x => x.RefereeId,
@@ -539,9 +551,9 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "9f0b9a09-3fee-47d3-8518-a7f6d630fb67", "Admin", "ADMIN" },
-                    { "2c93174e-3b0e-446f-86af-883d56fr7210", "b9b6eff1-d6ef-4902-b862-384160867cab", "User", "USER" },
-                    { "4t67567e-5f7e-446f-88fa-441f56fr8700", "4287ad68-f437-4ee2-b55c-81a3098abda0", "Agent", "AGENT" }
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "949feae4-8ce7-4b2b-ab4d-b657e1cec94b", "Admin", "ADMIN" },
+                    { "2c93174e-3b0e-446f-86af-883d56fr7210", "c898284d-ebb7-4469-b1ae-fa27b3e18913", "User", "USER" },
+                    { "4t67567e-5f7e-446f-88fa-441f56fr8700", "ceb63880-73ab-4299-a1f0-861174b77fc2", "Agent", "AGENT" }
                 });
 
             migrationBuilder.InsertData(
@@ -564,73 +576,6 @@ namespace My_Transfermarkt_Infastructure.Migrations
                     { 13, "Italy", "IT" },
                     { 14, "Germany", "DE" },
                     { 15, "Sweden", "SW" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Tournaments",
-                columns: new[] { "Id", "Discriminator", "EndDate", "Name", "NumberOfTeams", "StartDate" },
-                values: new object[,]
-                {
-                    { 1, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Champions League 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bundesliga 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Serie A 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Championship 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Parva Liga 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, "SingleGroupTournament", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Premier League 23/24", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Footballers",
-                columns: new[] { "Id", "AgentId", "BirthDay", "CountryId", "CurrentMarketValue", "EndDateContract", "FirstName", "HighestValue", "HishestValueDate", "InternationalCaps", "IsRetired", "LastName", "Picture", "Position", "PreferedFoot", "StartDateContract", "TeamId" },
-                values: new object[,]
-                {
-                    { 1, null, new DateTime(2000, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 150000m, null, "Tsanko", 150000m, new DateTime(2024, 4, 30, 12, 10, 9, 860, DateTimeKind.Local).AddTicks(4145), 15, false, "Tsvetanov", null, 1, 1, null, null },
-                    { 2, null, new DateTime(1997, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 170000.23m, null, "Milen", 170000.23m, new DateTime(2024, 4, 30, 12, 10, 9, 860, DateTimeKind.Local).AddTicks(4197), 3, false, "Gamakov", null, 2, 1, null, null },
-                    { 3, null, new DateTime(1997, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 200000.23m, null, "Ivan", 200000.23m, new DateTime(2024, 4, 30, 12, 10, 9, 860, DateTimeKind.Local).AddTicks(4212), 11, false, "Petkov", null, 3, 1, null, null }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Stadiums",
-                columns: new[] { "Id", "Build", "Capacity", "CountryId", "Name" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(1999, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 19999, 8, "New Anfield" },
-                    { 2, new DateTime(1899, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 33999, 14, "Arena Koblenz" },
-                    { 3, new DateTime(1999, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 75024, 14, "Alianz Arena" },
-                    { 4, new DateTime(1934, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 74667, 14, "Olympiastadion" },
-                    { 5, new DateTime(1969, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 24310, 14, "Bochum Arena" },
-                    { 6, new DateTime(1977, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 33979, 14, "Arena Diesel" },
-                    { 7, new DateTime(1948, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 51024, 15, "Solna Arena" },
-                    { 8, new DateTime(1947, 5, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 74667, 8, "Old Trafford" },
-                    { 9, new DateTime(1974, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 81365, 14, "Westfalenstadion" },
-                    { 10, new DateTime(2004, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 81365, 14, "Red Bull Arena" },
-                    { 11, new DateTime(1928, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 50000, 14, "Max-Morlock-Stadion" },
-                    { 12, new DateTime(1929, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 60449, 14, "MHPArena" },
-                    { 13, new DateTime(2023, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 18455, 1, "Hristo Botev" },
-                    { 14, new DateTime(1963, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 29200, 1, "Georgi Asparihov" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Teams",
-                columns: new[] { "Id", "CountryId", "FootballerId", "Logo", "Name", "StadiumId" },
-                values: new object[,]
-                {
-                    { 1, 8, null, null, "Manchester United", 8 },
-                    { 2, 8, null, null, "Newcastle United", 2 },
-                    { 3, 14, null, null, "Hertha Berlin", 4 },
-                    { 4, 14, null, null, "Kolenz", 2 },
-                    { 5, 15, null, null, "AIK Solna", 7 },
-                    { 6, 8, null, null, "Lecester City", 1 },
-                    { 7, 8, null, null, "Liverpool", 1 },
-                    { 8, 14, null, null, "Stuttgart", 12 },
-                    { 9, 14, null, null, "Borissia Dortmund", 9 },
-                    { 12, 1, null, null, "Levski Sofia", 14 },
-                    { 14, 14, null, null, "Bochum", 5 },
-                    { 17, 14, null, null, "Bayern Munchen", 3 },
-                    { 31, 1, null, null, "Botev Plovdiv", 13 },
-                    { 51, 14, null, null, "Nuremberg", 11 },
-                    { 61, 14, null, null, "FC Magdeburg", 6 },
-                    { 82, 14, null, null, "BFC Dynamo", 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -711,6 +656,11 @@ namespace My_Transfermarkt_Infastructure.Migrations
                 name: "IX_Matches_AwayTeamId",
                 table: "Matches",
                 column: "AwayTeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matches_GroupId",
+                table: "Matches",
+                column: "GroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Matches_HomeTeamId",

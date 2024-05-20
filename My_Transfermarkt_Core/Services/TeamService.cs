@@ -274,6 +274,7 @@ namespace My_Transfermarkt_Core.Services
                     CountryId = t.Team.CountryId,
                     Logo = t.Team.Logo
                 })
+                .OrderBy (x => x.Name)
                 .ToListAsync();
             var teamsWithGroups = await
                  data
@@ -298,7 +299,7 @@ namespace My_Transfermarkt_Core.Services
                 }
                 result.Add(tourneyTeam);
             }
-
+            result = result.OrderBy(x => x.Name).ToList();
             return result;
         }
 

@@ -12,7 +12,7 @@
         public string? CurrentTeam { get; set; }
         public string CurrentValue { get; set; } = null!;
         public string HighestValue { get; set; } = null!;
-        public byte[]? Photo { get; set; }
+        public byte[] Photo { get; set; } = null!;
         public string? StartContract { get; set; }
         public string? EndContract { get; set; }
         public bool IsRetired { get; set; }

@@ -29,8 +29,9 @@ namespace My_Transfermarkt_Core.Models.FootballerModels
 
         public IEnumerable<Country> Countries { get; set; } = new List<Country>();
 
-       
-        public string? AgentId { get; set; }
+
+        [Required]
+        public string AgentId { get; set; } = null!;
 
         public bool isRetired { get; set; }
 

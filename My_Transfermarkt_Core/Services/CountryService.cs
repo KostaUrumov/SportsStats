@@ -108,7 +108,7 @@ namespace My_Transfermarkt_Core.Services
         /// </summary>
         /// <param name="name"></param>
         /// <returns>String</returns>
-        public async Task<string> FindCountryByname(string name)
+        public async Task<string?> FindCountryByname(string name)
         {
             var country = await data.Countries.FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
             if (country == null)

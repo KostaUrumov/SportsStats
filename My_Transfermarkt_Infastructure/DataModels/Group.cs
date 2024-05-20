@@ -10,7 +10,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
 
         public string Name { get; set; } = null!;
         
-        public int? TournamentID { get; set; }
+        public int TournamentID { get; set; }
 
         [ForeignKey(nameof(TournamentID))]
         public Tournament Tournament { get; set; } = null!;

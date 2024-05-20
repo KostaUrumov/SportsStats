@@ -79,7 +79,7 @@ namespace My_Transfermarkt.Controllers
         }
 
 
-        public async Task< IActionResult> Index()
+        public IActionResult Index()
         {
             
             if (User.IsInRole("Admin"))
@@ -94,8 +94,8 @@ namespace My_Transfermarkt.Controllers
             {
                 return RedirectToAction("AllTeams", "Team");
             }
-            var result = await teamerService.GetRandomListForHomePage();
-            return View(result);
+            
+            return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statusCode)

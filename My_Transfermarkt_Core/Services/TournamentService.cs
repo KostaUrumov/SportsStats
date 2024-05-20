@@ -76,14 +76,11 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        public async Task<List<int>?> AddRounds(int tournamentId)
+        public async Task<List<int>> AddRounds(int tournamentId)
         {
             List<int> roundBNumber = new List<int>();
-            var findTournament = await data.Tournaments.FirstOrDefaultAsync(x => x.Id == tournamentId);
-            if (findTournament == null)
-            {
-                return null;
-            }
+            var findTournament = await data.Tournaments.FirstAsync(x => x.Id == tournamentId);
+            
             if (findTournament.GetType() == typeof(SingleGroupTournament))
             {
                 var tour = (SingleGroupTournament)findTournament;
@@ -520,11 +517,22 @@ namespace My_Transfermarkt_Core.Services
                             if (match.HomeScore > match.AwayScore)
                             {
                                 listed[i].Points += 3;
+                                listed[i].Matches += 1;
+                                listed[i].Wins += 1;
                             }
 
                             if (match.HomeScore == match.AwayScore)
                             {
                                 listed[i].Points += 1;
+                                listed[i].Matches += 1;
+                                listed[i].Draws += 1;
+                            }
+
+                            if (match.HomeScore < match.AwayScore)
+                            {
+                                
+                                listed[i].Matches += 1;
+                                listed[i].Losses += 1;
                             }
                         }
 
@@ -539,11 +547,21 @@ namespace My_Transfermarkt_Core.Services
                             if (match.AwayScore > match.HomeScore)
                             {
                                 listed[i].Points += 3;
+                                listed[i].Matches += 1;
+                                listed[i].Wins += 1;
                             }
 
                             if (match.AwayScore == match.HomeScore)
                             {
                                 listed[i].Points += 1;
+                                listed[i].Matches += 1;
+                                listed[i].Draws += 1;
+                            }
+                            if (match.AwayScore < match.HomeScore)
+                            {
+
+                                listed[i].Matches += 1;
+                                listed[i].Losses += 1;
                             }
                         }
                     }
@@ -552,6 +570,10 @@ namespace My_Transfermarkt_Core.Services
             }
 
             var sortedList = listed.OrderByDescending(x => x.Points).ToList();
+            foreach (var item in sortedList)
+            {
+                item.PlusMinusGoals = item.GoalsFor - item.GoalsAgainst;
+            }
             return sortedList;
 
 
