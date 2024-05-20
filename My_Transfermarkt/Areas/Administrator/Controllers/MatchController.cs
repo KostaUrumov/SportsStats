@@ -64,7 +64,6 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             model.Referees = await refService.AllReferees();
             if (model.Rounds.Count == 0)
             {
-
                 model.Rounds = await tournamentService.AddRounds(tour.Id);
             }
             
@@ -80,10 +79,10 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewMatch(int Id,AddNewMatchModel model)
         {
-            if (TempData["id"] != null)
+            if (TempData["groupId"] != null)
             {
-                model.GroupId = (int)TempData["id"];
-                TempData.Remove("id");
+                model.GroupId = (int)TempData["groupId"];
+                TempData.Remove("groupId");
             }
 
             model.TournamentId = Id;

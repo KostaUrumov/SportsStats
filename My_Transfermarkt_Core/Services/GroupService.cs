@@ -145,16 +145,27 @@ namespace My_Transfermarkt_Core.Services
                     {
                         if (match.HomeScore != null && match.AwayScore!= null)
                         {
-                            listed[i].GoalsFor += (int)match.HomeScore;
-                            listed[i].GoalsAgainst += (int)match.AwayScore;
                             if (match.HomeScore > match.AwayScore)
                             {
                                 listed[i].Points += 3;
+                                listed[i].Wins += 1;
+                                listed[i].GoalsFor += (int)match.HomeScore;
+                                listed[i].GoalsAgainst += (int)match.AwayScore;
                             }
 
-                            if (match.HomeScore > match.AwayScore)
+                            if (match.HomeScore == match.AwayScore)
                             {
                                 listed[i].Points += 1;
+                                listed[i].Draws += 1;
+                                listed[i].GoalsFor += (int)match.HomeScore;
+                                listed[i].GoalsAgainst += (int)match.AwayScore;
+                            }
+                            if (match.HomeScore < match.AwayScore)
+                            {
+                                
+                                listed[i].Losses += 1;
+                                listed[i].GoalsFor += (int)match.HomeScore;
+                                listed[i].GoalsAgainst += (int)match.AwayScore;
                             }
                         }
                         
@@ -164,16 +175,28 @@ namespace My_Transfermarkt_Core.Services
                     {
                         if (match.AwayScore != null && match.HomeScore != null)
                         {
-                            listed[i].GoalsFor += (int)match.AwayScore;
-                            listed[i].GoalsAgainst += (int)match.HomeScore;
+                            
                             if (match.AwayScore > match.HomeScore)
                             {
                                 listed[i].Points += 3;
+                                listed[i].Wins += 1;
+                                listed[i].GoalsFor += (int)match.AwayScore;
+                                listed[i].GoalsAgainst += (int)match.HomeScore;
                             }
 
-                            if (match.AwayScore > match.HomeScore)
+                            if (match.AwayScore == match.HomeScore)
                             {
                                 listed[i].Points += 1;
+                                listed[i].Draws += 1;
+                                listed[i].GoalsFor += (int)match.AwayScore;
+                                listed[i].GoalsAgainst += (int)match.HomeScore;
+                            }
+
+                            if (match.AwayScore < match.HomeScore)
+                            {
+                                listed[i].Losses += 1;
+                                listed[i].GoalsFor += (int)match.AwayScore;
+                                listed[i].GoalsAgainst += (int)match.HomeScore;
                             }
                         }
                     }
