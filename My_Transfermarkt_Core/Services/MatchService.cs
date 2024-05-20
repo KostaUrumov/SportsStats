@@ -116,6 +116,7 @@ namespace My_Transfermarkt_Core.Services
             findmatch.AwayScore = model.AwayScore;
             findmatch.HomeTeamId = model.HomeTeamId;
             findmatch.AwayTeamId = model.AwayTeamId;
+            findmatch.MatchDate = model.Date;
 
             await data.SaveChangesAsync();
         }

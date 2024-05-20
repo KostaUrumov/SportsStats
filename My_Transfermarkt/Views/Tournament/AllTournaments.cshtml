@@ -11,9 +11,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Name</th>
-            <th scope="col">Current Teams in</th>
             <th scope="col">Groups / Matches</th>
             <th scope="col">Standings</th>
         </tr>
@@ -21,15 +19,12 @@
 
     @for (int i = 0; i < Model.Count; i++)
     {
-        int number = @i + 1;
         <tbody>
             <tr>
-                <td>@number</td>
+                
                 <td>@Model[i].Name</td>
                
-                <td>
-                    <a asp-controller="Tournament" asp-action="CurrentTeams" asp-route-id="@Model[i].Id" class="btn btn-info">Current teams in</a>
-                </td>
+               
                 <td>
                     @if (@Model[i].isGroupTournament == true)
                     {
