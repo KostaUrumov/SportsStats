@@ -24,7 +24,10 @@
         <tbody>
             <tr>
                 <th scope="row">@number</th>
-                <td><img src="data:image;base64,@System.Convert.ToBase64String(Model[i].Picture)" width="25" height="25" /> @Model[i].TeamName </td>
+                <td><img src="data:image;base64,@System.Convert.ToBase64String(Model[i].Picture)" width="25" height="25" />
+                    <a class="" asp-area="" asp-controller="Tournament" asp-action="Team" asp-route-teamId="@Model[i].Team.Id" 
+                    asp-route-tourId="@ViewBag.TournamentId">@Model[i].TeamName</a>
+                </td>
                 <td>@Model[i].Matches</td>
                 <td>@Model[i].GoalsFor:@Model[i].GoalsAgainst</td>
                 @if (@Model[i].PlusMinusGoals > 0)

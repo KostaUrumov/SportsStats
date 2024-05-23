@@ -257,6 +257,53 @@ namespace My_Transfermarkt_Core.Services
             return result;
         }
 
+        public async Task<List<ShowMatchModel>> FindMatchesPerTeamInTournament(int teamId, int TourId)
+        {
+            var findTour = await data.SingleGroupTournaments.FirstOrDefaultAsync(x => x.Id == TourId);
+            if (findTour != null)
+            {
+                var resul = await data
+               .Matches
+               .Where(x => x.TournamentId == findTour.Id && (x.AwayTeamId == teamId || x.HomeTeamId == teamId))
+               .Select(m => new ShowMatchModel
+               {
+                   Id = m.Id,
+                   TournamentId = TourId,
+                   GroupId = m.GroupId,
+                   GroupName = m.Group.Name,
+                   AwayTeam = m.AwayTeam.Name,
+                   Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
+                   Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
+                   HomeTeam = m.HomeTeam.Name,
+                   Round = m.Round,
+                   HomeLogo = m.HomeTeam.Logo,
+                   AwayLogo = m.AwayTeam.Logo
+               })
+               .ToListAsync();
+
+                return resul;
+            }
+            var result = await data
+                .Matches
+                .Where(x => x.TournamentId == findTour.Id && (x.AwayTeamId == teamId || x.HomeTeamId == teamId))
+                .Select(m => new ShowMatchModel
+                {
+                    Id = m.Id,
+                    TournamentId = TourId,
+                    GroupId = m.GroupId,
+                    GroupName = m.Group.Name,
+                    AwayTeam = m.AwayTeam.Name,
+                    Result = m.HomeScore.ToString() + " : " + m.AwayScore.ToString(),
+                    Date = m.MatchDate.ToString("dd-MM-yyyy HH:mm"),
+                    HomeTeam = m.HomeTeam.Name,
+                    Round = m.Round,
+                    HomeLogo = m.HomeTeam.Logo,
+                    AwayLogo = m.AwayTeam.Logo
+                })
+                .ToListAsync();
+            return result;
+        }
+
 
         /// <summary>
         /// Method find and return tournament searched by ID

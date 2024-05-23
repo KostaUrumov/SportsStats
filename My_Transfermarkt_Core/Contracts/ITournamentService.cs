@@ -26,5 +26,6 @@ namespace My_Transfermarkt_Core.Contracts
         public Task<int?> FindTournamentIdByGroup(int groupId);
         Task<List<ShowMatchModel>> FindMatchesInGroup(int groupId);
         Task<List<StandingsViewModel>> StandongsInTournament(int tourId);
+        Task <List<ShowMatchModel>> FindMatchesPerTeamInTournament(int teamId, int TourId);
     }
 }

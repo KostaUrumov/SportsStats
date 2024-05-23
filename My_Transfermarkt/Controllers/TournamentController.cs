@@ -80,11 +80,18 @@ namespace My_Transfermarkt.Controllers
             {
                 var competition = (Tournament)tournament;
                 ViewBag.Tournament = competition.Name;
+                ViewBag.TournamentId = competition.Id;
             }
 
             var result = await tournamentService.StandongsInTournament(Id);
 
             return View(result);
+        }
+
+        public async Task<IActionResult> Team(int teamId, int tourId)
+        {
+            var result = await tournamentService.FindMatchesPerTeamInTournament(teamId, tourId);
+            return View("ResultMatches", result);
         }
 
     }
