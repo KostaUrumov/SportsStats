@@ -1,6 +1,6 @@
-﻿using My_Transfermarkt_Infastructure.DataModels;
+﻿using My_Transfermarkt_Infastructure;
+using My_Transfermarkt_Infastructure.DataModels;
 using My_Transfermarkt_Infastructure.Enums;
-using My_Transfermarkt_Infastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.FootballerModels
@@ -41,7 +41,7 @@ namespace My_Transfermarkt_Core.Models.FootballerModels
         public ICollection<Position> Positions { get; set; } = new List<Position>();
 
         [Required]
-        [Display(Name ="Preffered foot")]
+        [Display(Name = "Preffered foot")]
         public Foot PreferedFoot { get; set; }
 
         public ICollection<Foot> Feet { get; set; } = new List<Foot>();
@@ -50,7 +50,7 @@ namespace My_Transfermarkt_Core.Models.FootballerModels
         [Range(DataConstraints.Footballer.MinCaps, int.MaxValue)]
         public int InternationalCaps { get; set; }
 
-        
+
         public int? TeamId { get; set; }
 
         public ICollection<Team> Teams { get; set; } = new List<Team>();

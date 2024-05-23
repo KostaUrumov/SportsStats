@@ -1,5 +1,4 @@
-﻿using My_Transfermarkt_Infastructure;
-using My_Transfermarkt_Infastructure.DataModels;
+﻿using My_Transfermarkt_Infastructure.DataModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.TeamModels

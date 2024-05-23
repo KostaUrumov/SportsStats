@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.MatchModels;
 using My_Transfermarkt_Core.Models.TournamentModels;
-using My_Transfermarkt_Infastructure.DataModels;
-using Umbraco.Core.Composing;
-using static My_Transfermarkt_Infastructure.DataConstraints;
 using Tournament = My_Transfermarkt_Infastructure.DataModels.Tournament;
 
 namespace My_Transfermarkt.Controllers
@@ -14,7 +11,7 @@ namespace My_Transfermarkt.Controllers
     public class TournamentController : Controller
     {
         private readonly ITournamentService tournamentService;
-        
+
 
         public TournamentController(
             ITournamentService _service,
@@ -33,7 +30,7 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "Agent, User")]
         public async Task<IActionResult> CurrentTeams(AddTeamsToTournament model)
         {
-          
+
             var tournament = await tournamentService.FindTournament(model.Id);
 
             if (tournament == null)
@@ -84,9 +81,9 @@ namespace My_Transfermarkt.Controllers
                 var competition = (Tournament)tournament;
                 ViewBag.Tournament = competition.Name;
             }
-            
+
             var result = await tournamentService.StandongsInTournament(Id);
-            
+
             return View(result);
         }
 

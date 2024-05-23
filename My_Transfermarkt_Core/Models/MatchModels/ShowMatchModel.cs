@@ -10,7 +10,7 @@
         public string Date { get; set; } = null!;
         public int? GroupId { get; set; }
         public string GroupName { get; set; }
-        public  int Round { get; set; }
+        public int Round { get; set; }
         public byte[] HomeLogo { get; set; } = null!;
         public byte[] AwayLogo { get; set; } = null!;
     }

@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-
-namespace My_Transfermarkt_Core.Models.TeamModels
+﻿namespace My_Transfermarkt_Core.Models.TeamModels
 {
     public class ShowTeamModelView
     {
@@ -9,6 +7,6 @@ namespace My_Transfermarkt_Core.Models.TeamModels
         public string Country { get; set; } = null!;
         public string Stadium { get; set; } = null!;
         public byte[]? Picture { get; set; }
-        
+
     }
 }

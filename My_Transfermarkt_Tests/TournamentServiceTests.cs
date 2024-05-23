@@ -15,7 +15,7 @@ namespace My_Transfermarkt_Tests
         private ApplicationDbContext data;
         private IEnumerable<Country> countries;
 
-       
+
 
         [Test]
         public void TestGetAllTournaments()
@@ -114,7 +114,7 @@ namespace My_Transfermarkt_Tests
             ITournamentService service = new TournamentService(data);
             var tournament = service.FindTournament(1);
             var tournament2 = service.FindTournament(12);
-            
+
             this.data.RemoveRange(this.teams);
             this.data.RemoveRange(this.countries);
             this.data.RemoveRange(this.tournament);

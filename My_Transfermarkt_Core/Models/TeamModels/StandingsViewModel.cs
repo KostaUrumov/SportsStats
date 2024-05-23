@@ -8,7 +8,7 @@ namespace My_Transfermarkt_Core.Models.TeamModels
         public string TeamName { get; set; } = null!;
         public byte[] Picture { get; set; } = null!;
 
-        public int GoalsFor { get; set;}
+        public int GoalsFor { get; set; }
 
         public int GoalsAgainst { get; set; }
 

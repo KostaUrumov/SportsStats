@@ -3,9 +3,6 @@ using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Core.Services;
-using My_Transfermarkt_Infastructure.DataModels;
-using My_Transfermarkt_Infastructure.Enums;
-using static My_Transfermarkt_Infastructure.DataConstraints;
 using Country = My_Transfermarkt_Infastructure.DataModels.Country;
 using Footballer = My_Transfermarkt_Infastructure.DataModels.Footballer;
 using Team = My_Transfermarkt_Infastructure.DataModels.Team;
@@ -446,7 +443,7 @@ namespace My_Transfermarkt_Tests
             IFootballerService service = new FootballerService(data);
             var detailsOne = service.Details(1);
             var detailsTwo = service.Details(2);
-            
+
             Assert.That(detailsOne.Result.Name, Is.EqualTo("Benjamin Sesko"));
             Assert.That(detailsTwo.Result.Name, Is.EqualTo("Stanislav Ivanov"));
 
@@ -640,13 +637,13 @@ namespace My_Transfermarkt_Tests
             AddNewFootallerModel model = new AddNewFootallerModel()
             {
                 FirstName = "Grigor",
-                LastName = "Ivanov", 
-                BirthDay = DateTime.Parse("1993/03/10"), 
+                LastName = "Ivanov",
+                BirthDay = DateTime.Parse("1993/03/10"),
                 CountryId = 3,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder,
                 PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Left,
                 CurrentMarketValue = "1000000",
-                
+
 
             };
 
@@ -921,7 +918,7 @@ namespace My_Transfermarkt_Tests
                 CountryId = 3,
                 Position = My_Transfermarkt_Infastructure.Enums.Position.Midfielder,
                 PreferedFoot = My_Transfermarkt_Infastructure.Enums.Foot.Left,
-                CurrentMarketValue = "1000000" 
+                CurrentMarketValue = "1000000"
             };
 
             AddNewFootallerModel model2 = new AddNewFootallerModel()

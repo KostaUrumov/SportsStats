@@ -3,8 +3,8 @@ using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.StadiumModels;
 using My_Transfermarkt_Core.Services;
-using Stadium = My_Transfermarkt_Infastructure.DataModels.Stadium;
 using Country = My_Transfermarkt_Infastructure.DataModels.Country;
+using Stadium = My_Transfermarkt_Infastructure.DataModels.Stadium;
 
 namespace My_Transfermarkt_Tests
 {

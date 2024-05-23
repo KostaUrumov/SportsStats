@@ -28,8 +28,8 @@ namespace My_Transfermarkt.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var userId  = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-           
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
             var findFootballer = await footballerService.FindFootballer(id);
 
             if (findFootballer == null)
@@ -49,7 +49,7 @@ namespace My_Transfermarkt.Controllers
                 ViewBag.comment = "Not Authorized";
                 return View("NotAuthorize");
             }
-            
+
             findFootballer.Countries = await countryService.GetAllCuntries();
             findFootballer.Teams = await teamService.GetAllTeams();
             findFootballer.Positions.Add(Position.Goalkeeper);
@@ -70,7 +70,7 @@ namespace My_Transfermarkt.Controllers
             {
                 return View(model);
             }
-            
+
 
             await footballerService.SaveChangesAsync(model);
 
@@ -130,7 +130,7 @@ namespace My_Transfermarkt.Controllers
             var isPlayerAlreadySigned = await footballerService.IsheSignedToAClub(model.Id);
             if (isPlayerAlreadySigned == true)
             {
-                
+
                 return RedirectToAction(nameof(MyFootballers));
             }
 
@@ -146,7 +146,7 @@ namespace My_Transfermarkt.Controllers
         }
 
         [Authorize(Roles = "Agent")]
-        public async Task<IActionResult> Release (int Id)
+        public async Task<IActionResult> Release(int Id)
         {
             var findFootballer = await footballerService.FindFootballer(Id);
             if (findFootballer == null)
@@ -167,7 +167,7 @@ namespace My_Transfermarkt.Controllers
 
         [Authorize(Roles = "Agent")]
         [HttpGet]
-        public async Task< IActionResult> UploadPicture(int Id)
+        public async Task<IActionResult> UploadPicture(int Id)
         {
             var findFootballer = await footballerService.FindFootballer(Id);
             var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -201,7 +201,7 @@ namespace My_Transfermarkt.Controllers
         }
 
         [Authorize(Roles = "Agent, User")]
-        
+
         public async Task<IActionResult> GetAllPlayersForClub(int Id)
         {
             var listedPlayers = await footballerService.GetAllPLayersForClub(Id);
@@ -215,9 +215,9 @@ namespace My_Transfermarkt.Controllers
         }
 
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> Details (int Id)
+        public async Task<IActionResult> Details(int Id)
         {
-            
+
             var findFootballer = await footballerService.FindFootballer(Id);
             if (findFootballer == null)
             {
@@ -246,7 +246,7 @@ namespace My_Transfermarkt.Controllers
                 return View("NotAuthorize");
             }
 
-            
+
 
             await footballerService.Release(Id);
             await footballerService.RetireFromFootball(Id);
@@ -256,7 +256,7 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> RetiredPlayers()
         {
-           
+
             var getRetiredPlayers = await footballerService.GetRetiredPlayers();
             return View(getRetiredPlayers);
         }
@@ -267,7 +267,7 @@ namespace My_Transfermarkt.Controllers
         {
             var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var result = await footballerService.AllFootballers(userId);
-            
+
             return View(result);
         }
 
@@ -275,7 +275,7 @@ namespace My_Transfermarkt.Controllers
         [Authorize(Roles = "Agent, User")]
         public IActionResult SearchFootballersForCountry()
         {
-            
+
             return View();
         }
 
@@ -285,7 +285,7 @@ namespace My_Transfermarkt.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View (model);
+                return View(model);
             }
 
 

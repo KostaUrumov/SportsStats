@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.TournamentModels
 {
-    public  class EditTournamentModel
+    public class EditTournamentModel
     {
         [Required]
         [StringLength(maximumLength: DataConstraints.Tournament.MaxTournamentName,

@@ -23,7 +23,7 @@ namespace My_Transfermarkt.Controllers
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
-            { 
+            {
                 return RedirectToAction("Index", "Home");
             }
             RegisterUserViewModel model = new RegisterUserViewModel();
@@ -33,16 +33,16 @@ namespace My_Transfermarkt.Controllers
             return View(model);
         }
 
-        
+
 
         [HttpPost]
-        public async Task<IActionResult> Register (RegisterUserViewModel model)
+        public async Task<IActionResult> Register(RegisterUserViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return RedirectToAction("Register", model);
             }
-            
+
 
             var checkedEmail = await userService.CheckEmailExist(model.Email);
 
@@ -93,7 +93,7 @@ namespace My_Transfermarkt.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login (LogInUserViewModel model)
+        public async Task<IActionResult> Login(LogInUserViewModel model)
         {
             if (!ModelState.IsValid)
             {

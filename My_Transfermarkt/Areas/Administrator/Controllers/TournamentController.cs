@@ -4,8 +4,6 @@ using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.MatchModels;
 using My_Transfermarkt_Core.Models.TournamentModels;
 using My_Transfermarkt_Infastructure.DataModels;
-using System.Xml.Linq;
-using Umbraco.Core.Composing;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -25,7 +23,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         {
             tournamentService = _service;
             teamService = _team;
-            groupService = _group; 
+            groupService = _group;
             matchService = _matchService;
         }
 
@@ -66,7 +64,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
             if (!ModelState.IsValid)
             {
-                
+
                 return View(model);
             }
 
@@ -137,7 +135,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            
+
             var findTournament = await tournamentService.FindTournament(id);
             if (findTournament == null)
             {
@@ -242,7 +240,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 return View("Error404", new { area = "" });
             }
-            
+
             int[] teams = new int[model.SelectedTeams.Count()];
             for (int i = 0; i < teams.Length; i++)
             {
@@ -257,9 +255,9 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                     return View("Error404", new { area = "" });
                 }
                 teams[i] = model.SelectedTeams[i];
-               
+
                 await tournamentService.AddTeamToTournament(Id, model.SelectedTeams[i]);
-                
+
             }
 
             return RedirectToAction("CurrentTeams", model);
@@ -296,11 +294,11 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
                 if (await tournamentService.IsItGroupStageTournament(Id) == true)
                 {
-                    
+
                     await tournamentService.RemoveFromGroup(Id, model.SelectedTeams[i]);
                 }
                 await tournamentService.RemoveFromTournament(Id, model.SelectedTeams[i]);
-                
+
             }
             return RedirectToAction("CurrentTeams", model);
         }
@@ -319,7 +317,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         }
 
-        public async Task<IActionResult> Matches (int Id)
+        public async Task<IActionResult> Matches(int Id)
         {
             if (TempData["Id"] != null)
             {
@@ -347,7 +345,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         public IActionResult ResultMatches(List<ShowMatchModel> result)
         {
-            return View(result); 
+            return View(result);
         }
 
     }

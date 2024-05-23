@@ -4,8 +4,6 @@ using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.GeneralModels;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Infastructure.DataModels;
-using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace My_Transfermarkt_Core.Services
 {
@@ -17,7 +15,7 @@ namespace My_Transfermarkt_Core.Services
         {
             data = _data;
         }
-       
+
 
         /// <summary>
         /// Method updates logo to team.
@@ -46,11 +44,11 @@ namespace My_Transfermarkt_Core.Services
             team.CountryId = model.CountryId;
             team.StadiumId = model.StadiumId;
             team.Logo = model.Picture;
-            
+
             data.AddRange(team);
             await data.SaveChangesAsync();
         }
-        
+
 
 
         /// <summary>
@@ -64,7 +62,7 @@ namespace My_Transfermarkt_Core.Services
                 .FirstAsync(t => t.Id == model.Id);
             findTeamToAddStadium.StadiumId = model.StadiumId;
 
-            await data.SaveChangesAsync();  
+            await data.SaveChangesAsync();
         }
 
 
@@ -78,7 +76,7 @@ namespace My_Transfermarkt_Core.Services
         {
             List<ShowTeamModelView> teams = await data
                .TournamentsTeams
-               .Where(x=> x.TournamentId == tournamentId)
+               .Where(x => x.TournamentId == tournamentId)
                .Select(x => new ShowTeamModelView()
                {
                    Country = x.Team.Country.Name,
@@ -105,15 +103,15 @@ namespace My_Transfermarkt_Core.Services
         {
             List<TeamToAddStadium> retutnModel = await data.
                 Teams
-                .Where(t=> t.Id == teamId)
-                .Select(x=> new TeamToAddStadium()
+                .Where(t => t.Id == teamId)
+                .Select(x => new TeamToAddStadium()
                 {
                     Id = teamId,
                     TeamName = x.Name
-                    
+
                 })
                 .ToListAsync();
-            
+
             return retutnModel[0];
         }
 
@@ -128,8 +126,8 @@ namespace My_Transfermarkt_Core.Services
         {
             var countryName = await data.Countries.FirstAsync(x => x.Name.ToLower().Contains(country.ToLower()));
             List<ShowTeamModelView> listed = await data.Teams
-                .Where(x=> x.Country.Name.ToLower().Contains(country.ToLower()))
-                .Select(x=> new ShowTeamModelView()
+                .Where(x => x.Country.Name.ToLower().Contains(country.ToLower()))
+                .Select(x => new ShowTeamModelView()
                 {
                     Country = x.Country.Name,
                     Name = x.Name,
@@ -139,9 +137,9 @@ namespace My_Transfermarkt_Core.Services
                 })
                 .OrderBy(x => x.Name)
                 .ToListAsync();
-            
+
             return listed;
-            
+
         }
 
 
@@ -244,10 +242,10 @@ namespace My_Transfermarkt_Core.Services
 
             var list = await data
                 .TournamentsTeams
-                .Where(x=> x.TournamentId == tournamentId)
+                .Where(x => x.TournamentId == tournamentId)
                 .ToListAsync();
 
-            List<ShowTeamModelView> listedModels = new List<ShowTeamModelView>(); 
+            List<ShowTeamModelView> listedModels = new List<ShowTeamModelView>();
             foreach (var model in teams)
             {
                 if (list.Any(x => x.TeamId == model.Id))
@@ -257,12 +255,12 @@ namespace My_Transfermarkt_Core.Services
                 listedModels.Add(model);
             }
             return listedModels;
-            
+
         }
 
         public async Task<List<Team>> GetAllTeamsForTournament(int tournamentId)
         {
-            
+
             var teamsInTournament = await data
                 .TournamentsTeams
                 .Where(x => x.TournamentId == tournamentId)
@@ -274,12 +272,12 @@ namespace My_Transfermarkt_Core.Services
                     CountryId = t.Team.CountryId,
                     Logo = t.Team.Logo
                 })
-                .OrderBy (x => x.Name)
+                .OrderBy(x => x.Name)
                 .ToListAsync();
             var teamsWithGroups = await
                  data
                  .GroupsTeams
-                 .Where(x=> x.Group.TournamentID == tournamentId)
+                 .Where(x => x.Group.TournamentID == tournamentId)
                  .Select(t => new Team
                  {
                      Id = t.TeamId,
@@ -310,22 +308,22 @@ namespace My_Transfermarkt_Core.Services
         /// <returns>List<ShowTeamModelView></returns>
         public async Task<List<ShowTeamModelView>> GetRandomListForHomePage()
         {
-           List<ShowTeamModelView> result = new List<ShowTeamModelView>();
-           List<ShowTeamModelView> allTeams = await data
-                .Teams
-                .Select (x=> new ShowTeamModelView()
-                {
-                    Country = x.Country.Name,
-                    Name = x.Name,
-                    Stadium = x.Stadium.Name,
-                    Picture = x.Logo,
-                    Id = x.Id
-                })
-                .ToListAsync ();
+            List<ShowTeamModelView> result = new List<ShowTeamModelView>();
+            List<ShowTeamModelView> allTeams = await data
+                 .Teams
+                 .Select(x => new ShowTeamModelView()
+                 {
+                     Country = x.Country.Name,
+                     Name = x.Name,
+                     Stadium = x.Stadium.Name,
+                     Picture = x.Logo,
+                     Id = x.Id
+                 })
+                 .ToListAsync();
 
             Random random = new Random();
 
-            while(true) 
+            while (true)
             {
                 if (result.Count == 8)
                 {
@@ -342,7 +340,7 @@ namespace My_Transfermarkt_Core.Services
             }
 
             return result;
-         }
+        }
 
 
         /// <summary>
@@ -354,7 +352,7 @@ namespace My_Transfermarkt_Core.Services
         public async Task<List<ShowTeamModelView>> GetTeams(int pageSize, int page)
         {
             List<ShowTeamModelView> teams = new List<ShowTeamModelView>();
-            int skip = pageSize * (page-1);
+            int skip = pageSize * (page - 1);
             if (page == 1)
             {
                 teams = await data
@@ -389,7 +387,7 @@ namespace My_Transfermarkt_Core.Services
                 .OrderBy(x => x.Name)
                 .ToListAsync();
             }
-            
+
             return teams;
 
         }

@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt.Models;
 using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models;
 using My_Transfermarkt_Core.Models.GeneralModels;
-using My_Transfermarkt_Infastructure.DataModels;
-using System.Diagnostics;
 
 namespace My_Transfermarkt.Controllers
 {
@@ -55,7 +51,7 @@ namespace My_Transfermarkt.Controllers
             {
                 results.AddRange(footballers);
             }
-            
+
             if (teams.Count > 0)
             {
                 results.AddRange(teams);
@@ -81,7 +77,7 @@ namespace My_Transfermarkt.Controllers
 
         public IActionResult Index()
         {
-            
+
             if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home", new { area = "Administrator" });
@@ -94,7 +90,7 @@ namespace My_Transfermarkt.Controllers
             {
                 return RedirectToAction("AllTeams", "Team");
             }
-            
+
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

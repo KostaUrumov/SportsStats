@@ -11,13 +11,13 @@ namespace My_Transfermarkt_Core.Services
     {
         private readonly ApplicationDbContext data;
 
-        
+
 
         public CountryService(ApplicationDbContext _data)
         {
             data = _data;
         }
-        
+
 
         /// <summary>
         /// Method adds new country into database.
@@ -44,7 +44,7 @@ namespace My_Transfermarkt_Core.Services
         {
             List<DisplayCountryModel> result = await data
                 .Countries
-                .Select(x=> new DisplayCountryModel
+                .Select(x => new DisplayCountryModel
                 {
                     Name = x.Name,
                     ShortName = x.ShortName,
@@ -85,10 +85,10 @@ namespace My_Transfermarkt_Core.Services
         /// <returns>AddNewCountryModel</returns>
         public async Task<AddNewCountryModel?> FindCountry(int Id)
         {
-            var result =  await data
+            var result = await data
                 .Countries
-                .Where(c=> c.Id == Id)
-                .Select(x=> new AddNewCountryModel
+                .Where(c => c.Id == Id)
+                .Select(x => new AddNewCountryModel
                 {
                     Name = x.Name,
                     ShortName = x.ShortName,
@@ -127,7 +127,7 @@ namespace My_Transfermarkt_Core.Services
         public async Task<IEnumerable<Country>> GetAllCuntries()
         {
             return await data.Countries
-                .OrderBy(x=> x.Name)
+                .OrderBy(x => x.Name)
                 .ToListAsync();
         }
         /// <summary>
@@ -150,7 +150,7 @@ namespace My_Transfermarkt_Core.Services
                 }
 
             }
-            
+
             if (found == null)
             {
                 return false;

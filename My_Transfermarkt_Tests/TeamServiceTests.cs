@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.FootballerModels;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Core.Services;
 using My_Transfermarkt_Infastructure.DataModels;
@@ -718,5 +717,5 @@ namespace My_Transfermarkt_Tests
 
 
     }
-    
+
 }

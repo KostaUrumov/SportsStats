@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.TeamModels;
 using My_Transfermarkt_Core.Pagening;
-using System.Security.Claims;
 
 namespace My_Transfermarkt.Controllers
 {
@@ -13,7 +12,7 @@ namespace My_Transfermarkt.Controllers
         private readonly ICountryService countryService;
 
         public TeamController(
-            ITeamService _team, 
+            ITeamService _team,
             ICountryService _countryService)
         {
             teamService = _team;
@@ -37,7 +36,7 @@ namespace My_Transfermarkt.Controllers
 
         [Authorize(Roles = "User")]
         [HttpGet]
-        public  IActionResult SearchTeamsForCountry()
+        public IActionResult SearchTeamsForCountry()
         {
             return View();
         }

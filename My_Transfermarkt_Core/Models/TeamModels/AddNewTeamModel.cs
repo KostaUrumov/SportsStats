@@ -1,6 +1,6 @@
 ﻿using My_Transfermarkt_Infastructure;
-using System.ComponentModel.DataAnnotations;
 using My_Transfermarkt_Infastructure.DataModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.TeamModels
 {
@@ -22,7 +22,7 @@ namespace My_Transfermarkt_Core.Models.TeamModels
         [Required]
         public int StadiumId { get; set; }
 
-        
+
         public byte[]? Picture { get; set; }
         public IEnumerable<Stadium> Stadiums { get; set; } = new List<Stadium>();
     }

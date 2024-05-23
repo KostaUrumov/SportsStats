@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace My_Transfermarkt_Infastructure.DataModels
@@ -9,7 +8,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public int Id { get; set; }
 
         public string Name { get; set; } = null!;
-        
+
         public int TournamentID { get; set; }
 
         [ForeignKey(nameof(TournamentID))]

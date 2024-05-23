@@ -53,7 +53,7 @@ namespace My_Transfermarkt_Core.Services
                     data.AddRange(newGroupTeams);
                 }
             }
-            
+
             await data.SaveChangesAsync();
         }
 
@@ -136,14 +136,15 @@ namespace My_Transfermarkt_Core.Services
                 })
                 .ToListAsync();
 
-            
-            for (int i = 0;i < listed.Count;i++) 
+
+            for (int i = 0; i < listed.Count; i++)
             {
                 foreach (var match in data.Matches)
                 {
                     if (match.GroupId == groupId && match.HomeTeamId == listed[i].Team.Id)
                     {
-                        if (match.HomeScore != null && match.AwayScore!= null)
+                        listed[i].Matches += 1;
+                        if (match.HomeScore != null && match.AwayScore != null)
                         {
                             if (match.HomeScore > match.AwayScore)
                             {
@@ -151,6 +152,7 @@ namespace My_Transfermarkt_Core.Services
                                 listed[i].Wins += 1;
                                 listed[i].GoalsFor += (int)match.HomeScore;
                                 listed[i].GoalsAgainst += (int)match.AwayScore;
+                                ;
                             }
 
                             if (match.HomeScore == match.AwayScore)
@@ -162,20 +164,20 @@ namespace My_Transfermarkt_Core.Services
                             }
                             if (match.HomeScore < match.AwayScore)
                             {
-                                
                                 listed[i].Losses += 1;
                                 listed[i].GoalsFor += (int)match.HomeScore;
                                 listed[i].GoalsAgainst += (int)match.AwayScore;
                             }
                         }
-                        
+
                     }
 
                     if (match.GroupId == groupId && match.AwayTeamId == listed[i].Team.Id)
                     {
+                        listed[i].Matches += 1;
                         if (match.AwayScore != null && match.HomeScore != null)
                         {
-                            
+
                             if (match.AwayScore > match.HomeScore)
                             {
                                 listed[i].Points += 3;
@@ -203,11 +205,11 @@ namespace My_Transfermarkt_Core.Services
                 }
 
             }
-            
+
             var sortedList = listed.OrderByDescending(x => x.Points).ToList();
             return sortedList;
 
-            
+
         }
 
         public async Task<bool> IsTeamInThisGroup(int groupId, int teamId)
@@ -239,9 +241,9 @@ namespace My_Transfermarkt_Core.Services
 
         public async Task RemoveAllGroups(int tournamentId)
         {
-            var groups = await 
+            var groups = await
                 data.GroupsTournaments
-                .Where(x=> x.TournamenId == tournamentId)
+                .Where(x => x.TournamenId == tournamentId)
                 .ToListAsync();
 
             data.RemoveRange(groups);

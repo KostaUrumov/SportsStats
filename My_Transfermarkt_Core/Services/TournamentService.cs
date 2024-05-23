@@ -27,9 +27,9 @@ namespace My_Transfermarkt_Core.Services
         {
             if (tournamentModel.GetType() == typeof(AddNewSingleGroupTournamentModel))
             {
-                
+
                 var model = (AddNewSingleGroupTournamentModel)tournamentModel;
-                
+
                 var tour = new SingleGroupTournament();
                 tour.Name = model.Name;
                 tour.StartDate = model.StartDate;
@@ -60,7 +60,7 @@ namespace My_Transfermarkt_Core.Services
                         NumberOfRounds = model.RoundsPerGroup,
                         TeamsNumber = model.TeamsNumberInGroup
                     };
-                   
+
                     GroupsTournament groupTournament = new GroupsTournament()
                     {
                         Group = group,
@@ -80,7 +80,7 @@ namespace My_Transfermarkt_Core.Services
         {
             List<int> roundBNumber = new List<int>();
             var findTournament = await data.Tournaments.FirstAsync(x => x.Id == tournamentId);
-            
+
             if (findTournament.GetType() == typeof(SingleGroupTournament))
             {
                 var tour = (SingleGroupTournament)findTournament;
@@ -89,8 +89,8 @@ namespace My_Transfermarkt_Core.Services
                     roundBNumber.Add(i + 1);
                 }
             }
-            
-            
+
+
 
             return roundBNumber;
         }
@@ -109,10 +109,10 @@ namespace My_Transfermarkt_Core.Services
             {
                 var results = await data
                     .TournamentsTeams
-                    .Where(x=> x.TournamentId ==tournament.Id)
+                    .Where(x => x.TournamentId == tournament.Id)
                     .ToListAsync();
 
-                if (tournament.NumberOfTeams >results.Count)
+                if (tournament.NumberOfTeams > results.Count)
                 {
                     tournament.TeamsTournaments.Add(new TournamentsTeams
                     {
@@ -136,7 +136,7 @@ namespace My_Transfermarkt_Core.Services
                         TeamId = teamId,
                     });
                 }
-                    
+
 
             }
 
@@ -154,7 +154,7 @@ namespace My_Transfermarkt_Core.Services
                     return false;
                 }
             }
-            else if(tournament.GetType() == typeof(AddNewGroupStageTournament))
+            else if (tournament.GetType() == typeof(AddNewGroupStageTournament))
             {
                 var model = (AddNewGroupStageTournament)tournament;
                 if (model.EndtDate <= model.StartDate)
@@ -187,7 +187,7 @@ namespace My_Transfermarkt_Core.Services
             var result = await data
                 .Matches
                 .Where(x => x.GroupId == groupId)
-                .OrderBy(x=>x.MatchDate)
+                .OrderBy(x => x.MatchDate)
                 .Select(m => new ShowMatchModel
                 {
                     Id = m.Id,
@@ -202,7 +202,7 @@ namespace My_Transfermarkt_Core.Services
                     HomeLogo = m.HomeTeam.Logo,
                     AwayLogo = m.AwayTeam.Logo
                 })
-                .OrderBy(x=> x.Round)
+                .OrderBy(x => x.Round)
                 .ToListAsync();
 
             return result;
@@ -411,7 +411,7 @@ namespace My_Transfermarkt_Core.Services
                 return;
             }
             data.Remove(resultTodelete);
-            
+
             await data.SaveChangesAsync();
         }
 
@@ -427,7 +427,7 @@ namespace My_Transfermarkt_Core.Services
         {
             var removeTeam = await data.TournamentsTeams.FirstAsync(i => i.TournamentId == tournamentiD && i.TeamId == teamId);
             var teamDelete = await data.Teams.FirstAsync(t => t.Id == teamId);
-            
+
             data.Remove(removeTeam);
             await data.SaveChangesAsync();
         }
@@ -456,7 +456,7 @@ namespace My_Transfermarkt_Core.Services
 
             }
 
-            if(findTourneyToUpdate.GetType() == typeof(GroupStageTournament))
+            if (findTourneyToUpdate.GetType() == typeof(GroupStageTournament))
             {
                 var tour = (GroupStageTournament)findTourneyToUpdate;
                 tour.Name = model.Name;
@@ -487,7 +487,7 @@ namespace My_Transfermarkt_Core.Services
 
             }
 
-                await data.SaveChangesAsync();
+            await data.SaveChangesAsync();
         }
 
         public async Task<List<StandingsViewModel>> StandongsInTournament(int tourId)
@@ -530,7 +530,7 @@ namespace My_Transfermarkt_Core.Services
 
                             if (match.HomeScore < match.AwayScore)
                             {
-                                
+
                                 listed[i].Matches += 1;
                                 listed[i].Losses += 1;
                             }

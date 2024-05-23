@@ -11,7 +11,7 @@ namespace My_Transfermarkt.Controllers
         private readonly ITournamentService tournamentService;
 
         public GroupController(
-            IGroupService _groupService, 
+            IGroupService _groupService,
             ITournamentService _turnamentService)
         {
             groupService = _groupService;

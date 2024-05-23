@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace My_Transfermarkt_Infastructure.DataModels
 {
@@ -22,12 +22,12 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [Required]
         public byte[] Logo { get; set; } = null!;
 
-        
+
         public int? StadiumId { get; set; }
 
         [ForeignKey(nameof(StadiumId))]
         public Stadium Stadium { get; set; } = null!;
-        
+
         [InverseProperty(nameof(Match.HomeTeam))]
         public virtual ICollection<Match> HomeGames { get; set; } = new List<Match>();
 

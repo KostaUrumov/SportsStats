@@ -9,9 +9,9 @@ namespace My_Transfermarkt_Core.Models.FootballerModels
         public string Birthday { get; set; } = null!;
         public string PrefferedFoot { get; set; } = null!;
         public string Position { get; set; } = null!;
-        public ICollection<Team >TeamsPlayed { get; set; } = null!;
+        public ICollection<Team> TeamsPlayed { get; set; } = null!;
         public string HighestValue { get; set; } = null!;
-        public DateOnly HighestValueDate { get; set; } 
+        public DateOnly HighestValueDate { get; set; }
         public int Caps { get; set; }
         public string CurrentValue { get; set; } = null!;
         public string? CurrentTeam { get; set; }

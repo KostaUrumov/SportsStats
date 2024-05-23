@@ -25,7 +25,7 @@ namespace My_Transfermarkt_Core.Services
         {
             var findFootballer = await data.Footballers.FirstOrDefaultAsync(x => x.Id == footballerId);
             var findUser = await data.Agents.FirstOrDefaultAsync(x => x.Id == userId);
-            if (findUser != null && findFootballer != null) 
+            if (findUser != null && findFootballer != null)
             {
                 findFootballer.AgentId = findUser.Id;
                 findUser.AgentFootballers.Add(new AgentsFootballers

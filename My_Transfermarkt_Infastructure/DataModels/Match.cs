@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
 
 namespace My_Transfermarkt_Infastructure.DataModels
 {
@@ -41,7 +40,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [ForeignKey(nameof(AwayTeamId))]
         public virtual Team AwayTeam { get; set; } = null!;
 
-        [Range(DataConstraints.Match.MinScore,DataConstraints.Match.MaxScore)]
+        [Range(DataConstraints.Match.MinScore, DataConstraints.Match.MaxScore)]
         public int? HomeScore { get; set; }
 
         [Range(DataConstraints.Match.MinScore, DataConstraints.Match.MaxScore)]

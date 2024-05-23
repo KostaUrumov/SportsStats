@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.RefereeModels;
-using My_Transfermarkt_Core.Services;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
@@ -21,19 +20,19 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> AddnewRef()
+        public async Task<IActionResult> AddnewRef()
         {
             AddNewRefereeModel model = new AddNewRefereeModel()
             {
                 Countries = await countryService.GetAllCuntries()
             };
-            return View (model);
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddnewRef(AddNewRefereeModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 model.Countries = await countryService.GetAllCuntries();
                 return View(model);

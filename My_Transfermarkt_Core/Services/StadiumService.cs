@@ -16,7 +16,7 @@ namespace My_Transfermarkt_Core.Services
             data = _data;
         }
 
-       
+
 
         /// <summary>
         /// Methdos create new stadium in database
@@ -44,7 +44,7 @@ namespace My_Transfermarkt_Core.Services
         /// <returns>List<StadiumViewModel></returns>
         public async Task<List<StadiumViewModel>> AllAvailableStadiums()
         {
-            
+
             List<StadiumViewModel> allStadiums = await data
                 .Stadiums
                 .Select(s => new StadiumViewModel
@@ -54,7 +54,7 @@ namespace My_Transfermarkt_Core.Services
                     Country = s.Country.Name,
                     Id = s.Id,
                     Name = s.Name
-                    
+
                 })
                 .OrderBy(x => x.Name)
                 .ToListAsync();
@@ -113,7 +113,7 @@ namespace My_Transfermarkt_Core.Services
             return model;
         }
 
-        
+
 
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        
+
 
         /// <summary>
         /// Mtehod remove stadium from database
@@ -143,9 +143,9 @@ namespace My_Transfermarkt_Core.Services
         public async Task RemoveStadium(int stadiumId)
         {
             var findStadium = await data.Stadiums.FirstOrDefaultAsync(s => s.Id == stadiumId);
-            if ( findStadium == null)
+            if (findStadium == null)
             {
-                return;                
+                return;
             }
             foreach (var item in data.Teams)
             {
@@ -168,7 +168,7 @@ namespace My_Transfermarkt_Core.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns>bool</returns>
-      
+
         public async Task<bool> IsStadiumAlreadyIn(AddNewStadiumModel model)
         {
             var isItIn = await data.Stadiums.FirstOrDefaultAsync(s => s.Name == model.Name && s.CountryId == model.CountryId);
@@ -197,7 +197,7 @@ namespace My_Transfermarkt_Core.Services
                     Name = x.Name,
                     Id = x.Id,
                     Type = "Stadium"
-                    
+
                 })
                 .ToListAsync();
 

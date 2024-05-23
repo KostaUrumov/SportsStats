@@ -27,7 +27,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
         public async Task<IActionResult> GetAllFootballers()
         {
-            
+
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             {
                 if (user != null)
@@ -38,7 +38,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             }
 
             return View();
-            
+
         }
         [Authorize(Roles = "Admin")]
 
@@ -47,7 +47,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         {
             var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var findFootballer = await footballerService.FindFootballer(id);
-            
+
             if (findFootballer == null)
             {
                 return View("Error404");

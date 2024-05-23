@@ -66,7 +66,7 @@ namespace My_Transfermarkt_Core.Services
             }
 
             return false;
-                
+
         }
 
         public async Task<Match> FindMatch(int matchId)
@@ -87,7 +87,7 @@ namespace My_Transfermarkt_Core.Services
                     return true;
                 }
             }
-            
+
 
             return false;
         }

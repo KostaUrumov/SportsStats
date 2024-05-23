@@ -72,7 +72,7 @@ namespace My_Transfermarkt_Core.Services
                 .Select(x => new ShowRefereeModel
                 {
                     Id = x.Id,
-                    Name = x.FirstName + " "+ x.LastName,
+                    Name = x.FirstName + " " + x.LastName,
                     Rating = x.Rating.ToString(),
                     Country = x.Country.Name
                 })

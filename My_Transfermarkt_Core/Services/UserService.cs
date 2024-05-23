@@ -29,7 +29,7 @@ namespace My_Transfermarkt_Core.Services
             userManager = _userManager;
             roleManager = _roleManager;
         }
-       
+
 
 
         /// <summary>
@@ -50,13 +50,13 @@ namespace My_Transfermarkt_Core.Services
                 await userManager.AddToRoleAsync((User)findUser, "Agent");
             }
 
-            if(model.Role.ToString() == "User")
+            if (model.Role.ToString() == "User")
             {
                 await userManager.AddToRoleAsync((User)findUser, "User");
             }
             await data.SaveChangesAsync();
         }
-       
+
 
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace My_Transfermarkt_Core.Services
 
         }
 
-       
+
 
         /// <summary>
         /// Method checks if e-mail is already in the database
@@ -152,7 +152,7 @@ namespace My_Transfermarkt_Core.Services
             return false;
 
         }
-        
+
 
         /// <summary>
         /// Method logs in user.
@@ -242,15 +242,15 @@ namespace My_Transfermarkt_Core.Services
 
                 data.Add(newAgent);
                 await data.SaveChangesAsync();
-                
+
             }
             else
             {
-                
+
                 await data.SaveChangesAsync();
             }
 
-            
+
         }
     }
 }

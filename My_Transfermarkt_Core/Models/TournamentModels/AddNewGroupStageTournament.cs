@@ -1,5 +1,4 @@
-﻿using My_Transfermarkt_Infastructure;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.TournamentModels
 {

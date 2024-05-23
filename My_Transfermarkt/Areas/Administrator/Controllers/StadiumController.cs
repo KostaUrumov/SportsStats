@@ -32,7 +32,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewStadium (AddNewStadiumModel stadium)
+        public async Task<IActionResult> AddNewStadium(AddNewStadiumModel stadium)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit (int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var model = await stadiumService.FindToEdit(id);
             if (model == null)

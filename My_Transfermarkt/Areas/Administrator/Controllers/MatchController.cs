@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.MatchModels;
-using My_Transfermarkt_Core.Services;
 using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
@@ -34,7 +33,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         public async Task<IActionResult> AddNewMatch(int Id, int GroupId)
         {
             AddNewMatchModel model = new AddNewMatchModel();
-            
+
             if (GroupId != 0)
             {
                 model.GroupId = GroupId;
@@ -49,35 +48,35 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View("Error404", new { area = "" });
             }
             var tour = (Tournament)tournament;
-            
+
             if (tournament == null)
             {
                 return View("Error404", new { area = "" });
             }
 
             model.TournamentId = tour.Id;
-            if (model.Teams.Count() == 0 && GroupId==0)
+            if (model.Teams.Count() == 0 && GroupId == 0)
             {
                 model.Teams = await teamService.GetAllTeamsForTournament(Id);
             }
-            
+
             model.Referees = await refService.AllReferees();
             if (model.Rounds.Count == 0)
             {
                 model.Rounds = await tournamentService.AddRounds(tour.Id);
             }
-            
+
 
             ViewBag.Tournament = tour.Name;
             ViewBag.Id = tour.Id;
             ViewBag.Group = model.GroupId;
             model.Date = DateTime.Today;
-            
+
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewMatch(int Id,AddNewMatchModel model)
+        public async Task<IActionResult> AddNewMatch(int Id, AddNewMatchModel model)
         {
             if (TempData["groupId"] != null)
             {
@@ -121,7 +120,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 var tour = await tournamentService.FindTournament(model.TournamentId);
                 if (tour == null)
                 {
-                   return View("Error404", new { area = "" });
+                    return View("Error404", new { area = "" });
                 }
                 var competition = (Tournament)tour;
                 ViewBag.Tournament = competition.Name;
@@ -129,7 +128,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return RedirectToAction("MatchesInGroup", "Group");
 
             }
-            
+
             TempData["Id"] = Id;
             return RedirectToAction("Matches", "Tournament");
         }
@@ -153,7 +152,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             {
                 model.Teams = await teamService.GetAllTeamsForTournament(match.TournamentId);
             }
-            
+
             model.Referees = await refService.AllReferees();
             model.RefereeId = match.RefereeId;
             model.HomeTeamId = match.HomeTeamId;
@@ -174,7 +173,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(model);
             }
 
-            if(await matchService.CheckIfMatchExists(model, findMatch.TournamentId) == true)
+            if (await matchService.CheckIfMatchExists(model, findMatch.TournamentId) == true)
             {
                 ViewBag.comment = "Same match is already in the tournament";
                 if (findMatch.GroupId != null)
@@ -198,7 +197,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(model);
             }
 
-            
+
             if (matchService.AreTeamsDifferent(model) == false)
             {
                 ViewBag.comment = "Home and away teams are the same. Select different teams";
@@ -223,15 +222,15 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 return View(model);
             }
             await matchService.SaveChanges(model);
-            
+
             if (findMatch.GroupId != null)
             {
                 TempData["groupId"] = findMatch.GroupId;
                 return RedirectToAction("MatchesInGroup", "Group");
             }
-           
+
             TempData["Id"] = findMatch.TournamentId;
-            return RedirectToAction("Matches","Tournament");
+            return RedirectToAction("Matches", "Tournament");
         }
 
     }

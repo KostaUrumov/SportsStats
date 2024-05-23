@@ -8,7 +8,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task<bool> ChekIfRefereeExist(AddNewRefereeModel model);
         Task AddRefereeAsync(AddNewRefereeModel model);
         Task<List<ShowRefereeModel>> GetAllReferees();
-        Task <AddNewRefereeModel> FindReferee(int refereeId);
+        Task<AddNewRefereeModel> FindReferee(int refereeId);
         Task SaveChangesAsync(AddNewRefereeModel model);
         Task<List<Referee>> AllReferees();
     }

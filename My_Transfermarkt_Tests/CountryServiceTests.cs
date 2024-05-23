@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using My_Transfermarkt.Data;
 using My_Transfermarkt_Core.Contracts;
 using My_Transfermarkt_Core.Models.CountryModels;
@@ -42,7 +41,7 @@ namespace My_Transfermarkt_Tests
             Assert.That(country.Id, Is.EqualTo(1));
             this.data.RemoveRange(this.countries);
             this.data.SaveChanges();
-            
+
         }
 
         [Test]
@@ -211,7 +210,7 @@ namespace My_Transfermarkt_Tests
             this.data.SaveChanges();
         }
 
-        
+
 
         [Test]
         public void TestIsFindCountryC()

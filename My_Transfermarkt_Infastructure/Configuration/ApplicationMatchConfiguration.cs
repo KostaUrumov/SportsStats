@@ -12,10 +12,10 @@ namespace My_Transfermarkt_Infastructure.Configuration
                 .HasOne(t => t.HomeTeam)
                 .WithMany(x => x.HomeGames)
                 .OnDelete(DeleteBehavior.Restrict);
-           builder
-                .HasOne(p=> p.AwayTeam)
-                .WithMany(s=> s.AwayGames)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder
+                 .HasOne(p => p.AwayTeam)
+                 .WithMany(s => s.AwayGames)
+                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

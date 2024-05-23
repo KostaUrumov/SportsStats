@@ -10,7 +10,7 @@ namespace My_Transfermarkt_Infastructure.DataModels
         [Required]
         [Range(DataConstraints.GroupStageTournament.MinGroupsNumber, DataConstraints.GroupStageTournament.MaxGroupsNumber)]
         public int NumberOfGroups { get; set; }
-        
+
         public ICollection<GroupsTournament> Groups = new List<GroupsTournament>();
     }
 }

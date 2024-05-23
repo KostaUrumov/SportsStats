@@ -13,8 +13,8 @@ namespace My_Transfermarkt_Core.Contracts
         Task<AddNewFootallerModel?> FindFootballer(int id);
         Task SignToClub(SignFootballerToATeam model);
         Task Release(int Id);
-        Task AddPictureToFootballer(byte[]pictureData, int Id);
-        Task <List<ShowFootballerToClubModel>> GetAllPLayersForClub(int clubId);
+        Task AddPictureToFootballer(byte[] pictureData, int Id);
+        Task<List<ShowFootballerToClubModel>> GetAllPLayersForClub(int clubId);
 
         Task<List<ShowFootballerDetailsViewModel>> GetAllPLayersForCountry(string countryName);
         Task<ShowFootballerDetailsViewModel> Details(int playerId);

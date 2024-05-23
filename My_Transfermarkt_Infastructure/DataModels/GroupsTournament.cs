@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace My_Transfermarkt_Infastructure.DataModels
 {
     public class GroupsTournament
     {
-        
+
         public int TournamenId { get; set; }
 
         [ForeignKey(nameof(TournamenId))]

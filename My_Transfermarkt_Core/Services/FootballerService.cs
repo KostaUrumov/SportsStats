@@ -19,7 +19,7 @@ namespace My_Transfermarkt_Core.Services
         }
 
 
-       
+
         /// <summary>
         /// Method upload picture to footballer entity.
         /// </summary>
@@ -45,7 +45,7 @@ namespace My_Transfermarkt_Core.Services
         {
             List<AllFootballersViewModel> all = await data
                 .Footballers
-                .Select(f=> new AllFootballersViewModel()
+                .Select(f => new AllFootballersViewModel()
                 {
                     HighestValueDate = DateOnly.FromDateTime(f.HishestValueDate),
                     Name = f.FirstName + " " + f.LastName,
@@ -60,13 +60,13 @@ namespace My_Transfermarkt_Core.Services
                     Photo = f.Picture,
                     IsRetired = f.IsRetired,
                     Birthday = f.BirthDay.ToString("MM/dd/yyyy"),
-                    Agent = f.Agent.User.FirstName +" "+ f.Agent.User.LastName,
-                    Id= f.Id,
+                    Agent = f.Agent.User.FirstName + " " + f.Agent.User.LastName,
+                    Id = f.Id,
                     AgentName = f.Agent.User.Id,
                     CurrentUser = username
 
                 })
-                .OrderByDescending(x=> x.Name)
+                .OrderByDescending(x => x.Name)
                 .ToListAsync();
 
             return all;
@@ -78,12 +78,12 @@ namespace My_Transfermarkt_Core.Services
         /// </summary> 
         /// <param name="model"></param>
         /// <returns>bool</returns>
-        
+
         public bool AreDtaesCorrect(AddNewFootallerModel model)
         {
 
             int old = DateTime.UtcNow.Date.Year - model.BirthDay.Year;
-            if (old> 40)
+            if (old > 40)
             {
                 return false;
             }
@@ -104,7 +104,7 @@ namespace My_Transfermarkt_Core.Services
                 return false;
             }
 
-            
+
             if (model.StartContractDate.AddMonths(6) > model.EndContractDate)
             {
                 return false;
@@ -116,7 +116,7 @@ namespace My_Transfermarkt_Core.Services
             }
 
             return true;
-            
+
         }
 
 
@@ -145,7 +145,7 @@ namespace My_Transfermarkt_Core.Services
                 CountryId = fooballer.CountryId,
                 HighestValue = decimal.Parse(fooballer.CurrentMarketValue),
                 HishestValueDate = DateTime.UtcNow,
-                
+
             };
 
             newFootballer.AgentsFootballers.Add(new AgentsFootballers()
@@ -167,11 +167,11 @@ namespace My_Transfermarkt_Core.Services
         public async Task<ShowFootballerDetailsViewModel> Details(int playerId)
         {
             var findPLayer = await data.Footballers.FirstAsync(f => f.Id == playerId);
-            List<ShowFootballerDetailsViewModel> listed = await 
+            List<ShowFootballerDetailsViewModel> listed = await
                 data
                 .Footballers
                 .Where(f => f.Id == playerId)
-                .Select(x=> new ShowFootballerDetailsViewModel()
+                .Select(x => new ShowFootballerDetailsViewModel()
                 {
                     HighestValueDate = DateOnly.FromDateTime(x.HishestValueDate),
                     Name = x.FirstName + " " + x.LastName,
@@ -188,7 +188,7 @@ namespace My_Transfermarkt_Core.Services
                     Birthday = x.BirthDay.ToString("MM/dd/yyyy"),
                 })
                 .ToListAsync();
-            
+
 
             return listed[0];
         }
@@ -224,7 +224,7 @@ namespace My_Transfermarkt_Core.Services
                 return null;
             }
             return result[0];
-                
+
         }
 
 
@@ -249,7 +249,7 @@ namespace My_Transfermarkt_Core.Services
                 .ToListAsync();
 
             return results;
-            
+
         }
 
 
@@ -327,32 +327,32 @@ namespace My_Transfermarkt_Core.Services
         /// <returns>List<ShowFootballerDetailsViewModel></returns>
         public async Task<List<ShowFootballerDetailsViewModel>> GetRetiredPlayers()
         {
-           List<ShowFootballerDetailsViewModel> retired = await data
-                .Footballers
-                .Where(f=> f.IsRetired == true)
-                .Select(x=> new ShowFootballerDetailsViewModel()
-                {
-                    HighestValueDate = DateOnly.FromDateTime(x.HishestValueDate),
-                    Name = x.FirstName + " " + x.LastName,
-                    Country = x.Country.Name,
-                    PrefferedFoot = x.PreferedFoot.ToString(),
-                    Position = x.Position.ToString(),
-                    TeamsPlayed = x.TeamsPlayed,
-                    HighestValue = x.HighestValue.ToString(),
-                    CurrentValue = x.CurrentMarketValue.ToString(),
-                    Caps = x.InternationalCaps,
-                    CurrentTeam = x.Team.Name,
-                    Photo = x.Picture,
-                    IsRetired = x.IsRetired
+            List<ShowFootballerDetailsViewModel> retired = await data
+                 .Footballers
+                 .Where(f => f.IsRetired == true)
+                 .Select(x => new ShowFootballerDetailsViewModel()
+                 {
+                     HighestValueDate = DateOnly.FromDateTime(x.HishestValueDate),
+                     Name = x.FirstName + " " + x.LastName,
+                     Country = x.Country.Name,
+                     PrefferedFoot = x.PreferedFoot.ToString(),
+                     Position = x.Position.ToString(),
+                     TeamsPlayed = x.TeamsPlayed,
+                     HighestValue = x.HighestValue.ToString(),
+                     CurrentValue = x.CurrentMarketValue.ToString(),
+                     Caps = x.InternationalCaps,
+                     CurrentTeam = x.Team.Name,
+                     Photo = x.Picture,
+                     IsRetired = x.IsRetired
 
-                })
-                .OrderByDescending(x=> x.Caps)
-                .ToListAsync ();
-            
+                 })
+                 .OrderByDescending(x => x.Caps)
+                 .ToListAsync();
+
             return retired;
         }
 
-       
+
 
 
         /// <summary>
@@ -364,13 +364,13 @@ namespace My_Transfermarkt_Core.Services
         {
             string name = model.FirstName + model.LastName;
             var find = await data.Footballers
-                .FirstOrDefaultAsync(x=> x.FirstName + x.LastName == name && x.BirthDay == model.BirthDay);
+                .FirstOrDefaultAsync(x => x.FirstName + x.LastName == name && x.BirthDay == model.BirthDay);
 
             if (find == null)
             {
                 return false;
             }
-            if (find  != null)
+            if (find != null)
             {
                 if (find.Id == model.Id)
                 {
@@ -426,13 +426,13 @@ namespace My_Transfermarkt_Core.Services
                     Photo = n.Footballer.Picture,
                     IsRetired = n.Footballer.IsRetired
                 })
-                .OrderBy(x=>x.Name)
+                .OrderBy(x => x.Name)
                 .ToListAsync();
 
             return models;
         }
 
-        
+
 
         /// <summary>
         /// Method releases a footballer from a team. Footballer has no team afterwards.
@@ -445,7 +445,7 @@ namespace My_Transfermarkt_Core.Services
                 .TeamsFootballers
                 .Where(x => x.FootballerId == Id)
                 .ToListAsync();
-            
+
             var findFootballer = await data
                 .Footballers.FirstAsync(f => f.Id == Id);
             var findTeam = await data
@@ -473,7 +473,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        
+
 
         /// <summary>
         /// Method updates new values for already existing footballer.
@@ -514,7 +514,7 @@ namespace My_Transfermarkt_Core.Services
             await data.SaveChangesAsync();
         }
 
-        
+
 
         /// <summary>
         /// Method signs a player to a club

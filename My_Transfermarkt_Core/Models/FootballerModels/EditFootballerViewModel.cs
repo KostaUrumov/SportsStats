@@ -1,13 +1,13 @@
-﻿using My_Transfermarkt_Infastructure.DataModels;
+﻿using My_Transfermarkt_Infastructure;
+using My_Transfermarkt_Infastructure.DataModels;
 using My_Transfermarkt_Infastructure.Enums;
-using My_Transfermarkt_Infastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.FootballerModels
 {
     public class EditFootballerViewModel
     {
-        public  int  Id { get; set; }
+        public int Id { get; set; }
         [Required]
         [StringLength(maximumLength: DataConstraints.Footballer.MaxName,
            ErrorMessage = "The {0} must be between {1} and {2}",

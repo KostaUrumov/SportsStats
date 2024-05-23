@@ -79,7 +79,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
                 }
                 await groupService.AddTeamsToGroup(model.Id, teams);
             }
-            
+
             var tournamentGroups = await groupService.GetAllGroupsForTournament(tournamentId);
             ViewBag.Torunament = tournamentGroups[0].TournamentName;
             return View(nameof(Result), tournamentGroups);
@@ -126,7 +126,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         }
 
-        public  IActionResult Result(List<ShowGroupViewModel> model)
+        public IActionResult Result(List<ShowGroupViewModel> model)
         {
             return View(model);
         }
@@ -146,7 +146,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             }
 
             var result = await tournamentService.FindMatchesInGroup(groupId);
-            
+
             if (result.Count == 0)
             {
                 return View("Error404");

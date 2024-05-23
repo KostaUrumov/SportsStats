@@ -5,7 +5,7 @@ using My_Transfermarkt_Core.Models.CountryModels;
 
 namespace My_Transfermarkt.Areas.Administrator.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class CountryController : BaseController
     {
         private readonly ICountryService countryService;
@@ -18,7 +18,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpGet]
         public IActionResult AddNewCountry()
         {
-            AddNewCountryModel model  = new AddNewCountryModel();
+            AddNewCountryModel model = new AddNewCountryModel();
             return View(model);
         }
 
@@ -42,7 +42,7 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
 
         public async Task<IActionResult> AllCountries()
         {
-            var displayResult =  await countryService.AllCountriesAsync();
+            var displayResult = await countryService.AllCountriesAsync();
             return View(displayResult);
         }
 

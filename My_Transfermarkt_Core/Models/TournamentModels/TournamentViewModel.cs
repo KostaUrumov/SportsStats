@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using My_Transfermarkt_Core.Models.TeamModels;
+﻿using My_Transfermarkt_Core.Models.TeamModels;
 
 namespace My_Transfermarkt_Core.Models.TournamentModels
 {
@@ -8,7 +7,7 @@ namespace My_Transfermarkt_Core.Models.TournamentModels
         public int Id { get; set; }
         public string Name { get; set; } = null!;
 
-        public List<ShowTeamModelView> Teams { get; set; } =new List<ShowTeamModelView>();
+        public List<ShowTeamModelView> Teams { get; set; } = new List<ShowTeamModelView>();
 
     }
 }

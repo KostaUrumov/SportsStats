@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace My_Transfermarkt_Core.Pagening
+﻿namespace My_Transfermarkt_Core.Pagening
 {
 
     public class Pager
@@ -8,7 +6,7 @@ namespace My_Transfermarkt_Core.Pagening
         public int TotalPages { get; set; }
         public int Startpage { get; set; }
         public int CurrentPage { get; set; }
-       
+
     }
 }
 

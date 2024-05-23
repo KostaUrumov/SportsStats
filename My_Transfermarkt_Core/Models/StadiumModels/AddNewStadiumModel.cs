@@ -1,7 +1,6 @@
 ﻿using My_Transfermarkt_Infastructure;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using My_Transfermarkt_Infastructure.DataModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace My_Transfermarkt_Core.Models.StadiumModels
 {

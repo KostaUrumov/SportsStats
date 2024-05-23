@@ -1,5 +1,4 @@
-﻿using My_Transfermarkt_Core.Models.TeamModels;
-using My_Transfermarkt_Infastructure.DataModels;
+﻿using My_Transfermarkt_Infastructure.DataModels;
 
 namespace My_Transfermarkt_Core.Models.GroupModels
 {

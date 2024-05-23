@@ -1,6 +1,6 @@
 ﻿namespace My_Transfermarkt_Core.Models.FootballerModels
 {
-    public class AllFootballersViewModel: ShowFootballerDetailsViewModel
+    public class AllFootballersViewModel : ShowFootballerDetailsViewModel
     {
         public string Agent { get; set; } = null!;
         public int Id { get; set; }

@@ -12,7 +12,7 @@ namespace My_Transfermarkt_Core.Contracts
         Task SaveChangesAsync(AddNewCountryModel model);
         Task<IEnumerable<Country>> GetAllCuntries();
         Task<bool> IsAlreadyCreated(AddNewCountryModel model);
-        Task <string> FindCountryByname(string name);
-        Task<List<ResultsViewModel>> FindCountries (string name);
+        Task<string> FindCountryByname(string name);
+        Task<List<ResultsViewModel>> FindCountries(string name);
     }
 }
