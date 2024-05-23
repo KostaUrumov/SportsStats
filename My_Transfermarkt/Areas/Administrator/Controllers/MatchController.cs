@@ -78,13 +78,15 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewMatch(int Id, AddNewMatchModel model)
         {
+            model.TournamentId = Id;
             if (TempData["groupId"] != null)
             {
                 model.GroupId = (int)TempData["groupId"];
                 TempData.Remove("groupId");
+                model.TournamentId = (int)await tournamentService.FindTournamentIdByGroup((int)model.GroupId);
             }
 
-            model.TournamentId = Id;
+            
             if (matchService.AreTeamsDifferent(model) == false)
             {
                 ViewBag.comment = "Home and away teams are the same. Select different teams";
