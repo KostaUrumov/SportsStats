@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\My_Transfermarkt_Core\My_Transfermarkt_Core.csproj" />
+    <ProjectReference Include="..\My_Transfermarkt_Core\SportsStats_Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

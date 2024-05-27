@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.StadiumModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.StadiumModels;
 using System.Globalization;
 
-namespace My_Transfermarkt.Areas.Administrator.Controllers
+namespace SportsStats.Areas.Administrator.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class StadiumController : BaseController

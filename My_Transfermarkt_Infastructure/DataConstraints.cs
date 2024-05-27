@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Infastructure
+﻿namespace SportsStats_Infastructure
 {
     public class DataConstraints
     {

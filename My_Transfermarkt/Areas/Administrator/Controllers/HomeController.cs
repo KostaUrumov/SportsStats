@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace My_Transfermarkt.Areas.Administrator.Controllers
+namespace SportsStats.Areas.Administrator.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class HomeController : BaseController

@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Core.Models.TournamentModels
+﻿namespace SportsStats_Core.Models.TournamentModels
 {
     public class ShowTournamentModel
     {

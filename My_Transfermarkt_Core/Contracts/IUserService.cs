@@ -1,6 +1,6 @@
-﻿using My_Transfermarkt_Core.Models.UserModels;
+﻿using SportsStats_Core.Models.UserModels;
 
-namespace My_Transfermarkt_Core.Contracts
+namespace SportsStats_Core.Contracts
 {
     public interface IUserService
     {

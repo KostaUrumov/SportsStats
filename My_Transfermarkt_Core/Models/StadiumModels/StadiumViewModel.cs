@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Core.Models.StadiumModels
+﻿namespace SportsStats_Core.Models.StadiumModels
 {
     public class StadiumViewModel
     {

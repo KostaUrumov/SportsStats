@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.TeamModels;
-using My_Transfermarkt_Core.Pagening;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.TeamModels;
+using SportsStats_Core.Pagening;
 
-namespace My_Transfermarkt.Areas.Administrator.Controllers
+namespace SportsStats.Areas.Administrator.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class TeamController : BaseController
@@ -72,9 +72,9 @@ namespace My_Transfermarkt.Areas.Administrator.Controllers
             var result = await teamService.GetTeams(pageSize, pg);
             int resCounts = result.Count();
             var pager = new Pager();
-            pager.TotalPages = (int)(Math.Ceiling((decimal)totalTeams / (decimal)pageSize));
+            pager.TotalPages = (int)Math.Ceiling(totalTeams / (decimal)pageSize);
             pager.Startpage = 1;
-            this.ViewBag.Pager = pager;
+            ViewBag.Pager = pager;
 
             return View(result.ToList());
         }

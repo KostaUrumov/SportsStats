@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace My_Transfermarkt.Controllers
+namespace SportsStats.Controllers
 {
     [AutoValidateAntiforgeryToken]
     public class BaseController : Controller

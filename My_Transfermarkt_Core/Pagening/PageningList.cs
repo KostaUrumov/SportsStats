@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Core.Pagening
+﻿namespace SportsStats_Core.Pagening
 {
 
     public class Pager

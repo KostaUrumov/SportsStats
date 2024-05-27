@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using My_Transfermarkt.Data;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.FootballerModels;
-using My_Transfermarkt_Core.Models.GeneralModels;
-using My_Transfermarkt_Infastructure.DataModels;
-using Footballer = My_Transfermarkt_Infastructure.DataModels.Footballer;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.FootballerModels;
+using SportsStats_Core.Models.GeneralModels;
+using SportsStats_Infastructure.Data;
+using SportsStats_Infastructure.DataModels;
+using Footballer = SportsStats_Infastructure.DataModels.Footballer;
 
 
-namespace My_Transfermarkt_Core.Services
+namespace SportsStats_Core.Services
 {
     public class FootballerService : IFootballerService
     {
@@ -60,9 +60,7 @@ namespace My_Transfermarkt_Core.Services
                     Photo = f.Picture,
                     IsRetired = f.IsRetired,
                     Birthday = f.BirthDay.ToString("MM/dd/yyyy"),
-                    Agent = f.Agent.User.FirstName + " " + f.Agent.User.LastName,
                     Id = f.Id,
-                    AgentName = f.Agent.User.Id,
                     CurrentUser = username
 
                 })
@@ -110,7 +108,7 @@ namespace My_Transfermarkt_Core.Services
                 return false;
             }
 
-            if ((model.EndContractDate.Year - model.StartContractDate.Year) > 5)
+            if (model.EndContractDate.Year - model.StartContractDate.Year > 5)
             {
                 return false;
             }
@@ -147,11 +145,6 @@ namespace My_Transfermarkt_Core.Services
                 HishestValueDate = DateTime.UtcNow,
 
             };
-
-            newFootballer.AgentsFootballers.Add(new AgentsFootballers()
-            {
-                AgentId = fooballer.AgentId
-            });
 
             data.AddRange(newFootballer);
             await data.SaveChangesAsync();
@@ -397,41 +390,6 @@ namespace My_Transfermarkt_Core.Services
 
             return true;
         }
-
-
-
-
-        /// <summary>
-        /// Method selects all footballer who are assigned to the given agent
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns>List<ShowFootballerModel></returns>
-        public async Task<List<ShowFootballerModel>> MyFootballers(string userId)
-        {
-            List<ShowFootballerModel> models = await data
-                .AgentsFootballers
-                .Where(a => a.AgentId == userId)
-                .Select(n => new ShowFootballerModel()
-                {
-                    BirthDay = n.Footballer.BirthDay.ToString("MM/dd/yyyy"),
-                    Country = n.Footballer.Country.Name,
-                    HighestValue = n.Footballer.HighestValue.ToString(),
-                    Name = n.Footballer.FirstName + " " + n.Footballer.LastName,
-                    InternationalCaps = n.Footballer.InternationalCaps,
-                    CurrentValue = n.Footballer.CurrentMarketValue.ToString(),
-                    CurrentTeam = n.Footballer.Team.Name,
-                    Id = n.Footballer.Id,
-                    Foot = n.Footballer.PreferedFoot.ToString(),
-                    Position = n.Footballer.Position.ToString(),
-                    Photo = n.Footballer.Picture,
-                    IsRetired = n.Footballer.IsRetired
-                })
-                .OrderBy(x => x.Name)
-                .ToListAsync();
-
-            return models;
-        }
-
 
 
         /// <summary>

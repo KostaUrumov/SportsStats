@@ -1,11 +1,10 @@
-﻿@using My_Transfermarkt_Core.Models.MatchModels
-@model List<ShowMatchModel>
+﻿@model List<ShowMatchModel>
 @{
     ViewData["Title"] = "Matches";
 }
 
 <div class="text-center">
-    <h3>Matches in @ViewBag.Tournament</h3>
+    
 </div>
 @if (Model.Count == 0)
 {
@@ -28,6 +27,7 @@ else
                 <th scope="col">Group</th>
                 <th scope="col">Round</th>
                 <th scope="col">Date</th>
+                <th scope="col">Details</th>
             </tr>
         </thead>
 
@@ -42,7 +42,9 @@ else
                     <td>@Model[i].GroupName</td>
                     <td>@Model[i].Round</td>
                     <td>@Model[i].Date</td>
-                    
+                    <td>
+                        <a asp-controller="Match" asp-action="Details" asp-route-matchId="@Model[i].Id" class="btn btn-success">View</a>
+                    </td>
                 </tr>
             </tbody>
         }

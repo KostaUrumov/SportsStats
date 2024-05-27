@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.FootballerModels;
-using My_Transfermarkt_Infastructure.Enums;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.FootballerModels;
+using SportsStats_Infastructure.Enums;
 using System.Security.Claims;
 
-namespace My_Transfermarkt.Controllers
+namespace SportsStats.Controllers
 {
     public class FootballerController : BaseController
     {
@@ -62,108 +62,9 @@ namespace My_Transfermarkt.Controllers
             return View(findFootballer);
         }
 
-        [Authorize(Roles = "Agent")]
-        [HttpPost]
-        public async Task<IActionResult> Edit(AddNewFootallerModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
 
 
-            await footballerService.SaveChangesAsync(model);
 
-            return RedirectToAction(nameof(MyFootballers));
-        }
-
-        [Authorize(Roles = "Agent")]
-        public async Task<IActionResult> MyFootballers()
-        {
-            var agentId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (agentId == null)
-            {
-                return View();
-            }
-            var result = await footballerService.MyFootballers(agentId);
-            return View(result);
-        }
-
-        [Authorize(Roles = "Agent")]
-        [HttpGet]
-        public async Task<IActionResult> SignToClub(int Id)
-        {
-            var findFootballer = await footballerService.FindFootballer(Id);
-            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (findFootballer.AgentId != userId)
-            {
-                ViewBag.comment = "Not Authorized";
-                return View("NotAuthorize");
-            }
-
-            if (findFootballer.isRetired == true)
-            {
-                ViewBag.comment = "Player is already retired";
-                return View("Error404");
-            }
-
-            SignFootballerToATeam model = new SignFootballerToATeam
-            {
-                Id = Id,
-                Teams = await teamService.GetAllTeams()
-            };
-            model.StartContractDate = DateTime.Now;
-            model.EndContractDate = DateTime.Now.AddMonths(6);
-
-            return View(model);
-        }
-
-        [Authorize(Roles = "Agent")]
-        [HttpPost]
-        public async Task<IActionResult> SignToClub(SignFootballerToATeam model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var isPlayerAlreadySigned = await footballerService.IsheSignedToAClub(model.Id);
-            if (isPlayerAlreadySigned == true)
-            {
-
-                return RedirectToAction(nameof(MyFootballers));
-            }
-
-            var areDtaesCorrect = footballerService.CheckDatesCorrectness(model);
-            if (areDtaesCorrect == false)
-            {
-                ViewBag.Comment = "Shortest contract is 6 months";
-                model.Teams = await teamService.GetAllTeams();
-                return View(model);
-            }
-            await footballerService.SignToClub(model);
-            return RedirectToAction(nameof(MyFootballers));
-        }
-
-        [Authorize(Roles = "Agent")]
-        public async Task<IActionResult> Release(int Id)
-        {
-            var findFootballer = await footballerService.FindFootballer(Id);
-            if (findFootballer == null)
-            {
-                ViewBag.Comment = "Player do not exists";
-                return View("Error404");
-            }
-            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (findFootballer.AgentId != userId)
-            {
-                ViewBag.comment = "Not Authorized";
-                return View("NotAuthorize");
-            }
-
-            await footballerService.Release(Id);
-            return RedirectToAction(nameof(MyFootballers));
-        }
 
         [Authorize(Roles = "Agent")]
         [HttpGet]
@@ -181,23 +82,6 @@ namespace My_Transfermarkt.Controllers
                 return View("Error404");
             }
             return View(Id);
-        }
-
-        [Authorize(Roles = "Agent")]
-        [HttpPost]
-        public async Task<IActionResult> UploadPicture(IFormFileCollection files, int Id)
-        {
-            byte[] data = new byte[files.Count];
-            foreach (var file in files)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    await file.CopyToAsync(ms);
-                    data = ms.ToArray();
-                }
-            }
-            await footballerService.AddPictureToFootballer(data, Id);
-            return RedirectToAction(nameof(MyFootballers));
         }
 
         [Authorize(Roles = "Agent, User")]
@@ -229,29 +113,7 @@ namespace My_Transfermarkt.Controllers
             return View(result);
         }
 
-        [Authorize(Roles = "Agent")]
-        public async Task<IActionResult> Retire(int Id)
-        {
-            var findFootballer = await footballerService.FindFootballer(Id);
 
-            if (findFootballer == null)
-            {
-                ViewBag.comment = "Player do not exist";
-                return View("Error404");
-            }
-            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (findFootballer.AgentId != userId)
-            {
-                ViewBag.comment = "Not Authorized";
-                return View("NotAuthorize");
-            }
-
-
-
-            await footballerService.Release(Id);
-            await footballerService.RetireFromFootball(Id);
-            return RedirectToAction(nameof(MyFootballers));
-        }
 
         [Authorize(Roles = "User")]
         public async Task<IActionResult> RetiredPlayers()
@@ -298,7 +160,7 @@ namespace My_Transfermarkt.Controllers
 
 
             var listetPlayers = await footballerService.GetAllPLayersForCountry(model.Country);
-            model.Country = (char.ToUpper(model.Country[0]) + model.Country.Substring(1));
+            model.Country = char.ToUpper(model.Country[0]) + model.Country.Substring(1);
             if (listetPlayers.Count == 0)
             {
                 listetPlayers.Add(new ShowFootballerDetailsViewModel()

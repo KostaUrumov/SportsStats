@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.GroupModels;
-using My_Transfermarkt_Core.Models.MatchModels;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.GroupModels;
+using SportsStats_Core.Models.MatchModels;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt.Areas.Administrator.Controllers
+namespace SportsStats.Areas.Administrator.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class GroupController : BaseController

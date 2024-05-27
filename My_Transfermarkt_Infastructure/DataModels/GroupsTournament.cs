@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace My_Transfermarkt_Infastructure.DataModels
+namespace SportsStats_Infastructure.DataModels
 {
     public class GroupsTournament
     {

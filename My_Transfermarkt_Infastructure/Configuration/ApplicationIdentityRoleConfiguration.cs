@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace My_Transfermarkt_Infastructure.Configuration
+namespace SportsStats_Infastructure.Configuration
 {
     internal class ApplicationIdentityRoleConfiguration : IEntityTypeConfiguration<IdentityRole>
     {

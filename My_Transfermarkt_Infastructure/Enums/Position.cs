@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Infastructure.Enums
+﻿namespace SportsStats_Infastructure.Enums
 {
     public enum Position
     {

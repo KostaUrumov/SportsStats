@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using My_Transfermarkt.Data;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.TournamentModels;
-using My_Transfermarkt_Core.Services;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.TournamentModels;
+using SportsStats_Core.Services;
+using SportsStats_Infastructure.Data;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Tests
+namespace SportsStats_Tests
 {
     [TestFixture]
     public class TournamentServiceTests
@@ -21,14 +21,14 @@ namespace My_Transfermarkt_Tests
         public void TestGetAllTournaments()
         {
 
-            this.countries = new List<Country>()
+            countries = new List<Country>()
             {
                 new Country(){Id = 1, Name= "Spain", ShortName = "SP"},
                 new Country(){Id = 2, Name= "Belgium", ShortName="BE"},
                 new Country(){Id = 3, Name= "Bulgaria", ShortName="BG"},
                 new Country(){Id = 4, Name= "England", ShortName="EN"}
             };
-            this.teams = new List<Team>()
+            teams = new List<Team>()
             {
                 new Team{Id =1, CountryId = 4, Name = "Manchester United" },
                 new Team{Id =2, CountryId = 3, Name = "Botev Plovdiv" },
@@ -40,7 +40,7 @@ namespace My_Transfermarkt_Tests
                 new Team{Id =8, CountryId = 2, Name = "Brugge" },
                 new Team{Id =9, CountryId = 3, Name = "Spartak Varna" },
             };
-            this.tournament = new List<Tournament>()
+            tournament = new List<Tournament>()
             {
                 new Tournament{Id = 1,Name = "Champions League 18/19"},
                 new Tournament{Id = 12,Name = "Bundesliga 18/19"},
@@ -53,34 +53,34 @@ namespace My_Transfermarkt_Tests
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "MyMockedData")
                    .Options;
-            this.data = new ApplicationDbContext(options);
-            this.data.AddRange(this.teams);
-            this.data.AddRange(this.countries);
-            this.data.AddRange(this.tournament);
-            this.data.SaveChanges();
+            data = new ApplicationDbContext(options);
+            data.AddRange(teams);
+            data.AddRange(countries);
+            data.AddRange(tournament);
+            data.SaveChanges();
 
             ITournamentService service = new TournamentService(data);
             var tournaments = service.GetAllTournaments();
             Assert.That(tournaments.Result.Count, Is.EqualTo(5));
 
-            this.data.RemoveRange(this.teams);
-            this.data.RemoveRange(this.countries);
-            this.data.RemoveRange(this.tournament);
-            this.data.SaveChanges();
+            data.RemoveRange(teams);
+            data.RemoveRange(countries);
+            data.RemoveRange(tournament);
+            data.SaveChanges();
         }
 
         [Test]
         public void TestFindTournament()
         {
 
-            this.countries = new List<Country>()
+            countries = new List<Country>()
             {
                 new Country(){Id = 1, Name= "Spain", ShortName = "SP"},
                 new Country(){Id = 2, Name= "Belgium", ShortName="BE"},
                 new Country(){Id = 3, Name= "Bulgaria", ShortName="BG"},
                 new Country(){Id = 4, Name= "England", ShortName="EN"}
             };
-            this.teams = new List<Team>()
+            teams = new List<Team>()
             {
                 new Team{Id =1, CountryId = 4, Name = "Manchester United" },
                 new Team{Id =2, CountryId = 3, Name = "Botev Plovdiv" },
@@ -105,33 +105,33 @@ namespace My_Transfermarkt_Tests
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "MyMockedData")
                    .Options;
-            this.data = new ApplicationDbContext(options);
-            this.data.AddRange(this.teams);
-            this.data.AddRange(this.countries);
-            this.data.AddRange(this.tournament);
-            this.data.SaveChanges();
+            data = new ApplicationDbContext(options);
+            data.AddRange(teams);
+            data.AddRange(countries);
+            data.AddRange(this.tournament);
+            data.SaveChanges();
 
             ITournamentService service = new TournamentService(data);
             var tournament = service.FindTournament(1);
             var tournament2 = service.FindTournament(12);
 
-            this.data.RemoveRange(this.teams);
-            this.data.RemoveRange(this.countries);
-            this.data.RemoveRange(this.tournament);
-            this.data.SaveChanges();
+            data.RemoveRange(teams);
+            data.RemoveRange(countries);
+            data.RemoveRange(this.tournament);
+            data.SaveChanges();
         }
 
         [Test]
         public void TestSaveChanges()
         {
-            this.countries = new List<Country>()
+            countries = new List<Country>()
             {
                 new Country(){Id = 1, Name= "Spain", ShortName = "SP"},
                 new Country(){Id = 2, Name= "Belgium", ShortName="BE"},
                 new Country(){Id = 3, Name= "Bulgaria", ShortName="BG"},
                 new Country(){Id = 4, Name= "England", ShortName="EN"}
             };
-            this.teams = new List<Team>()
+            teams = new List<Team>()
             {
                 new Team{Id =1, CountryId = 4, Name = "Manchester United" },
                 new Team{Id =2, CountryId = 3, Name = "Botev Plovdiv" },
@@ -143,7 +143,7 @@ namespace My_Transfermarkt_Tests
                 new Team{Id =8, CountryId = 2, Name = "Brugge" },
                 new Team{Id =9, CountryId = 3, Name = "Spartak Varna" },
             };
-            this.tournament = new List<Tournament>()
+            tournament = new List<Tournament>()
             {
                 new Tournament{Id = 1,Name = "Champions League 18/19"},
                 new Tournament{Id = 12,Name = "Bundesliga 18/19"},
@@ -156,11 +156,11 @@ namespace My_Transfermarkt_Tests
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "MyMockedData")
                    .Options;
-            this.data = new ApplicationDbContext(options);
-            this.data.AddRange(this.teams);
-            this.data.AddRange(this.countries);
-            this.data.AddRange(this.tournament);
-            this.data.SaveChanges();
+            data = new ApplicationDbContext(options);
+            data.AddRange(teams);
+            data.AddRange(countries);
+            data.AddRange(tournament);
+            data.SaveChanges();
 
             ITournamentService service = new TournamentService(data);
             EditTournamentModel model = new EditTournamentModel()
@@ -171,23 +171,23 @@ namespace My_Transfermarkt_Tests
             service.SaveChangesAsync(model);
             Assert.That(data.Tournaments.First(x => x.Id == 1).Name, Is.EqualTo("Test"));
 
-            this.data.RemoveRange(this.teams);
-            this.data.RemoveRange(this.countries);
-            this.data.RemoveRange(this.tournament);
-            this.data.SaveChanges();
+            data.RemoveRange(teams);
+            data.RemoveRange(countries);
+            data.RemoveRange(tournament);
+            data.SaveChanges();
         }
 
         [Test]
         public void TestIfTournamentIsIn()
         {
-            this.countries = new List<Country>()
+            countries = new List<Country>()
             {
                 new Country(){Id = 1, Name= "Spain", ShortName = "SP"},
                 new Country(){Id = 2, Name= "Belgium", ShortName="BE"},
                 new Country(){Id = 3, Name= "Bulgaria", ShortName="BG"},
                 new Country(){Id = 4, Name= "England", ShortName="EN"}
             };
-            this.teams = new List<Team>()
+            teams = new List<Team>()
             {
                 new Team{Id =1, CountryId = 4, Name = "Manchester United" },
                 new Team{Id =2, CountryId = 3, Name = "Botev Plovdiv" },
@@ -199,7 +199,7 @@ namespace My_Transfermarkt_Tests
                 new Team{Id =8, CountryId = 2, Name = "Brugge" },
                 new Team{Id =9, CountryId = 3, Name = "Spartak Varna" },
             };
-            this.tournament = new List<Tournament>()
+            tournament = new List<Tournament>()
             {
                 new Tournament{Id = 1,Name = "Champions League 18/19"},
                 new Tournament{Id = 12,Name = "Bundesliga 18/19"},
@@ -212,11 +212,11 @@ namespace My_Transfermarkt_Tests
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "MyMockedData")
                    .Options;
-            this.data = new ApplicationDbContext(options);
-            this.data.AddRange(this.teams);
-            this.data.AddRange(this.countries);
-            this.data.AddRange(this.tournament);
-            this.data.SaveChanges();
+            data = new ApplicationDbContext(options);
+            data.AddRange(teams);
+            data.AddRange(countries);
+            data.AddRange(tournament);
+            data.SaveChanges();
 
             ITournamentService service = new TournamentService(data);
             var result = service.CheckIfTournamentIsIn("Bundesliga 18/19");
@@ -224,23 +224,23 @@ namespace My_Transfermarkt_Tests
             Assert.That(result.Result.Id, Is.EqualTo(12));
             Assert.That(resultFalse.Result, Is.EqualTo(null));
 
-            this.data.RemoveRange(this.teams);
-            this.data.RemoveRange(this.countries);
-            this.data.RemoveRange(this.tournament);
-            this.data.SaveChanges();
+            data.RemoveRange(teams);
+            data.RemoveRange(countries);
+            data.RemoveRange(tournament);
+            data.SaveChanges();
         }
 
         [Test]
         public void TestTournamentDetails()
         {
-            this.countries = new List<Country>()
+            countries = new List<Country>()
             {
                 new Country(){Id = 1, Name= "Spain", ShortName = "SP"},
                 new Country(){Id = 2, Name= "Belgium", ShortName="BE"},
                 new Country(){Id = 3, Name= "Bulgaria", ShortName="BG"},
                 new Country(){Id = 4, Name= "England", ShortName="EN"}
             };
-            this.teams = new List<Team>()
+            teams = new List<Team>()
             {
                 new Team{Id =1, CountryId = 4, Name = "Manchester United" },
                 new Team{Id =2, CountryId = 3, Name = "Botev Plovdiv" },
@@ -252,7 +252,7 @@ namespace My_Transfermarkt_Tests
                 new Team{Id =8, CountryId = 2, Name = "Brugge" },
                 new Team{Id =9, CountryId = 3, Name = "Spartak Varna" },
             };
-            this.tournament = new List<Tournament>()
+            tournament = new List<Tournament>()
             {
                 new Tournament{Id = 1,Name = "Champions League 18/19"},
                 new Tournament{Id = 12,Name = "Bundesliga 18/19"},
@@ -265,33 +265,33 @@ namespace My_Transfermarkt_Tests
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "MyMockedData")
                    .Options;
-            this.data = new ApplicationDbContext(options);
-            this.data.AddRange(this.teams);
-            this.data.AddRange(this.countries);
-            this.data.AddRange(this.tournament);
-            this.data.SaveChanges();
+            data = new ApplicationDbContext(options);
+            data.AddRange(teams);
+            data.AddRange(countries);
+            data.AddRange(tournament);
+            data.SaveChanges();
 
             ITournamentService service = new TournamentService(data);
             var result = service.GetDetails(12);
             Assert.That(result.Result.Name, Is.EqualTo("Bundesliga 18/19"));
 
-            this.data.RemoveRange(this.teams);
-            this.data.RemoveRange(this.countries);
-            this.data.RemoveRange(this.tournament);
-            this.data.SaveChanges();
+            data.RemoveRange(teams);
+            data.RemoveRange(countries);
+            data.RemoveRange(tournament);
+            data.SaveChanges();
         }
 
         [Test]
         public void TestGetName()
         {
-            this.countries = new List<Country>()
+            countries = new List<Country>()
             {
                 new Country(){Id = 1, Name= "Spain", ShortName = "SP"},
                 new Country(){Id = 2, Name= "Belgium", ShortName="BE"},
                 new Country(){Id = 3, Name= "Bulgaria", ShortName="BG"},
                 new Country(){Id = 4, Name= "England", ShortName="EN"}
             };
-            this.teams = new List<Team>()
+            teams = new List<Team>()
             {
                 new Team{Id =1, CountryId = 4, Name = "Manchester United" },
                 new Team{Id =2, CountryId = 3, Name = "Botev Plovdiv" },
@@ -303,7 +303,7 @@ namespace My_Transfermarkt_Tests
                 new Team{Id =8, CountryId = 2, Name = "Brugge" },
                 new Team{Id =9, CountryId = 3, Name = "Spartak Varna" },
             };
-            this.tournament = new List<Tournament>()
+            tournament = new List<Tournament>()
             {
                 new Tournament{Id = 1,Name = "Champions League 18/19"},
                 new Tournament{Id = 12,Name = "Bundesliga 18/19"},
@@ -316,20 +316,20 @@ namespace My_Transfermarkt_Tests
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "MyMockedData")
                    .Options;
-            this.data = new ApplicationDbContext(options);
-            this.data.AddRange(this.teams);
-            this.data.AddRange(this.countries);
-            this.data.AddRange(this.tournament);
-            this.data.SaveChanges();
+            data = new ApplicationDbContext(options);
+            data.AddRange(teams);
+            data.AddRange(countries);
+            data.AddRange(tournament);
+            data.SaveChanges();
 
             ITournamentService service = new TournamentService(data);
             var result = service.GetName(14);
             Assert.That(result.Result, Is.EqualTo("Vtora Liga 18/19"));
 
-            this.data.RemoveRange(this.teams);
-            this.data.RemoveRange(this.countries);
-            this.data.RemoveRange(this.tournament);
-            this.data.SaveChanges();
+            data.RemoveRange(teams);
+            data.RemoveRange(countries);
+            data.RemoveRange(tournament);
+            data.SaveChanges();
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using My_Transfermarkt.Data;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.GroupModels;
-using My_Transfermarkt_Core.Models.TeamModels;
-using My_Transfermarkt_Core.Models.TournamentModels;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.GroupModels;
+using SportsStats_Core.Models.TeamModels;
+using SportsStats_Core.Models.TournamentModels;
+using SportsStats_Infastructure.Data;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Core.Services
+namespace SportsStats_Core.Services
 {
     public class GroupService : IGroupService
     {
@@ -85,7 +85,7 @@ namespace My_Transfermarkt_Core.Services
         public async Task<int> FindTournament(int groupId)
         {
             var group = await data.Groups.FirstAsync(g => g.Id == groupId);
-            return (int)group.TournamentID;
+            return group.TournamentID;
 
         }
 
@@ -100,7 +100,7 @@ namespace My_Transfermarkt_Core.Services
                     TournamentId = g.Tournament.Id,
                     Name = g.Group.Name,
                     Id = g.GroupId,
-                    Teams = (ICollection<Models.TeamModels.ShowTeamModelView>)g.Group.Teams
+                    Teams = (ICollection<ShowTeamModelView>)g.Group.Teams
                     .Select(x => new ShowTeamModelView
                     {
                         Name = x.Team.Name,
@@ -152,7 +152,6 @@ namespace My_Transfermarkt_Core.Services
                                 listed[i].Wins += 1;
                                 listed[i].GoalsFor += (int)match.HomeScore;
                                 listed[i].GoalsAgainst += (int)match.AwayScore;
-                                ;
                             }
 
                             if (match.HomeScore == match.AwayScore)
@@ -206,7 +205,12 @@ namespace My_Transfermarkt_Core.Services
 
             }
 
+
             var sortedList = listed.OrderByDescending(x => x.Points).ToList();
+            foreach (var item in sortedList)
+            {
+                item.PlusMinusGoals = item.GoalsFor - item.GoalsAgainst;
+            }
             return sortedList;
 
 

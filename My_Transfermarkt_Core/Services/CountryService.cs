@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using My_Transfermarkt.Data;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.CountryModels;
-using My_Transfermarkt_Core.Models.GeneralModels;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.CountryModels;
+using SportsStats_Core.Models.GeneralModels;
+using SportsStats_Infastructure.Data;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Core.Services
+namespace SportsStats_Core.Services
 {
     public class CountryService : ICountryService
     {

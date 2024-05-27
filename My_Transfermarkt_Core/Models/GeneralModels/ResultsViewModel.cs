@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Core.Models.GeneralModels
+﻿namespace SportsStats_Core.Models.GeneralModels
 {
     public class ResultsViewModel
     {

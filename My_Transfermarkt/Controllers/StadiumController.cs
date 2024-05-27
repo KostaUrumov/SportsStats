@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
+using SportsStats_Core.Contracts;
 
-namespace My_Transfermarkt.Controllers
+namespace SportsStats.Controllers
 {
     public class StadiumController : BaseController
     {

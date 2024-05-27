@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.FootballerModels;
-using My_Transfermarkt_Infastructure.Enums;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.FootballerModels;
+using SportsStats_Infastructure.Enums;
 using System.Globalization;
 using System.Security.Claims;
 
-namespace My_Transfermarkt.Areas.Administrator.Controllers
+namespace SportsStats.Areas.Administrator.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class FootballerController : BaseController

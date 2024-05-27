@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Infastructure.Configuration
+namespace SportsStats_Infastructure.Configuration
 {
     public class ApplicationCountryConfiguration : IEntityTypeConfiguration<Country>
     {

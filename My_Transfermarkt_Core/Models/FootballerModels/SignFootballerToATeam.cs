@@ -1,7 +1,7 @@
-﻿using My_Transfermarkt_Infastructure.DataModels;
+﻿using SportsStats_Infastructure.DataModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Core.Models.FootballerModels
+namespace SportsStats_Core.Models.FootballerModels
 {
     public class SignFootballerToATeam
     {

@@ -1,6 +1,6 @@
-﻿using My_Transfermarkt_Infastructure.DataModels;
+﻿using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Core.Models.TeamModels
+namespace SportsStats_Core.Models.TeamModels
 {
     public class StandingsViewModel
     {

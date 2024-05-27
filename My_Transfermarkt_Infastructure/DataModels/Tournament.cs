@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SportsStats_Infastructure;
+using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Infastructure.DataModels
+namespace SportsStats_Infastructure.DataModels
 {
     public class Tournament
     {

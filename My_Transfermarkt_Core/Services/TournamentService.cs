@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using My_Transfermarkt.Data;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.MatchModels;
-using My_Transfermarkt_Core.Models.TeamModels;
-using My_Transfermarkt_Core.Models.TournamentModels;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.MatchModels;
+using SportsStats_Core.Models.TeamModels;
+using SportsStats_Core.Models.TournamentModels;
+using SportsStats_Infastructure.Data;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Core.Services
+namespace SportsStats_Core.Services
 {
     public class TournamentService : ITournamentService
     {

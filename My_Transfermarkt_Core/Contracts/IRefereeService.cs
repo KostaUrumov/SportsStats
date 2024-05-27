@@ -1,7 +1,7 @@
-﻿using My_Transfermarkt_Core.Models.RefereeModels;
-using My_Transfermarkt_Infastructure.DataModels;
+﻿using SportsStats_Core.Models.RefereeModels;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Core.Contracts
+namespace SportsStats_Core.Contracts
 {
     public interface IRefereeService
     {

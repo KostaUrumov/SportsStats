@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace My_Transfermarkt_Infastructure.DataModels
+namespace SportsStats_Infastructure.DataModels
 {
     public class GroupStageTournament : Tournament
     {

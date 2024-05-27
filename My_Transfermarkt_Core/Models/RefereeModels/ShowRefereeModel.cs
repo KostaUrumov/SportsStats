@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Core.Models.RefereeModels
+﻿namespace SportsStats_Core.Models.RefereeModels
 {
     public class ShowRefereeModel
     {

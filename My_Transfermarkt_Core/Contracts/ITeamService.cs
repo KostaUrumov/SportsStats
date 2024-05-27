@@ -1,8 +1,8 @@
-﻿using My_Transfermarkt_Core.Models.GeneralModels;
-using My_Transfermarkt_Core.Models.TeamModels;
-using My_Transfermarkt_Infastructure.DataModels;
+﻿using SportsStats_Core.Models.GeneralModels;
+using SportsStats_Core.Models.TeamModels;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Core.Contracts
+namespace SportsStats_Core.Contracts
 {
     public interface ITeamService
     {

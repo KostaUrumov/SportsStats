@@ -1,8 +1,8 @@
-﻿using My_Transfermarkt_Infastructure;
-using My_Transfermarkt_Infastructure.DataModels;
+﻿using SportsStats_Infastructure;
+using SportsStats_Infastructure.DataModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Core.Models.RefereeModels
+namespace SportsStats_Core.Models.RefereeModels
 {
     public class AddNewRefereeModel
     {

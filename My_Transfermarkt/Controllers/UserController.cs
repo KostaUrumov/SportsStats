@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.UserModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.UserModels;
+using SportsStats_Infastructure.Enums;
 using System.Security.Claims;
 
-namespace My_Transfermarkt.Controllers
+namespace SportsStats.Controllers
 {
     public class UserController : BaseController
     {
@@ -27,9 +28,9 @@ namespace My_Transfermarkt.Controllers
                 return RedirectToAction("Index", "Home");
             }
             RegisterUserViewModel model = new RegisterUserViewModel();
-            model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Agent);
-            model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.User);
-            model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Admin);
+            model.Roles.Add(Role.Agent);
+            model.Roles.Add(Role.User);
+            model.Roles.Add(Role.Admin);
             return View(model);
         }
 
@@ -49,9 +50,9 @@ namespace My_Transfermarkt.Controllers
             if (checkedEmail == true)
             {
                 ViewBag.Comment = "Email Already In Use";
-                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Agent);
-                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.User);
-                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Admin);
+                model.Roles.Add(Role.Agent);
+                model.Roles.Add(Role.User);
+                model.Roles.Add(Role.Admin);
                 return View(model);
             }
 
@@ -60,9 +61,9 @@ namespace My_Transfermarkt.Controllers
             if (checkUsernameUsed == true)
             {
                 ViewBag.Comment = "Username Already In Use";
-                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Agent);
-                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.User);
-                model.Roles.Add(My_Transfermarkt_Infastructure.Enums.Role.Admin);
+                model.Roles.Add(Role.Agent);
+                model.Roles.Add(Role.User);
+                model.Roles.Add(Role.Admin);
                 return View(model);
             }
 

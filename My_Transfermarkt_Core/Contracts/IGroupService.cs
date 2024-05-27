@@ -1,8 +1,8 @@
-﻿using My_Transfermarkt_Core.Models.GroupModels;
-using My_Transfermarkt_Core.Models.TeamModels;
-using My_Transfermarkt_Core.Models.TournamentModels;
+﻿using SportsStats_Core.Models.GroupModels;
+using SportsStats_Core.Models.TeamModels;
+using SportsStats_Core.Models.TournamentModels;
 
-namespace My_Transfermarkt_Core.Contracts
+namespace SportsStats_Core.Contracts
 {
     public interface IGroupService
     {

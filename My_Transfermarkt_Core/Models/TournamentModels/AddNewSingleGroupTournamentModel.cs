@@ -1,7 +1,7 @@
-﻿using My_Transfermarkt_Infastructure;
+﻿using SportsStats_Infastructure;
 using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Core.Models.TournamentModels
+namespace SportsStats_Core.Models.TournamentModels
 {
     public class AddNewSingleGroupTournamentModel
     {

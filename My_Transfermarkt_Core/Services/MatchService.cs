@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using My_Transfermarkt.Data;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.MatchModels;
-using Match = My_Transfermarkt_Infastructure.DataModels.Match;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.MatchModels;
+using SportsStats_Infastructure.Data;
+using Match = SportsStats_Infastructure.DataModels.Match;
 
-namespace My_Transfermarkt_Core.Services
+namespace SportsStats_Core.Services
 {
     public class MatchService : IMatchService
     {
@@ -39,7 +39,7 @@ namespace My_Transfermarkt_Core.Services
         public bool AreTeamsDifferent(AddNewMatchModel model)
         {
 
-            var mod = (AddNewMatchModel)model;
+            var mod = model;
             if (mod.HomeTeamId == mod.AwayTeamId)
             {
                 return false;

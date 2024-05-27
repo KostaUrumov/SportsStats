@@ -1,4 +1,4 @@
-namespace My_Transfermarkt.Models
+namespace SportsStats.Models
 {
     public class ErrorViewModel
     {

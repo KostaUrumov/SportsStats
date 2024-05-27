@@ -1,8 +1,8 @@
-﻿using My_Transfermarkt_Infastructure;
-using My_Transfermarkt_Infastructure.Enums;
+﻿using SportsStats_Infastructure;
+using SportsStats_Infastructure.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Core.Models.UserModels
+namespace SportsStats_Core.Models.UserModels
 {
     public class RegisterUserViewModel
     {

@@ -1,14 +1,13 @@
-﻿using My_Transfermarkt_Core.Models.FootballerModels;
-using My_Transfermarkt_Core.Models.GeneralModels;
+﻿using SportsStats_Core.Models.FootballerModels;
+using SportsStats_Core.Models.GeneralModels;
 
-namespace My_Transfermarkt_Core.Contracts
+namespace SportsStats_Core.Contracts
 {
     public interface IFootballerService
     {
         Task CreateFootballerAsync(AddNewFootallerModel footballer);
         Task<bool> IsAlreadyIn(AddNewFootallerModel model);
         bool AreDtaesCorrect(AddNewFootallerModel model);
-        Task<List<ShowFootballerModel>> MyFootballers(string userId);
         Task SaveChangesAsync(AddNewFootallerModel footballer);
         Task<AddNewFootallerModel?> FindFootballer(int id);
         Task SignToClub(SignFootballerToATeam model);

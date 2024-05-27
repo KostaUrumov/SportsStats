@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.MatchModels;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.MatchModels;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt.Controllers
+namespace SportsStats.Controllers
 {
     public class GroupController : BaseController
     {

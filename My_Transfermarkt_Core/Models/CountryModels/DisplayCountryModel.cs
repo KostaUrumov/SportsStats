@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Core.Models.CountryModels
+﻿namespace SportsStats_Core.Models.CountryModels
 {
     public class DisplayCountryModel
     {

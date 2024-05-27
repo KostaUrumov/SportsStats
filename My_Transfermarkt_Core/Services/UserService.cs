@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using My_Transfermarkt.Data;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.UserModels;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.UserModels;
+using SportsStats_Infastructure.Data;
 using System.Security.Cryptography;
-using User = My_Transfermarkt_Infastructure.DataModels.User;
+using User = SportsStats_Infastructure.DataModels.User;
 
-namespace My_Transfermarkt_Core.Services
+namespace SportsStats_Core.Services
 {
     public class UserService : IUserService
     {
@@ -42,17 +41,17 @@ namespace My_Transfermarkt_Core.Services
             var findUser = data.Users.First(x => x.UserName == model.Username);
             if (model.Role.ToString() == "Admin")
             {
-                await userManager.AddToRoleAsync((User)findUser, "Admin");
+                await userManager.AddToRoleAsync(findUser, "Admin");
             }
 
             if (model.Role.ToString() == "Agent")
             {
-                await userManager.AddToRoleAsync((User)findUser, "Agent");
+                await userManager.AddToRoleAsync(findUser, "Agent");
             }
 
             if (model.Role.ToString() == "User")
             {
-                await userManager.AddToRoleAsync((User)findUser, "User");
+                await userManager.AddToRoleAsync(findUser, "User");
             }
             await data.SaveChangesAsync();
         }
@@ -185,7 +184,7 @@ namespace My_Transfermarkt_Core.Services
 
             }
 
-            await signInManager.SignInAsync((User)findUser, isPersistent: false);
+            await signInManager.SignInAsync(findUser, isPersistent: false);
             return true;
         }
 
@@ -233,22 +232,9 @@ namespace My_Transfermarkt_Core.Services
             };
             await userManager.CreateAsync(user);
 
-            if (model.Role.ToString() == "Agent")
-            {
-                Agent newAgent = new Agent()
-                {
-                    Id = user.Id
-                };
 
-                data.Add(newAgent);
-                await data.SaveChangesAsync();
+            await data.SaveChangesAsync();
 
-            }
-            else
-            {
-
-                await data.SaveChangesAsync();
-            }
 
 
         }

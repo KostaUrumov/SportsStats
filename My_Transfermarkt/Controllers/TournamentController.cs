@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.MatchModels;
-using My_Transfermarkt_Core.Models.TournamentModels;
-using Tournament = My_Transfermarkt_Infastructure.DataModels.Tournament;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.MatchModels;
+using SportsStats_Core.Models.TournamentModels;
+using Tournament = SportsStats_Infastructure.DataModels.Tournament;
 
-namespace My_Transfermarkt.Controllers
+namespace SportsStats.Controllers
 {
     [Authorize]
     public class TournamentController : Controller

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Core.Models.FootballerModels
+namespace SportsStats_Core.Models.FootballerModels
 {
     public class SearchByCountryModel
     {

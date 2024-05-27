@@ -1,8 +1,8 @@
-﻿using My_Transfermarkt_Infastructure.Enums;
+﻿using SportsStats_Infastructure.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace My_Transfermarkt_Infastructure.DataModels
+namespace SportsStats_Infastructure.DataModels
 {
     public class Footballer
     {
@@ -32,9 +32,6 @@ namespace My_Transfermarkt_Infastructure.DataModels
 
         [Required]
         public string AgentId { get; set; } = null!;
-
-        [ForeignKey(nameof(AgentId))]
-        public Agent? Agent { get; set; }
 
         [Required]
         public Position Position { get; set; }
@@ -75,6 +72,5 @@ namespace My_Transfermarkt_Infastructure.DataModels
         public bool IsRetired { get; set; }
 
         public ICollection<TeamsFootballers> TeamFootballers { get; set; } = new List<TeamsFootballers>();
-        public ICollection<AgentsFootballers> AgentsFootballers { get; set; } = new List<AgentsFootballers>();
     }
 }

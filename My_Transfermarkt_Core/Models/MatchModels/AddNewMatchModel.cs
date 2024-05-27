@@ -1,7 +1,7 @@
-﻿using My_Transfermarkt_Infastructure.DataModels;
+﻿using SportsStats_Infastructure.DataModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace My_Transfermarkt_Core.Models.MatchModels
+namespace SportsStats_Core.Models.MatchModels
 {
     public class AddNewMatchModel
     {

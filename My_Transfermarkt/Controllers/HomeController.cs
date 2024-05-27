@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Models.GeneralModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Models.GeneralModels;
 
-namespace My_Transfermarkt.Controllers
+namespace SportsStats.Controllers
 {
     public class HomeController : BaseController
     {

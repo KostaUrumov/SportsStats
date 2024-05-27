@@ -1,6 +1,6 @@
-﻿using My_Transfermarkt_Infastructure.DataModels;
+﻿using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt_Core.Models.GroupModels
+namespace SportsStats_Core.Models.GroupModels
 {
     public class ActionForTeamsInGroup
     {

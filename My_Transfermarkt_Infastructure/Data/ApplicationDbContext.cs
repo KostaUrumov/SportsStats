@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using My_Transfermarkt_Infastructure.Configuration;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Infastructure.Configuration;
+using SportsStats_Infastructure.DataModels;
 
-namespace My_Transfermarkt.Data
+namespace SportsStats_Infastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
@@ -15,7 +15,6 @@ namespace My_Transfermarkt.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new ApplicationAgentsFootballersConfiguration());
             builder.ApplyConfiguration(new ApplicationTournamentsTeamsConfiguration());
             builder.ApplyConfiguration(new ApplicationTeamsFootballersConfiguration());
             builder.ApplyConfiguration(new ApplicationIdentityRoleConfiguration());
@@ -31,8 +30,6 @@ namespace My_Transfermarkt.Data
 
 
 
-        public DbSet<Agent> Agents { get; set; } = null!;
-        public DbSet<AgentsFootballers> AgentsFootballers { get; set; } = null!;
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Footballer> Footballers { get; set; } = null!;
         public DbSet<GroupTeams> GroupsTeams { get; set; } = null!;

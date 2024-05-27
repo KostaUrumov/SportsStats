@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using My_Transfermarkt.Data;
-using My_Transfermarkt_Core.Contracts;
-using My_Transfermarkt_Core.Services;
-using My_Transfermarkt_Infastructure.DataModels;
+using SportsStats_Core.Contracts;
+using SportsStats_Core.Services;
+using SportsStats_Infastructure.Data;
+using SportsStats_Infastructure.DataModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +31,6 @@ builder.Services.AddScoped<IStadiumService, StadiumService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IFootballerService, FootballerService>();
 builder.Services.AddScoped<ITournamentService, TournamentService>();
-builder.Services.AddScoped<IAgentService, AgentService>();
 builder.Services.AddScoped<IRefereeService, RefereeService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
 builder.Services.AddScoped<IGroupService, GroupService>();

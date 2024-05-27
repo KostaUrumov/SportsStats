@@ -1,6 +1,6 @@
-﻿using My_Transfermarkt_Core.Models.TeamModels;
+﻿using SportsStats_Core.Models.TeamModels;
 
-namespace My_Transfermarkt_Core.Models.TournamentModels
+namespace SportsStats_Core.Models.TournamentModels
 {
     public class AddTeamsToTournament
     {

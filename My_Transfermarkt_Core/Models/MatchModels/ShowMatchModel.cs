@@ -1,4 +1,4 @@
-﻿namespace My_Transfermarkt_Core.Models.MatchModels
+﻿namespace SportsStats_Core.Models.MatchModels
 {
     public class ShowMatchModel
     {
