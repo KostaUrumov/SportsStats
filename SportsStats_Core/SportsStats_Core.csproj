@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\My_Transfermarkt_Infastructure\SportsStats_Infastructure.csproj" />
+    <ProjectReference Include="..\SportsStats_Infastructure\SportsStats_Infastructure.csproj" />
   </ItemGroup>
 
 </Project>
